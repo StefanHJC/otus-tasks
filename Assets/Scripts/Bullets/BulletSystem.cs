@@ -52,13 +52,13 @@ namespace ShootEmUp
                 bullet = Instantiate(this.prefab, this.worldTransform);
             }
 
-            bullet.SetPosition(args.position);
-            bullet.SetColor(args.color);
-            bullet.SetPhysicsLayer(args.physicsLayer);
-            bullet.damage = args.damage;
-            bullet.isPlayer = args.isPlayer;
-            bullet.SetVelocity(args.velocity);
-            
+            // bullet.SetPosition(args.position);
+            // bullet.SetColor(args.color);
+            // bullet.SetPhysicsLayer(args.physicsLayer);
+            // bullet.damage = args.damage;
+            // bullet.isPlayer = args.isPlayer;
+            // bullet.SetVelocity(args.velocity);
+            //
             if (this.m_activeBullets.Add(bullet))
             {
                 bullet.OnCollisionEntered += this.OnBulletCollision;

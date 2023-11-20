@@ -16,29 +16,16 @@ namespace ShootEmUp
         [SerializeField]
         private SpriteRenderer spriteRenderer;
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            this.OnCollisionEntered?.Invoke(this, collision);
-        }
+        [SerializeField] 
+        private Collision2DObserver _collisionObserver;
+        
+        public Rigidbody2D Rigidbody => rigidbody2D;
+        public SpriteRenderer SpriteRenderer => spriteRenderer;
 
-        public void SetVelocity(Vector2 velocity)
-        {
-            this.rigidbody2D.velocity = velocity;
-        }
+        private void Start() => _collisionObserver.OnCollisionEntered += OnHit;
 
-        public void SetPhysicsLayer(int physicsLayer)
-        {
-            this.gameObject.layer = physicsLayer;
-        }
+        private void OnDestroy() => _collisionObserver.OnCollisionExited -= OnHit;
 
-        public void SetPosition(Vector3 position)
-        {
-            this.transform.position = position;
-        }
-
-        public void SetColor(Color color)
-        {
-            this.spriteRenderer.color = color;
-        }
+        private void OnHit(Collision2D collision) => this.OnCollisionEntered?.Invoke(this, collision);
     }
 }
