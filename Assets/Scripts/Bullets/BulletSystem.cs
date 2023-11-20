@@ -9,7 +9,6 @@ namespace ShootEmUp
         private int initialCount = 50;
         
         [SerializeField] private Transform container;
-        //[SerializeField] private Bullet prefab;
         [SerializeField] private BulletBuilder _builder;
         [SerializeField] private Transform worldTransform;
         [SerializeField] private LevelBounds levelBounds;
@@ -85,8 +84,6 @@ namespace ShootEmUp
 
             bullet.damage = args.damage;
             bullet.isPlayer = args.isPlayer;
-
-            bullet.OnHit += this.OnBulletCollision;
 
             return bullet;
         }

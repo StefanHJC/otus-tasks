@@ -19,7 +19,9 @@ namespace ShootEmUp
             while (true)
             {
                 yield return new WaitForSeconds(1);
+                
                 var enemy = this._enemyPool.SpawnEnemy();
+                
                 if (enemy != null)
                 {
                     if (this.m_activeEnemies.Add(enemy))
@@ -42,17 +44,6 @@ namespace ShootEmUp
             }
         }
 
-        private void OnFire(GameObject enemy, Vector2 position, Vector2 direction)
-        {
-            _bulletSystem.FlyBulletByArgs(new BulletSystem.Args
-            {
-                isPlayer = false,
-                physicsLayer = (int) PhysicsLayer.ENEMY_BULLET,
-                color = Color.red,
-                damage = 1,
-                position = position,
-                velocity = direction * 2.0f
-            });
-        }
+        private void OnFire(BulletSystem.Args bulletArgs) => _bulletSystem.FlyBulletByArgs(bulletArgs);
     }
 }

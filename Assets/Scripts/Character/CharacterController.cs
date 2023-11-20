@@ -4,46 +4,20 @@ namespace ShootEmUp
 {
     public sealed class CharacterController : MonoBehaviour
     {
-        [SerializeField] private GameObject character; 
-        [SerializeField] private GameManager gameManager;
+        [SerializeField] private InputManager inputManager;
+        [SerializeField] private MoveComponent movement;
+        [SerializeField] private WeaponComponent weapon;
         [SerializeField] private BulletSystem _bulletSystem;
-        [SerializeField] private BulletConfig _bulletConfig;
         
-        public bool _fireRequired;
+        private void OnEnable() => inputManager.FireActionPerformed += OnFlyBullet;
 
-        private void OnEnable()
-        {
-            this.character.GetComponent<HitPointsComponent>().hpEmpty += this.OnCharacterDeath;
-        }
-
-        private void OnDisable()
-        {
-            this.character.GetComponent<HitPointsComponent>().hpEmpty -= this.OnCharacterDeath;
-        }
-
-        private void OnCharacterDeath(GameObject _) => this.gameManager.FinishGame();
+        private void OnDisable() => inputManager.FireActionPerformed -= OnFlyBullet;
 
         private void FixedUpdate()
         {
-            if (this._fireRequired)
-            {
-                this.OnFlyBullet();
-                this._fireRequired = false;
-            }
+            movement.MoveByRigidbodyVelocity(new Vector2(inputManager.HorizontalDirection, 0) * Time.fixedDeltaTime);
         }
 
-        private void OnFlyBullet()
-        {
-            var weapon = this.character.GetComponent<WeaponComponent>();
-            _bulletSystem.FlyBulletByArgs(new BulletSystem.Args
-            {
-                isPlayer = true,
-                physicsLayer = (int) this._bulletConfig.physicsLayer,
-                color = this._bulletConfig.color,
-                damage = this._bulletConfig.damage,
-                position = weapon.Position,
-                velocity = weapon.Rotation * Vector3.up * this._bulletConfig.speed
-            });
-        }
+        private void OnFlyBullet() => _bulletSystem.FlyBulletByArgs(weapon.GetBulletArgs(Vector2.zero));
     }
 }

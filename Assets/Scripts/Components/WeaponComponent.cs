@@ -2,8 +2,10 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class WeaponComponent : MonoBehaviour
+    public abstract class WeaponComponent : MonoBehaviour
     {
+        [SerializeField] protected BulletConfig config;
+
         public Vector2 Position
         {
             get { return this.firePoint.position; }
@@ -17,6 +19,13 @@ namespace ShootEmUp
         [SerializeField]
         private Transform firePoint;
 
-        public Vector2 GetDirectionToTarget(Vector2 targetPos) => (targetPos - Position).normalized;
+        public virtual BulletSystem.Args GetBulletArgs(Vector2 targetPos) =>
+            new BulletSystem.Args()
+            {
+                position = Position,
+                color = config.color,
+                physicsLayer = (int)config.physicsLayer,
+                damage = config.damage,
+            };
     }
 }

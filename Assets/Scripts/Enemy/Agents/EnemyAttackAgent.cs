@@ -5,7 +5,7 @@ namespace ShootEmUp
     [RequireComponent(typeof(WeaponComponent))]
     public sealed class EnemyAttackAgent : MonoBehaviour
     {
-        public delegate void FireHandler(GameObject enemy, Vector2 position, Vector2 direction);
+        public delegate void FireHandler(BulletSystem.Args bulletArgs);
 
         public event FireHandler OnFire;
 
@@ -30,11 +30,13 @@ namespace ShootEmUp
                 return;
 
             this.Fire();
-            this.currentTime += this.countdown;
         }
 
-        private void Fire() => 
-            this.OnFire?.Invoke(this.gameObject, weaponComponent.Position, weaponComponent.GetDirectionToTarget(target.transform.position));
+        private void Fire()
+        {
+            this.OnFire?.Invoke(weaponComponent.GetBulletArgs(target.transform.position));
+            Reset();
+        }
 
         private bool CanShotAndTargetAlive() => CanFire && this.target.IsHitPointsExists();
     }
