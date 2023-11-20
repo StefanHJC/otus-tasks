@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -23,20 +24,22 @@ namespace ShootEmUp
         
         private readonly HashSet<GameObject> m_activeEnemies = new();
 
-        private IEnumerator Start()
+        private void Start() => StartCoroutine(SpawnEnemyRoutine());
+
+        private IEnumerator SpawnEnemyRoutine()
         {
-            while (true)
+            while (gameObject.activeInHierarchy)
             {
                 yield return new WaitForSeconds(SpawnDelay);
-                
+
                 var enemy = this._enemyPool.SpawnEnemy();
-                
+
                 if (enemy != null)
                 {
                     if (this.m_activeEnemies.Add(enemy))
                     {
                         InitEnemy(enemy);
-                    }    
+                    }
                 }
             }
         }
