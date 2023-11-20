@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
+    [RequireComponent(typeof(MoveComponent))]
     public sealed class EnemyMoveAgent : MonoBehaviour
     {
         public bool IsReached

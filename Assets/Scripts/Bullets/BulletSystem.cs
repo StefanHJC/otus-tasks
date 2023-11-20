@@ -50,14 +50,15 @@ namespace ShootEmUp
         public void FlyBulletByArgs(Args args)
         {
             if (this.m_bulletPool.TryDequeue(out var bullet))
-                GetBulletFromPoolAndSetUp(args, bullet);
+                bullet = GetBulletFromPoolAndSetUp(args, bullet);
             else
-                BuildNewBulletAndSetUp(args);
+                bullet = BuildNewBulletAndSetUp(args);
 
             this.m_activeBullets.Add(bullet);
+            bullet.OnHit += this.OnBulletCollision;
         }
 
-        private void BuildNewBulletAndSetUp(Args args)
+        private Bullet BuildNewBulletAndSetUp(Args args)
         {
             Bullet bullet = _builder.
                             BuildBullet().
@@ -71,10 +72,10 @@ namespace ShootEmUp
             _builder.BulletInstance.damage = args.damage;
             _builder.BulletInstance.isPlayer = args.isPlayer;
 
-            bullet.OnHit += this.OnBulletCollision;
+            return bullet;
         }
 
-        private void GetBulletFromPoolAndSetUp(Args args, Bullet bullet)
+        private Bullet GetBulletFromPoolAndSetUp(Args args, Bullet bullet)
         {
             bullet.transform.SetParent(this.worldTransform);
             bullet.SpriteRenderer.color = args.color;
@@ -86,6 +87,8 @@ namespace ShootEmUp
             bullet.isPlayer = args.isPlayer;
 
             bullet.OnHit += this.OnBulletCollision;
+
+            return bullet;
         }
 
         private void OnBulletCollision(Bullet bullet, Collision2D collision)

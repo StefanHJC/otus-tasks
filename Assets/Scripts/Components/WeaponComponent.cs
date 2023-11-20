@@ -16,5 +16,7 @@ namespace ShootEmUp
 
         [SerializeField]
         private Transform firePoint;
+
+        public Vector2 GetDirectionToTarget(Vector2 targetPos) => (targetPos - Position).normalized;
     }
 }
