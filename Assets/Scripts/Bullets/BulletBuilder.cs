@@ -9,7 +9,7 @@ namespace ShootEmUp
         
         private Bullet bulletInstance;
 
-        private Bullet BulletInstance => bulletInstance ??= GetBullet();
+        public Bullet BulletInstance => bulletInstance ??= GetBullet();
 
         public BulletBuilder BuildBullet()
         {
@@ -35,6 +35,13 @@ namespace ShootEmUp
         public BulletBuilder SetPosition(Vector3 position)
         {
             BulletInstance.transform.position = position;
+
+            return this;
+        }
+        
+        public BulletBuilder SetParent(Transform parent)
+        {
+            BulletInstance.transform.parent = parent;
 
             return this;
         }

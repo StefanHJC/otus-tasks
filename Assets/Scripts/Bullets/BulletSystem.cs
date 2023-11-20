@@ -9,7 +9,8 @@ namespace ShootEmUp
         private int initialCount = 50;
         
         [SerializeField] private Transform container;
-        [SerializeField] private Bullet prefab;
+        //[SerializeField] private Bullet prefab;
+        [SerializeField] private BulletBuilder _builder;
         [SerializeField] private Transform worldTransform;
         [SerializeField] private LevelBounds levelBounds;
 
@@ -21,7 +22,12 @@ namespace ShootEmUp
         {
             for (var i = 0; i < this.initialCount; i++)
             {
-                var bullet = Instantiate(this.prefab, this.container);
+                var bullet = _builder.
+                            BuildBullet().
+                            SetPosition(this.container.position).
+                            SetParent(this.container).
+                            BulletInstance;
+
                 this.m_bulletPool.Enqueue(bullet);
             }
         }
@@ -36,7 +42,7 @@ namespace ShootEmUp
                 var bullet = this.m_cache[i];
                 if (!this.levelBounds.InBounds(bullet.transform.position))
                 {
-                    this.RemoveBullet(bullet);
+                    this.MoveBulletToPool(bullet);
                 }
             }
         }
@@ -44,38 +50,53 @@ namespace ShootEmUp
         public void FlyBulletByArgs(Args args)
         {
             if (this.m_bulletPool.TryDequeue(out var bullet))
-            {
-                bullet.transform.SetParent(this.worldTransform);
-            }
+                GetBulletFromPoolAndSetUp(args, bullet);
             else
-            {
-                bullet = Instantiate(this.prefab, this.worldTransform);
-            }
-
-            // bullet.SetPosition(args.position);
-            // bullet.SetColor(args.color);
-            // bullet.SetPhysicsLayer(args.physicsLayer);
-            // bullet.damage = args.damage;
-            // bullet.isPlayer = args.isPlayer;
-            // bullet.SetVelocity(args.velocity);
-            //
-            if (this.m_activeBullets.Add(bullet))
-            {
-                bullet.OnCollisionEntered += this.OnBulletCollision;
-            }
+                BuildNewBulletAndSetUp(args);
         }
-        
+
+        private void BuildNewBulletAndSetUp(Args args)
+        {
+            Bullet bullet = _builder.
+                            BuildBullet().
+                            SetParent(this.worldTransform).
+                            SetPosition(args.position).
+                            SetColor(args.color).
+                            SetPhysicsLayer(args.physicsLayer).
+                            SetVelocity(args.velocity).
+                            BulletInstance;
+
+            _builder.BulletInstance.damage = args.damage;
+            _builder.BulletInstance.isPlayer = args.isPlayer;
+
+            bullet.OnHit += this.OnBulletCollision;
+        }
+
+        private void GetBulletFromPoolAndSetUp(Args args, Bullet bullet)
+        {
+            bullet.transform.SetParent(this.worldTransform);
+            bullet.SpriteRenderer.color = args.color;
+            bullet.gameObject.layer = args.physicsLayer;
+            bullet.transform.position = args.position;
+            bullet.Rigidbody.velocity = args.velocity;
+
+            bullet.damage = args.damage;
+            bullet.isPlayer = args.isPlayer;
+
+            bullet.OnHit += this.OnBulletCollision;
+        }
+
         private void OnBulletCollision(Bullet bullet, Collision2D collision)
         {
             BulletUtils.DealDamage(bullet, collision.gameObject);
-            this.RemoveBullet(bullet);
+            this.MoveBulletToPool(bullet);
         }
 
-        private void RemoveBullet(Bullet bullet)
+        private void MoveBulletToPool(Bullet bullet)
         {
             if (this.m_activeBullets.Remove(bullet))
             {
-                bullet.OnCollisionEntered -= this.OnBulletCollision;
+                bullet.OnHit -= this.OnBulletCollision;
                 bullet.transform.SetParent(this.container);
                 this.m_bulletPool.Enqueue(bullet);
             }

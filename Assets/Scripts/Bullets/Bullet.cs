@@ -5,7 +5,7 @@ namespace ShootEmUp
 {
     public sealed class Bullet : MonoBehaviour
     {
-        public event Action<Bullet, Collision2D> OnCollisionEntered;
+        public event Action<Bullet, Collision2D> OnHit;
 
         [NonSerialized] public bool isPlayer;
         [NonSerialized] public int damage;
@@ -22,10 +22,10 @@ namespace ShootEmUp
         public Rigidbody2D Rigidbody => rigidbody2D;
         public SpriteRenderer SpriteRenderer => spriteRenderer;
 
-        private void Start() => _collisionObserver.OnCollisionEntered += OnHit;
+        private void Start() => _collisionObserver.OnCollisionEntered += OnCollision;
 
-        private void OnDestroy() => _collisionObserver.OnCollisionExited -= OnHit;
+        private void OnDestroy() => _collisionObserver.OnCollisionExited -= OnCollision;
 
-        private void OnHit(Collision2D collision) => this.OnCollisionEntered?.Invoke(this, collision);
+        private void OnCollision(Collision2D collision) => this.OnHit?.Invoke(this, collision);
     }
 }
