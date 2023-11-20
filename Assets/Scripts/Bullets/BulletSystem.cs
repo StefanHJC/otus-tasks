@@ -53,6 +53,8 @@ namespace ShootEmUp
                 GetBulletFromPoolAndSetUp(args, bullet);
             else
                 BuildNewBulletAndSetUp(args);
+
+            this.m_activeBullets.Add(bullet);
         }
 
         private void BuildNewBulletAndSetUp(Args args)
