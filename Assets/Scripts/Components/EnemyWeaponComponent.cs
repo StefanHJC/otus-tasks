@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyWeapon : WeaponComponent
+    public sealed class EnemyWeaponComponent : WeaponComponent
     {
         public override BulletSystem.Args GetBulletArgs(Vector2 targetPos)
         {
