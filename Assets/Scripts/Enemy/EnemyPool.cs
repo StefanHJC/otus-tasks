@@ -5,6 +5,8 @@ namespace ShootEmUp
 {
     public sealed class EnemyPool : MonoBehaviour
     {
+        private const int MaxEnemies = 7;
+
         [Header("Spawn")]
         [SerializeField]
         private EnemyPositions enemyPositions;
@@ -26,7 +28,7 @@ namespace ShootEmUp
         
         private void Awake()
         {
-            for (var i = 0; i < 7; i++)
+            for (var i = 0; i < MaxEnemies; i++)
             {
                 var enemy = Instantiate(this.prefab, this.container);
                 this.enemyPool.Enqueue(enemy);

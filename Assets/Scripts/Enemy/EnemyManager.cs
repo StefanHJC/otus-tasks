@@ -6,6 +6,13 @@ namespace ShootEmUp
 {
     public sealed class EnemyManager : MonoBehaviour
     {
+        [Header("Spawn")]
+        [SerializeField]
+        private EnemyPositions enemyPositions;
+
+        [SerializeField]
+        private GameObject character;
+
         [SerializeField]
         private EnemyPool _enemyPool;
 
