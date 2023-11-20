@@ -7,13 +7,6 @@ namespace ShootEmUp
     {
         private const int MaxEnemies = 7;
 
-        [Header("Spawn")]
-        [SerializeField]
-        private EnemyPositions enemyPositions;
-
-        [SerializeField]
-        private GameObject character;
-
         [SerializeField]
         private Transform worldTransform;
 
@@ -44,13 +37,6 @@ namespace ShootEmUp
 
             enemy.transform.SetParent(this.worldTransform);
 
-            var spawnPosition = this.enemyPositions.RandomSpawnPosition();
-            enemy.transform.position = spawnPosition.position;
-            
-            var attackPosition = this.enemyPositions.RandomAttackPosition();
-            enemy.GetComponent<EnemyMoveAgent>().SetDestination(attackPosition.position);
-
-            enemy.GetComponent<EnemyAttackAgent>().SetTarget(this.character.GetComponent<HitPointsComponent>());
             return enemy;
         }
 
