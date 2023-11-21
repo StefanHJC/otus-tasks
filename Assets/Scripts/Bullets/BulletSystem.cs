@@ -36,7 +36,7 @@ namespace ShootEmUp
             }
         }
 
-        public void FlyBulletByArgs(Args args) => _bulletPool.SpawnBullet(args).OnHit += OnBulletCollision;
+        public void FlyBulletByArgs(Args args) => _bulletPool.SpawnBullet(args).CollisionHappened += OnBulletCollision;
 
         private void OnBulletCollision(Bullet bullet, Collision2D collision)
         {
@@ -47,7 +47,7 @@ namespace ShootEmUp
         private void MoveBulletToPool(Bullet bullet)
         {
             if (_bulletPool.TryUnspawnBullet(bullet)) 
-                bullet.OnHit -= OnBulletCollision;
+                bullet.CollisionHappened -= OnBulletCollision;
         }
     }
 }

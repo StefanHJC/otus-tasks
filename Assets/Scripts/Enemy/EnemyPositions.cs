@@ -11,7 +11,7 @@ namespace ShootEmUp
 
         public Transform RandomAttackPosition() => RandomTransform(_attackPositions);
 
-        private Transform RandomTransform(Transform[] transforms)
+        private static Transform RandomTransform(Transform[] transforms)
         {
             int index = Random.Range(0, transforms.Length);
             

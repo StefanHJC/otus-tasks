@@ -63,8 +63,8 @@ namespace ShootEmUp
                 SetVelocity(args.Velocity).
                 BulletInstance;
 
-            _builder.BulletInstance.damage = args.Damage;
-            _builder.BulletInstance.isPlayer = args.IsPlayer;
+            _builder.BulletInstance.Damage = args.Damage;
+            _builder.BulletInstance.IsPlayer = args.IsPlayer;
             _activeBullets.Add(bullet);
 
             return bullet;
@@ -80,8 +80,8 @@ namespace ShootEmUp
             bullet.transform.position = args.Position;
             bullet.Rigidbody.velocity = args.Velocity;
 
-            bullet.damage = args.Damage;
-            bullet.isPlayer = args.IsPlayer;
+            bullet.Damage = args.Damage;
+            bullet.IsPlayer = args.IsPlayer;
 
             return bullet;
         }
