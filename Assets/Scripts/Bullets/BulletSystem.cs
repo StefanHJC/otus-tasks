@@ -10,6 +10,16 @@ namespace ShootEmUp
 
         private readonly List<Bullet> _cache = new();
 
+        public struct Args
+        {
+            public Vector2 Position;
+            public Vector2 Velocity;
+            public Color Color;
+            public int PhysicsLayer;
+            public int Damage;
+            public bool IsPlayer;
+        }
+
         private void FixedUpdate()
         {
             _cache.Clear();
@@ -19,7 +29,7 @@ namespace ShootEmUp
             {
                 Bullet bullet = _cache[i];
 
-                if (!_levelBounds.InBounds(bullet.transform.position))
+                if (!_levelBounds.IsInBounds(bullet.transform.position))
                 {
                     MoveBulletToPool(bullet);
                 }
@@ -38,16 +48,6 @@ namespace ShootEmUp
         {
             if (_bulletPool.TryUnspawnBullet(bullet)) 
                 bullet.OnHit -= OnBulletCollision;
-        }
-        
-        public struct Args
-        {
-            public Vector2 position;
-            public Vector2 velocity;
-            public Color color;
-            public int physicsLayer;
-            public int damage;
-            public bool isPlayer;
         }
     }
 }

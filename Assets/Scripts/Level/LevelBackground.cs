@@ -5,61 +5,47 @@ namespace ShootEmUp
 {
     public sealed class LevelBackground : MonoBehaviour
     {
-        private float startPositionY;
+        [SerializeField] private Params _params;
 
-        private float endPositionY;
-
-        private float movingSpeedY;
-
-        private float positionX;
-
-        private float positionZ;
-
-        private Transform myTransform;
-
-        [SerializeField]
-        private Params m_params;
-
-        private void Awake()
-        {
-            this.startPositionY = this.m_params.m_startPositionY;
-            this.endPositionY = this.m_params.m_endPositionY;
-            this.movingSpeedY = this.m_params.m_movingSpeedY;
-            this.myTransform = this.transform;
-            var position = this.myTransform.position;
-            this.positionX = position.x;
-            this.positionZ = position.z;
-        }
-
-        private void FixedUpdate()
-        {
-            if (this.myTransform.position.y <= this.endPositionY)
-            {
-                this.myTransform.position = new Vector3(
-                    this.positionX,
-                    this.startPositionY,
-                    this.positionZ
-                );
-            }
-
-            this.myTransform.position -= new Vector3(
-                this.positionX,
-                this.movingSpeedY * Time.fixedDeltaTime,
-                this.positionZ
-            );
-        }
+        private Transform _myTransform;
+        private float _startPositionY;
+        private float _endPositionY;
+        private float _movingSpeedY;
+        private float _positionX;
+        private float _positionZ;
 
         [Serializable]
         public sealed class Params
         {
-            [SerializeField]
-            public float m_startPositionY;
+            [SerializeField] public float StartPositionY;
+            [SerializeField] public float EndPositionY;
+            [SerializeField] public float MovingSpeedY;
+        }
 
-            [SerializeField]
-            public float m_endPositionY;
+        private void Awake()
+        {
+            _startPositionY = _params.StartPositionY;
+            _endPositionY = _params.EndPositionY;
+            _movingSpeedY = _params.MovingSpeedY;
+            _myTransform = transform;
+            _positionX = _myTransform.position.x;
+            _positionZ = _myTransform.position.z;
+        }
 
-            [SerializeField]
-            public float m_movingSpeedY;
+        private void FixedUpdate()
+        {
+            if (_myTransform.position.y <= _endPositionY)
+            {
+                    _myTransform.position = new Vector3(
+                    _positionX,
+                    _startPositionY,
+                    _positionZ);
+            }
+
+            _myTransform.position -= new Vector3(
+                _positionX, 
+                _movingSpeedY * Time.fixedDeltaTime,
+                _positionZ);
         }
     }
 }

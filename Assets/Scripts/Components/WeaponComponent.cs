@@ -4,7 +4,7 @@ namespace ShootEmUp
 {
     public abstract class WeaponComponent : MonoBehaviour
     {
-        [SerializeField] protected BulletConfig config;
+        [SerializeField] protected BulletConfig Config;
 
         public Vector2 Position
         {
@@ -22,10 +22,10 @@ namespace ShootEmUp
         public virtual BulletSystem.Args GetBulletArgs(Vector2 targetPos) =>
             new BulletSystem.Args()
             {
-                position = Position,
-                color = config.Color,
-                physicsLayer = (int)config.PhysicsLayer,
-                damage = config.Damage,
+                Position = Position,
+                Color = Config.Color,
+                PhysicsLayer = (int)Config.PhysicsLayer,
+                Damage = Config.Damage,
             };
     }
 }

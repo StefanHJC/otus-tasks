@@ -8,8 +8,8 @@ namespace ShootEmUp
         {
             BulletSystem.Args bulletArgs = base.GetBulletArgs(targetPos);
 
-            bulletArgs.velocity = GetDirectionToTarget(targetPos) * config.speed;
-            bulletArgs.isPlayer = false;
+            bulletArgs.Velocity = GetDirectionToTarget(targetPos) * Config.Speed;
+            bulletArgs.IsPlayer = false;
 
             return bulletArgs;
         }

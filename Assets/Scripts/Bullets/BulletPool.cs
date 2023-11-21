@@ -57,14 +57,14 @@ namespace ShootEmUp
             Bullet bullet = _builder.
                 BuildBullet().
                 SetParent(_worldTransform).
-                SetPosition(args.position).
-                SetColor(args.color).
-                SetPhysicsLayer(args.physicsLayer).
-                SetVelocity(args.velocity).
+                SetPosition(args.Position).
+                SetColor(args.Color).
+                SetPhysicsLayer(args.PhysicsLayer).
+                SetVelocity(args.Velocity).
                 BulletInstance;
 
-            _builder.BulletInstance.damage = args.damage;
-            _builder.BulletInstance.isPlayer = args.isPlayer;
+            _builder.BulletInstance.damage = args.Damage;
+            _builder.BulletInstance.isPlayer = args.IsPlayer;
             _activeBullets.Add(bullet);
 
             return bullet;
@@ -75,13 +75,13 @@ namespace ShootEmUp
             Bullet bullet = _bulletPool.Dequeue();
 
             bullet.transform.SetParent(_worldTransform);
-            bullet.SpriteRenderer.color = args.color;
-            bullet.gameObject.layer = args.physicsLayer;
-            bullet.transform.position = args.position;
-            bullet.Rigidbody.velocity = args.velocity;
+            bullet.SpriteRenderer.color = args.Color;
+            bullet.gameObject.layer = args.PhysicsLayer;
+            bullet.transform.position = args.Position;
+            bullet.Rigidbody.velocity = args.Velocity;
 
-            bullet.damage = args.damage;
-            bullet.isPlayer = args.isPlayer;
+            bullet.damage = args.Damage;
+            bullet.isPlayer = args.IsPlayer;
 
             return bullet;
         }
