@@ -5,39 +5,39 @@ namespace ShootEmUp
 {
     public sealed class BulletSystem : MonoBehaviour
     {
-        [SerializeField] private LevelBounds levelBounds;
-        [SerializeField] private BulletPool bulletPool;
+        [SerializeField] private LevelBounds _levelBounds;
+        [SerializeField] private BulletPool _bulletPool;
 
-        private readonly List<Bullet> m_cache = new();
+        private readonly List<Bullet> _cache = new();
 
         private void FixedUpdate()
         {
-            this.m_cache.Clear();
-            this.m_cache.AddRange(this.bulletPool.ActiveBullets);
+            _cache.Clear();
+            _cache.AddRange(_bulletPool.ActiveBullets);
 
-            for (int i = 0, count = this.m_cache.Count; i < count; i++)
+            for (int i = 0, count = _cache.Count; i < count; i++)
             {
-                var bullet = this.m_cache[i];
+                Bullet bullet = _cache[i];
 
-                if (!this.levelBounds.InBounds(bullet.transform.position))
+                if (!_levelBounds.InBounds(bullet.transform.position))
                 {
-                    this.MoveBulletToPool(bullet);
+                    MoveBulletToPool(bullet);
                 }
             }
         }
 
-        public void FlyBulletByArgs(Args args) => bulletPool.SpawnBullet(args).OnHit += this.OnBulletCollision;
+        public void FlyBulletByArgs(Args args) => _bulletPool.SpawnBullet(args).OnHit += OnBulletCollision;
 
         private void OnBulletCollision(Bullet bullet, Collision2D collision)
         {
             BulletUtils.DealDamage(bullet, collision.gameObject);
-            this.MoveBulletToPool(bullet);
+            MoveBulletToPool(bullet);
         }
 
         private void MoveBulletToPool(Bullet bullet)
         {
-            if (bulletPool.TryUnspawnBullet(bullet)) 
-                bullet.OnHit -= this.OnBulletCollision;
+            if (_bulletPool.TryUnspawnBullet(bullet)) 
+                bullet.OnHit -= OnBulletCollision;
         }
         
         public struct Args

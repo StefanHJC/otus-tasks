@@ -5,33 +5,33 @@ namespace ShootEmUp
 {
     public class BulletPool : MonoBehaviour
     {
-        [SerializeField]
-        private int initialCount = 50;
+        [SerializeField] private int _initialCount = 50;
+        
+        [Space]
+        [SerializeField] private Transform _container;
+        [SerializeField] private BulletBuilder _builder;
+        [SerializeField] private Transform _worldTransform;
 
-        [SerializeField] private Transform container;
-        [SerializeField] private BulletBuilder builder;
-        [SerializeField] private Transform worldTransform;
+        private readonly Queue<Bullet> _bulletPool = new();
+        private readonly HashSet<Bullet> _activeBullets = new();
 
-        private readonly Queue<Bullet> m_bulletPool = new();
-        private readonly HashSet<Bullet> m_activeBullets = new();
-
-        public IReadOnlyCollection<Bullet> ActiveBullets => m_activeBullets;
+        public IReadOnlyCollection<Bullet> ActiveBullets => _activeBullets;
 
         public Bullet SpawnBullet(BulletSystem.Args args)
         {
-            Bullet bullet = m_bulletPool.Count > 0 ? GetFromPool(args) : BuildNew(args);
+            Bullet bullet = _bulletPool.Count > 0 ? GetFromPool(args) : BuildNew(args);
 
-            m_activeBullets.Add(bullet);
+            _activeBullets.Add(bullet);
 
             return bullet;
         }
 
         public bool TryUnspawnBullet(Bullet bullet)
         {
-            if (this.m_activeBullets.Remove(bullet))
+            if (_activeBullets.Remove(bullet))
             {
-                bullet.transform.SetParent(this.container);
-                this.m_bulletPool.Enqueue(bullet);
+                bullet.transform.SetParent(_container);
+                _bulletPool.Enqueue(bullet);
 
                 return true;
             }
@@ -40,41 +40,41 @@ namespace ShootEmUp
 
         private void Awake()
         {
-            for (var i = 0; i < this.initialCount; i++)
+            for (var i = 0; i < _initialCount; i++)
             {
-                var bullet = builder.
+                Bullet bullet = _builder.
                     BuildBullet().
-                    SetPosition(this.container.position).
-                    SetParent(this.container).
+                    SetPosition(_container.position).
+                    SetParent(_container).
                     BulletInstance;
 
-                this.m_bulletPool.Enqueue(bullet);
+                _bulletPool.Enqueue(bullet);
             }
         }
 
         private Bullet BuildNew(BulletSystem.Args args)
         {
-            Bullet bullet = builder.
+            Bullet bullet = _builder.
                 BuildBullet().
-                SetParent(this.worldTransform).
+                SetParent(_worldTransform).
                 SetPosition(args.position).
                 SetColor(args.color).
                 SetPhysicsLayer(args.physicsLayer).
                 SetVelocity(args.velocity).
                 BulletInstance;
 
-            builder.BulletInstance.damage = args.damage;
-            builder.BulletInstance.isPlayer = args.isPlayer;
-            m_activeBullets.Add(bullet);
+            _builder.BulletInstance.damage = args.damage;
+            _builder.BulletInstance.isPlayer = args.isPlayer;
+            _activeBullets.Add(bullet);
 
             return bullet;
         }
 
         private Bullet GetFromPool(BulletSystem.Args args)
         {
-            Bullet bullet = this.m_bulletPool.Dequeue();
+            Bullet bullet = _bulletPool.Dequeue();
 
-            bullet.transform.SetParent(this.worldTransform);
+            bullet.transform.SetParent(_worldTransform);
             bullet.SpriteRenderer.color = args.color;
             bullet.gameObject.layer = args.physicsLayer;
             bullet.transform.position = args.position;

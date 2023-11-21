@@ -4,16 +4,15 @@ namespace ShootEmUp
 {
     public class BulletBuilder : MonoBehaviour
     {
-        [SerializeField]
-        private Bullet prefab;
+        [SerializeField] private Bullet _prefab;
         
-        private Bullet bulletInstance;
+        private Bullet _bulletInstance;
 
-        public Bullet BulletInstance => bulletInstance ??= GetBullet();
+        public Bullet BulletInstance => _bulletInstance ??= GetBullet();
 
         public BulletBuilder BuildBullet()
         {
-            bulletInstance = GetBullet();
+            _bulletInstance = GetBullet();
 
             return this;
         }
@@ -53,6 +52,6 @@ namespace ShootEmUp
             return this;
         }
 
-        private Bullet GetBullet() => Object.Instantiate(prefab);
+        private Bullet GetBullet() => Object.Instantiate(_prefab);
     }
 }

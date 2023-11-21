@@ -7,43 +7,36 @@ namespace ShootEmUp
     {
         private const int MaxEnemies = 7;
 
-        [SerializeField]
-        private Transform worldTransform;
-
         [Header("Pool")]
-        [SerializeField]
-        private Transform container;
+        [SerializeField] private Transform _container;
+        [SerializeField] private Transform _worldTransform;
+        [SerializeField] private GameObject _prefab;
 
-        [SerializeField]
-        private GameObject prefab;
-
-        private readonly Queue<GameObject> enemyPool = new();
+        private readonly Queue<GameObject> _enemyPool = new();
         
         private void Awake()
         {
             for (var i = 0; i < MaxEnemies; i++)
             {
-                var enemy = Instantiate(this.prefab, this.container);
-                this.enemyPool.Enqueue(enemy);
+                GameObject enemy = Instantiate(_prefab, _container);
+                _enemyPool.Enqueue(enemy);
             }
         }
 
         public GameObject SpawnEnemy()
         {
-            if (!this.enemyPool.TryDequeue(out var enemy))
-            {
+            if (!_enemyPool.TryDequeue(out GameObject enemy))
                 return null;
-            }
 
-            enemy.transform.SetParent(this.worldTransform);
+            enemy.transform.SetParent(_worldTransform);
 
             return enemy;
         }
 
         public void UnspawnEnemy(GameObject enemy)
         {
-            enemy.transform.SetParent(this.container);
-            this.enemyPool.Enqueue(enemy);
+            enemy.transform.SetParent(_container);
+            _enemyPool.Enqueue(enemy);
         }
     }
 }

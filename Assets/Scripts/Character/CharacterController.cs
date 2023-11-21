@@ -4,20 +4,20 @@ namespace ShootEmUp
 {
     public sealed class CharacterController : MonoBehaviour
     {
-        [SerializeField] private InputManager inputManager;
-        [SerializeField] private MoveComponent movement;
-        [SerializeField] private WeaponComponent weapon;
+        [SerializeField] private InputManager _inputManager;
+        [SerializeField] private MoveComponent _movement;
+        [SerializeField] private WeaponComponent _weapon;
         [SerializeField] private BulletSystem _bulletSystem;
         
-        private void OnEnable() => inputManager.FireActionPerformed += OnFlyBullet;
+        private void OnEnable() => _inputManager.FireActionPerformed += OnFlyBullet;
 
-        private void OnDisable() => inputManager.FireActionPerformed -= OnFlyBullet;
+        private void OnDisable() => _inputManager.FireActionPerformed -= OnFlyBullet;
 
         private void FixedUpdate()
         {
-            movement.MoveByRigidbodyVelocity(new Vector2(inputManager.HorizontalDirection, 0) * Time.fixedDeltaTime);
+            _movement.MoveByRigidbodyVelocity(new Vector2(_inputManager.HorizontalDirection, 0) * Time.fixedDeltaTime);
         }
 
-        private void OnFlyBullet() => _bulletSystem.FlyBulletByArgs(weapon.GetBulletArgs(Vector2.zero));
+        private void OnFlyBullet() => _bulletSystem.FlyBulletByArgs(_weapon.GetBulletArgs(Vector2.zero));
     }
 }

@@ -23,9 +23,9 @@ namespace ShootEmUp
             new BulletSystem.Args()
             {
                 position = Position,
-                color = config.color,
-                physicsLayer = (int)config.physicsLayer,
-                damage = config.damage,
+                color = config.Color,
+                physicsLayer = (int)config.PhysicsLayer,
+                damage = config.Damage,
             };
     }
 }

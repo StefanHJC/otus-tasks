@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -5,39 +6,37 @@ namespace ShootEmUp
     [RequireComponent(typeof(WeaponComponent))]
     public sealed class EnemyAttackAgent : MonoBehaviour
     {
-        public delegate void FireHandler(BulletSystem.Args bulletArgs);
+        [SerializeField] private WeaponComponent _weaponComponent;
+        [SerializeField] private MovementObserver _movementObserver;
+        [SerializeField] private float _countdown;
 
-        public event FireHandler OnFire;
+        private HitPointsComponent _target;
+        private float _currentTime;
 
-        [SerializeField] private WeaponComponent weaponComponent;
-        [SerializeField] private MovementObserver movementObserver;
-        [SerializeField] private float countdown;
+        private bool CanFire => _currentTime <= 0 && _movementObserver.IsMoving == false;
 
-        private HitPointsComponent target;
-        private float currentTime;
+        public event Action<BulletSystem.Args> FirePerformed;
 
-        private bool CanFire => currentTime <= 0 && movementObserver.IsMoving == false;
-
-        public void SetTarget(HitPointsComponent target) => this.target = target;
-
-        public void Reset() => this.currentTime = this.countdown;
+        public void Reset() => _currentTime = _countdown;
+        
+        public void SetTarget(HitPointsComponent target) => _target = target;
 
         private void FixedUpdate()
         {
-            this.currentTime -= Time.fixedDeltaTime;
+            _currentTime -= Time.fixedDeltaTime;
 
             if (CanShotAndTargetAlive() == false)
                 return;
 
-            this.Fire();
+            Fire();
         }
 
         private void Fire()
         {
-            this.OnFire?.Invoke(weaponComponent.GetBulletArgs(target.transform.position));
+            FirePerformed?.Invoke(_weaponComponent.GetBulletArgs(_target.transform.position));
             Reset();
         }
 
-        private bool CanShotAndTargetAlive() => CanFire && this.target.IsHitPointsExists();
+        private bool CanShotAndTargetAlive() => CanFire && _target.IsHitPointsExists();
     }
 }

@@ -4,14 +4,14 @@ namespace ShootEmUp
 {
     public class MovementObserver : MonoBehaviour
     {
-        private EnemyMoveAgent moveAgent;
+        private EnemyMoveAgent _moveAgent;
 
-        public bool IsMoving => this.moveAgent != null && !moveAgent.IsReached;
+        public bool IsMoving => _moveAgent != null && !_moveAgent.IsReached;
 
         private void Start()
         {
             if (TryGetComponent<EnemyMoveAgent>(out var moveAgent))
-                this.moveAgent = moveAgent;
+                _moveAgent = moveAgent;
         }
     }
 }

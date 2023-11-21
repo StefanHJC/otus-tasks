@@ -3,15 +3,10 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
+    [RequireComponent(typeof(Collider2D))]
     public class Collision2DObserver : MonoBehaviour
     {
-        [SerializeField] 
-        private Collider2D collider;
-
-        [SerializeField]
         public event Action<Collision2D> OnCollisionEntered;
-        
-        [SerializeField]
         public event Action<Collision2D> OnCollisionExited;
 
         private void OnCollisionEnter2D(Collision2D collision) => OnCollisionEntered?.Invoke(collision);
