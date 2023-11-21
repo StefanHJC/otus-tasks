@@ -23,14 +23,20 @@ namespace ShootEmUp
             }
         }
 
-        public GameObject SpawnEnemy()
+        public bool TrySpawnEnemy(out GameObject spawned)
         {
             if (!_enemyPool.TryDequeue(out GameObject enemy))
-                return null;
+            {
+                spawned = null;
+
+                return false;
+            }
 
             enemy.transform.SetParent(_worldTransform);
 
-            return enemy;
+            spawned = enemy;
+            
+            return true;
         }
 
         public void UnspawnEnemy(GameObject enemy)

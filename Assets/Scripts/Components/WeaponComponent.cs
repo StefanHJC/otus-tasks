@@ -4,20 +4,13 @@ namespace ShootEmUp
 {
     public abstract class WeaponComponent : MonoBehaviour
     {
+        [SerializeField] private Transform _firePoint;
+
         [SerializeField] protected BulletConfig Config;
 
-        public Vector2 Position
-        {
-            get { return this.firePoint.position; }
-        }
+        public Vector2 Position => _firePoint.position;
 
-        public Quaternion Rotation
-        {
-            get { return this.firePoint.rotation; }
-        }
-
-        [SerializeField]
-        private Transform firePoint;
+        public Quaternion Rotation => _firePoint.rotation;
 
         public virtual BulletSystem.Args GetBulletArgs(Vector2 targetPos) =>
             new BulletSystem.Args()

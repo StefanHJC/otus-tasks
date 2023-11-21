@@ -22,9 +22,9 @@ namespace ShootEmUp
         public Rigidbody2D Rigidbody => rigidbody2D;
         public SpriteRenderer SpriteRenderer => spriteRenderer;
 
-        private void Start() => _collisionObserver.OnCollisionEntered += OnCollision;
+        private void Start() => _collisionObserver.CollisionEntered += OnCollision;
 
-        private void OnDestroy() => _collisionObserver.OnCollisionExited -= OnCollision;
+        private void OnDestroy() => _collisionObserver.CollisionExited -= OnCollision;
 
         private void OnCollision(Collision2D collision) => this.OnHit?.Invoke(this, collision);
     }

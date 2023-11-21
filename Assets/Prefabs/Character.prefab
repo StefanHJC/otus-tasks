@@ -180,8 +180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ce59a63337807e4497a60110b5c2029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _firePoint: {fileID: 3926786963072264220}
   Config: {fileID: 11400000, guid: 7138ae5d32d814e0ca50c616c65ea105, type: 2}
-  firePoint: {fileID: 3926786963072264220}
 --- !u!1 &3926786963072264211
 GameObject:
   m_ObjectHideFlags: 0

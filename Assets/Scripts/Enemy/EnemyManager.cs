@@ -24,14 +24,10 @@ namespace ShootEmUp
             {
                 yield return new WaitForSeconds(SpawnDelay);
 
-                var enemy = _enemyPool.SpawnEnemy();
-
-                if (enemy != null)
+                if (_enemyPool.TrySpawnEnemy(spawned: out GameObject enemy))
                 {
-                    if (_activeEnemies.Add(enemy))
-                    {
-                        InitEnemy(enemy);
-                    }
+                    _activeEnemies.Add(enemy);
+                    InitEnemy(enemy);
                 }
             }
         }

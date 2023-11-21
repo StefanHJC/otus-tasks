@@ -5,7 +5,7 @@ namespace ShootEmUp
     [RequireComponent(typeof(MoveComponent))]
     public sealed class EnemyMoveAgent : MonoBehaviour
     {
-        private const float DestinationReachedEpsilon = 0.25f;
+        private const float DestinationReachEpsilon = 0.25f;
         
         [SerializeField] private MoveComponent _moveComponent;
 
@@ -27,7 +27,7 @@ namespace ShootEmUp
 
             Vector2 vector = _destination - (Vector2)transform.position;
             
-            if (vector.magnitude <= DestinationReachedEpsilon)
+            if (vector.magnitude <= DestinationReachEpsilon)
             {
                 _isReached = true;
                 
