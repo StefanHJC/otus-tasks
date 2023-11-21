@@ -9,9 +9,9 @@ namespace ShootEmUp
         [SerializeField] private WeaponComponent _weapon;
         [SerializeField] private BulletSystem _bulletSystem;
         
-        private void OnEnable() => _inputManager.FireActionPerformed += OnFlyBullet;
+        private void OnEnable() => _inputManager.AttackActionPerformed += OnFlyBullet;
 
-        private void OnDisable() => _inputManager.FireActionPerformed -= OnFlyBullet;
+        private void OnDisable() => _inputManager.AttackActionPerformed -= OnFlyBullet;
 
         private void FixedUpdate()
         {

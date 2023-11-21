@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public class GameEndListener : MonoBehaviour
+    public sealed class GameEndListener : MonoBehaviour
     {
         [SerializeField] private HitPointsComponent playerHealth;
         [SerializeField] private GameManager gameManager;

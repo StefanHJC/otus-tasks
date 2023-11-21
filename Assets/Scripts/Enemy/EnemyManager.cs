@@ -35,7 +35,7 @@ namespace ShootEmUp
         private void InitEnemy(GameObject enemy)
         {
             EnemyAttackAgent attackAgent = enemy.GetComponent<EnemyAttackAgent>();
-
+            
             attackAgent.SetTarget(_character.GetComponent<HitPointsComponent>());
             attackAgent.FirePerformed += OnFire;
 

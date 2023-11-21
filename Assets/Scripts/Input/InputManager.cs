@@ -5,29 +5,33 @@ namespace ShootEmUp
 {
     public sealed class InputManager : MonoBehaviour
     {
-        public float HorizontalDirection { get; private set; }
+        private const KeyCode AttackKey = KeyCode.Space;
+        private const KeyCode MoveLeftKey = KeyCode.LeftArrow;
+        private const KeyCode MoveRightKey = KeyCode.RightArrow;
 
-        public event Action FireActionPerformed;
+        private AttackInputListener _attackListener;
+        private MoveInputListener _moveListener;
+
+        public float HorizontalDirection => _moveListener.HorizontalDirection;
+
+        public event Action AttackActionPerformed;
+
+        private void Start()
+        {
+            _attackListener = new AttackInputListener(attackKey: AttackKey);
+            _moveListener = new MoveInputListener(moveLeftKey: MoveLeftKey, moveRightKey: MoveRightKey);
+            _attackListener.AttackActionPerformed = AttackActionPerformed;
+        }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                FireActionPerformed?.Invoke();
-            }
+            ListenInput();
+        }
 
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                HorizontalDirection = -1;
-            }
-            else if (Input.GetKey(KeyCode.RightArrow))
-            {
-                HorizontalDirection = 1;
-            }
-            else
-            {
-                HorizontalDirection = 0;
-            }
+        private void ListenInput()
+        {
+            _attackListener.Update();
+            _moveListener.Update();
         }
     }
 }
