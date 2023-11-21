@@ -7,11 +7,11 @@ namespace ShootEmUp
         [SerializeField] private Transform[] _spawnPositions;
         [SerializeField] private Transform[] _attackPositions;
 
-        public Transform RandomSpawnPosition() => RandomTransform(_spawnPositions);
+        public Transform GetRandomSpawnPosition() => GetRandomTransform(_spawnPositions);
 
-        public Transform RandomAttackPosition() => RandomTransform(_attackPositions);
+        public Transform GetRandomAttackPosition() => GetRandomTransform(_attackPositions);
 
-        private static Transform RandomTransform(Transform[] transforms)
+        private static Transform GetRandomTransform(Transform[] transforms)
         {
             int index = Random.Range(0, transforms.Length);
             
