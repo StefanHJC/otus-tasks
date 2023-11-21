@@ -44,9 +44,9 @@ namespace ShootEmUp
             attackAgent.SetTarget(_character.GetComponent<HitPointsComponent>());
             attackAgent.FirePerformed += OnFire;
 
-            enemy.transform.position = _enemyPositions.RandomSpawnPosition().position;
+            enemy.transform.position = _enemyPositions.GetRandomSpawnPosition().position;
             enemy.GetComponent<HitPointsComponent>().DeathHappened += OnDestroyed;
-            enemy.GetComponent<EnemyMoveAgent>().SetDestination(_enemyPositions.RandomAttackPosition().position);
+            enemy.GetComponent<EnemyMoveAgent>().SetDestination(_enemyPositions.GetRandomAttackPosition().position);
         }
 
         private void OnDestroyed(GameObject enemy)
