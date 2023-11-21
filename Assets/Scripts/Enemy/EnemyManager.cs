@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ShootEmUp
 {
     public sealed class EnemyManager : MonoBehaviour
     {
-        private const int SpawnDelay = 1;
+        private const int SpawnDelayInMs = 1000;
 
         [Header("Spawn")]
         [SerializeField] private EnemyPositions _enemyPositions;
@@ -15,14 +17,15 @@ namespace ShootEmUp
         [SerializeField] private BulletSystem _bulletSystem;
         
         private readonly HashSet<GameObject> _activeEnemies = new();
+        private CancellationTokenSource _cts;
 
-        private void Start() => StartCoroutine(SpawnEnemyRoutine());
-
-        private IEnumerator SpawnEnemyRoutine()
+        private async void Start()
         {
-            while (gameObject.activeInHierarchy)
+            _cts = new CancellationTokenSource();
+            
+            while (_cts.IsCancellationRequested != true)
             {
-                yield return new WaitForSeconds(SpawnDelay);
+                await Task.Delay(SpawnDelayInMs, _cts.Token);
 
                 if (_enemyPool.TrySpawnEnemy(spawned: out GameObject enemy))
                 {
@@ -31,6 +34,8 @@ namespace ShootEmUp
                 }
             }
         }
+
+        private void OnDisable() => _cts.Cancel();
 
         private void InitEnemy(GameObject enemy)
         {
