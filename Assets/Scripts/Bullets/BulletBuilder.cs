@@ -52,6 +52,6 @@ namespace ShootEmUp
             return this;
         }
 
-        private Bullet GetBullet() => Object.Instantiate(_prefab);
+        private Bullet GetBullet() => Instantiate(_prefab);
     }
 }
