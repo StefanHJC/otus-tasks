@@ -5,9 +5,7 @@ namespace ShootEmUp
 {
     public sealed class InputManager : MonoBehaviour
     {
-        private const KeyCode AttackKey = KeyCode.Space;
-        private const KeyCode MoveLeftKey = KeyCode.LeftArrow;
-        private const KeyCode MoveRightKey = KeyCode.RightArrow;
+        [SerializeField] private InputSchema _schema;
 
         private AttackInputListener _attackListener;
         private MoveInputListener _moveListener;
@@ -18,8 +16,8 @@ namespace ShootEmUp
 
         private void Start()
         {
-            _attackListener = new AttackInputListener(attackKey: AttackKey);
-            _moveListener = new MoveInputListener(moveLeftKey: MoveLeftKey, moveRightKey: MoveRightKey);
+            _attackListener = new AttackInputListener(attackKey: _schema.AttackKey);
+            _moveListener = new MoveInputListener(moveLeftKey: _schema.MoveLeftKey, moveRightKey: _schema.MoveRightKey);
             _attackListener.AttackActionPerformed = AttackActionPerformed;
         }
 

@@ -549,6 +549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b55e0c0d37f64d1f835fe367d4939922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _schema: {fileID: 11400000, guid: d0a349ef0c32d7747ba282eee36feab8, type: 2}
 --- !u!850595691 &1263964384
 LightingSettings:
   m_ObjectHideFlags: 0
