@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace ShootEmUp
 {
@@ -14,11 +14,41 @@ namespace ShootEmUp
         }
     }
 
-    public sealed class GameListenerController : MonoBehaviour
+    public sealed class GameListenersController : MonoBehaviour
     {
         private Dictionary<Type, List<IGameListener>> _gameListeners = new Dictionary<Type, List<IGameListener>>();
         private List<IUpdateListener> _updateListeners;
         private List<IFixedUpdateListener> _fixedUpdateListeners;
+
+        public void Add(IGameListener listener)
+        {
+            foreach (Type nestedType in listener.
+                                         GetType().
+                                         GetNestedTypes().
+                                         Where(type => type.IsSubclassOf(typeof(IGameListener))))
+            {
+                if (nestedType is IUpdateListener updateListener)
+                {
+                    _updateListeners.Add(updateListener);
+                    
+                    continue;
+                }
+                if (nestedType is IFixedUpdateListener fixedUpdateListener)
+                {
+                    _fixedUpdateListeners.Add(fixedUpdateListener);
+
+                    continue;
+                }
+                if (_gameListeners.ContainsKey(nestedType) == false)
+                {
+                    _gameListeners.Add(nestedType, new List<IGameListener>() {listener});
+                }
+                else
+                {
+                    _gameListeners[nestedType].Add(listener);
+                }
+            }
+        }
 
         public void Pause() => InvokeListeners<IGamePauseListener>();
 
@@ -59,11 +89,14 @@ namespace ShootEmUp
         }
     }
 
-    public class GameListenerInstaller : MonoBehaviour
+    public sealed class GameListenerProvider : MonoBehaviour
     {
         public Dictionary<Type, List<IGameListener>> GetListeners()
         {
-            var listeners = GetComponentsInChildren<IGameListener>(includeInactive: true);
+            foreach (Transform child in gameObject.scene.GetRootGameObjects().Select(go => go.transform))
+            {
+
+            }
 
             return new Dictionary<Type, List<IGameListener>>();
         }
@@ -90,6 +123,16 @@ namespace ShootEmUp
     }
 
     public interface IAwakeListener : IGameListener
+    {
+        new void Invoke();
+    }
+    
+    public interface IEnableListener : IGameListener
+    {
+        new void Invoke();
+    }
+
+    public interface IDisableListener : IGameListener
     {
         new void Invoke();
     }
