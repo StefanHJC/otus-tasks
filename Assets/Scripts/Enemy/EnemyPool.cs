@@ -7,12 +7,10 @@ namespace ShootEmUp
     {
         private const int MaxEnemies = 7;
 
-        [Header("Pool")]
-        [SerializeField] private Transform _container;
-        [SerializeField] private Transform _worldTransform;
-        [SerializeField] private GameObject _prefab;
-
         private readonly Queue<GameObject> _enemyPool = new();
+        private Transform _container;
+        private Transform _worldTransform;
+        private GameObject _prefab;
 
         public EnemyPool(Transform container, Transform world, GameObject prefab)
         {
@@ -32,7 +30,6 @@ namespace ShootEmUp
                 _enemyPool.Enqueue(enemy);
             }
         }
-
 
         public bool TrySpawnEnemy(out GameObject spawned)
         {

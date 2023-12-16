@@ -5,27 +5,30 @@ namespace ShootEmUp
 {
     public sealed class BulletPool : IService
     {
-        [SerializeField] private int _initialCount = 50;
-        
-        [Space]
-        [SerializeField] private Transform _container;
-        [SerializeField] private BulletBuilder _builder;
-        [SerializeField] private Transform _worldTransform;
+        private const int InitialCount = 50;
 
         private readonly Queue<Bullet> _bulletPool = new();
         private readonly HashSet<Bullet> _activeBullets = new();
+        private Transform _container;
+        private BulletBuilder _builder;
+        private Transform _worldTransform;
 
         public IReadOnlyCollection<Bullet> ActiveBullets => _activeBullets;
 
-        public BulletPool()
+        public BulletPool(Transform container, BulletBuilder builder, Transform world)
         {
-            for (var i = 0; i < _initialCount; i++)
+            _container = container;
+            _builder = builder;
+            _worldTransform = world;
+
+            Init();
+        }
+
+        private void Init()
+        {
+            for (var i = 0; i < InitialCount; i++)
             {
-                Bullet bullet = _builder.
-                    BuildBullet().
-                    SetPosition(_container.position).
-                    SetParent(_container).
-                    BulletInstance;
+                Bullet bullet = _builder.BuildBullet().SetPosition(_container.position).SetParent(_container).BulletInstance;
 
                 _bulletPool.Enqueue(bullet);
             }
