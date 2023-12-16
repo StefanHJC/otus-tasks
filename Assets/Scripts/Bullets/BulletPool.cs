@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class BulletPool : MonoBehaviour
+    public sealed class BulletPool : IService
     {
         [SerializeField] private int _initialCount = 50;
         
@@ -16,6 +16,20 @@ namespace ShootEmUp
         private readonly HashSet<Bullet> _activeBullets = new();
 
         public IReadOnlyCollection<Bullet> ActiveBullets => _activeBullets;
+
+        public BulletPool()
+        {
+            for (var i = 0; i < _initialCount; i++)
+            {
+                Bullet bullet = _builder.
+                    BuildBullet().
+                    SetPosition(_container.position).
+                    SetParent(_container).
+                    BulletInstance;
+
+                _bulletPool.Enqueue(bullet);
+            }
+        }
 
         public Bullet SpawnBullet(BulletSystem.Args args)
         {
@@ -36,20 +50,6 @@ namespace ShootEmUp
                 return true;
             }
             return false;
-        }
-
-        private void Awake()
-        {
-            for (var i = 0; i < _initialCount; i++)
-            {
-                Bullet bullet = _builder.
-                    BuildBullet().
-                    SetPosition(_container.position).
-                    SetParent(_container).
-                    BulletInstance;
-
-                _bulletPool.Enqueue(bullet);
-            }
         }
 
         private Bullet BuildNew(BulletSystem.Args args)

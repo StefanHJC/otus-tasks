@@ -3,12 +3,11 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class BulletSystem : MonoBehaviour
+    public sealed class BulletSystem : IService, IFixedUpdateListener
     {
-        [SerializeField] private LevelBounds _levelBounds;
-        [SerializeField] private BulletPool _bulletPool;
-
         private readonly List<Bullet> _cache = new();
+        private LevelBounds _levelBounds;
+        private BulletPool _bulletPool;
 
         public struct Args
         {
@@ -20,7 +19,13 @@ namespace ShootEmUp
             public bool IsPlayer;
         }
 
-        private void FixedUpdate()
+        public BulletSystem(LevelBounds levelBounds, BulletPool bulletPool)
+        {
+            _levelBounds = levelBounds;
+            _bulletPool = bulletPool;
+        }
+
+        public void OnFixedUpdate()
         {
             _cache.Clear();
             _cache.AddRange(_bulletPool.ActiveBullets);

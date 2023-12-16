@@ -1,12 +1,10 @@
 using System;
-using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class InputManager : MonoBehaviour
+    public sealed class InputManager : IService, IUpdateListener
     {
-        [SerializeField] private InputSchema _schema;
-
+        private InputSchema _schema;
         private AttackInputListener _attackListener;
         private MoveInputListener _moveListener;
 
@@ -14,16 +12,23 @@ namespace ShootEmUp
 
         public event Action AttackActionPerformed;
 
-        private void Start()
+        public InputManager(InputSchema schema)
+        {
+            _schema = schema;
+
+            Init();
+        }
+
+        public void OnUpdate()
+        {
+            ListenInput();
+        }
+
+        private void Init()
         {
             _attackListener = new AttackInputListener(attackKey: _schema.AttackKey);
             _moveListener = new MoveInputListener(moveLeftKey: _schema.MoveLeftKey, moveRightKey: _schema.MoveRightKey);
             _attackListener.AttackActionPerformed = AttackActionPerformed;
-        }
-
-        private void Update()
-        {
-            ListenInput();
         }
 
         private void ListenInput()

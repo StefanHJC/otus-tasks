@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyPool : MonoBehaviour
+    public sealed class EnemyPool : IService
     {
         private const int MaxEnemies = 7;
 
@@ -13,15 +13,26 @@ namespace ShootEmUp
         [SerializeField] private GameObject _prefab;
 
         private readonly Queue<GameObject> _enemyPool = new();
-        
-        private void Awake()
+
+        public EnemyPool(Transform container, Transform world, GameObject prefab)
+        {
+            _container = container;
+            _worldTransform = world;
+            _prefab = prefab;
+
+            Init();
+        }
+
+        private void Init()
         {
             for (var i = 0; i < MaxEnemies; i++)
             {
-                GameObject enemy = Instantiate(_prefab, _container);
+                GameObject enemy = AssetProvider.Instantiate(_prefab);
+                enemy.transform.parent = _container;
                 _enemyPool.Enqueue(enemy);
             }
         }
+
 
         public bool TrySpawnEnemy(out GameObject spawned)
         {

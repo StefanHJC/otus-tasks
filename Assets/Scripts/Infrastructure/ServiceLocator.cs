@@ -21,7 +21,7 @@ namespace ShootEmUp
                 _gameListenerController.Add(gameListener);
         }
 
-        public static IService Get<T>() where T : class, IService => _services[typeof(T)];
+        public static T Get<T>() where T : class, IService => _services[typeof(T)] as T;
     }
 
     public interface IService

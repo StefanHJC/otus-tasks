@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,7 +5,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyManager : MonoBehaviour
+    public sealed class EnemyManager : IService
     {
         private const int SpawnDelayInMs = 1000;
 
@@ -18,6 +17,14 @@ namespace ShootEmUp
         
         private readonly HashSet<GameObject> _activeEnemies = new();
         private CancellationTokenSource _cts;
+
+        public EnemyManager(EnemyPositions enemyPositions, GameObject character, EnemyPool enemyPool, BulletSystem bulletSystem)
+        {
+            _enemyPositions = enemyPositions;
+            _character = character;
+            _enemyPool = enemyPool;
+            _bulletSystem = bulletSystem;
+        }
 
         private async void Start()
         {
