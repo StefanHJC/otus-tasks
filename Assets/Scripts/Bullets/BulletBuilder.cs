@@ -2,16 +2,18 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public class BulletBuilder : IService
+    public sealed class BulletBuilder : IService
     {
-        private Bullet _prefab;
+        private readonly AssetProvider _assetProvider;
+        private readonly Bullet _prefab;
         private Bullet _bulletInstance;
 
         public Bullet BulletInstance => _bulletInstance ??= GetBullet();
 
-        public BulletBuilder(Bullet prefab)
+        public BulletBuilder(Bullet prefab, AssetProvider assetProvider)
         {
             _prefab = prefab;
+            _assetProvider = assetProvider;
         }
 
         public BulletBuilder BuildBullet()
@@ -56,15 +58,6 @@ namespace ShootEmUp
             return this;
         }
 
-        private Bullet GetBullet() => AssetProvider.Instantiate(_prefab);
-    }
-
-    public static class AssetProvider
-    {
-        public static T Instantiate<T>(T prefab)  where T : Component => Object.Instantiate(prefab);
- 
-        public static GameObject Instantiate(GameObject prefab) => Object.Instantiate(prefab);
-
-        public static void Destroy(GameObject gameObject) => Object.Destroy(gameObject);
+        private Bullet GetBullet() => _assetProvider.Instantiate(_prefab);
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class GameListenersController : MonoBehaviour
+    public sealed class GameListenersController : MonoBehaviour, IService
     {
         private Dictionary<Type, List<IGameListener>> _gameListeners = new Dictionary<Type, List<IGameListener>>();
         private List<IUpdateListener> _updateListeners;
@@ -69,7 +69,7 @@ namespace ShootEmUp
         {
             Type type = typeof(T);
 
-            if (_gameListeners[type] == null)
+            if (_gameListeners.ContainsKey(type) || _gameListeners[type] == null)
                 return;
 
             for (int i = 0; i < _gameListeners[type].Count; i++)

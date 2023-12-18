@@ -5,7 +5,7 @@ namespace ShootEmUp
 {
     public static class ServiceLocator
     {
-        private static readonly Dictionary<Type, IService> _services;
+        private static readonly Dictionary<Type, IService> _services = new Dictionary<Type, IService>();
         private static GameListenersController _gameListenerController;
 
         public static void Init(GameListenersController gameListenerController)

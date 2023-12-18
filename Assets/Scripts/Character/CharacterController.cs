@@ -2,22 +2,26 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class CharacterController : MonoBehaviour
+    public sealed class CharacterController : IFixedUpdateListener
     {
-        [SerializeField] private InputManager _inputManager;
-        [SerializeField] private MoveComponent _movement;
-        [SerializeField] private WeaponComponent _weapon;
-        [SerializeField] private BulletSystem _bulletSystem;
-        
-        private void OnEnable() => _inputManager.AttackActionPerformed += OnFlyBullet;
+        private readonly InputManager _inputManager;
+        private readonly BulletSystem _bulletSystem;
+        private readonly CharacterView _view;
 
-        private void OnDisable() => _inputManager.AttackActionPerformed -= OnFlyBullet;
-
-        private void FixedUpdate()
+        public CharacterController(InputManager inputManager, BulletSystem bulletSystem, CharacterView view)
         {
-            _movement.MoveByRigidbodyVelocity(new Vector2(_inputManager.HorizontalDirection, 0) * Time.fixedDeltaTime);
+            _inputManager = inputManager;
+            _bulletSystem = bulletSystem;
+            _view = view;
+
+            _inputManager.AttackActionPerformed += OnFlyBullet;
         }
 
-        private void OnFlyBullet() => _bulletSystem.FlyBulletByArgs(_weapon.GetBulletArgs(Vector2.zero));
+        public void OnFixedUpdate()
+        {
+            _view.Movement.MoveByRigidbodyVelocity(new Vector2(_inputManager.HorizontalDirection, 0) * Time.fixedDeltaTime);
+        }
+
+        private void OnFlyBullet() => _bulletSystem.FlyBulletByArgs(_view.Weapon.GetBulletArgs(Vector2.zero));
     }
 }

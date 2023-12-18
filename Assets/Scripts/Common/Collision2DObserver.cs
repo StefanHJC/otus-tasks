@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ShootEmUp
 {
     [RequireComponent(typeof(Collider2D))]
-    public class Collision2DObserver : MonoBehaviour
+    public sealed class Collision2DObserver : MonoBehaviour
     {
         public event Action<Collision2D> CollisionEntered;
         public event Action<Collision2D> CollisionExited;

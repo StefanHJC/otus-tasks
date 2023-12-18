@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public class MovementObserver : MonoBehaviour
+    public sealed class MovementObserver : MonoBehaviour
     {
         private EnemyMoveAgent _moveAgent;
 

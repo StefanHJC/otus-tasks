@@ -8,15 +8,17 @@ namespace ShootEmUp
         private const int MaxEnemies = 7;
 
         private readonly Queue<GameObject> _enemyPool = new();
-        private Transform _container;
-        private Transform _worldTransform;
-        private GameObject _prefab;
+        private readonly AssetProvider _assetProvider;
+        private readonly Transform _container;
+        private readonly Transform _worldTransform;
+        private readonly GameObject _prefab;
 
-        public EnemyPool(Transform container, Transform world, GameObject prefab)
+        public EnemyPool(Transform container, Transform world, GameObject prefab, AssetProvider assetProvider)
         {
             _container = container;
             _worldTransform = world;
             _prefab = prefab;
+            _assetProvider = assetProvider;
 
             Init();
         }
@@ -25,7 +27,7 @@ namespace ShootEmUp
         {
             for (var i = 0; i < MaxEnemies; i++)
             {
-                GameObject enemy = AssetProvider.Instantiate(_prefab);
+                GameObject enemy = _assetProvider.Instantiate(_prefab);
                 enemy.transform.parent = _container;
                 _enemyPool.Enqueue(enemy);
             }
