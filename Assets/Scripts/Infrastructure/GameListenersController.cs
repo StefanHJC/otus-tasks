@@ -45,11 +45,7 @@ namespace ShootEmUp
 
         public void Resume() => InvokeListeners<IGameResumeListener>();
 
-        private void Awake()
-        {
-            
-            InvokeListeners<IAwakeListener>();
-        }
+        private void Awake() => InvokeListeners<IAwakeListener>();
 
         private void Start() => InvokeListeners<IStartListener>();
 

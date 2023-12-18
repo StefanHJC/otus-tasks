@@ -1,29 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class GameManager : MonoBehaviour
+    public sealed class GameManager : IService
     {
+        private readonly GameListenersController _gameListenersController;
+
+        public GameManager(GameListenersController gameListenersController)
+        {
+            _gameListenersController = gameListenersController;
+        }
+
+        public void Pause() => _gameListenersController.Pause();
+
+        public void Resume() => _gameListenersController.Resume();
+
         public void FinishGame()
         {
             Debug.Log("Game over!");
             Time.timeScale = 0;
-        }
-    }
-
-    public sealed class GameListenerProvider : MonoBehaviour
-    {
-        public Dictionary<Type, List<IGameListener>> GetListeners()
-        {
-            foreach (Transform child in gameObject.scene.GetRootGameObjects().Select(go => go.transform))
-            {
-
-            }
-
-            return new Dictionary<Type, List<IGameListener>>();
         }
     }
 }

@@ -33,6 +33,7 @@ namespace ShootEmUp
         {
             ServiceLocator.Init(_listenersController);
 
+            ServiceLocator.Bind<GameManager>(new GameManager(_listenersController));
             ServiceLocator.Bind<GameListenersController>(_listenersController);
             ServiceLocator.Bind<AssetProvider>(new AssetProvider());
 
