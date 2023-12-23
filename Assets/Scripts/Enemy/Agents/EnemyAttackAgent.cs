@@ -3,12 +3,11 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    [RequireComponent(typeof(WeaponComponent))]
-    public sealed class EnemyAttackAgent : MonoBehaviour
+    public sealed class EnemyAttackAgent
     {
-        [SerializeField] private WeaponComponent _weaponComponent;
-        [SerializeField] private MovementObserver _movementObserver;
-        [SerializeField] private float _countdown;
+        private WeaponComponent _weaponComponent;
+        private MovementObserver _movementObserver;
+        private float _countdown = 1;
 
         private HitPointsComponent _target;
         private float _currentTime;
@@ -17,11 +16,12 @@ namespace ShootEmUp
 
         public event Action<BulletSystem.Args> FirePerformed;
 
-        public void Reset() => _currentTime = _countdown;
-        
-        public void SetTarget(HitPointsComponent target) => _target = target;
+        public EnemyAttackAgent()
+        {
 
-        private void FixedUpdate()
+        }
+
+        public void Update()
         {
             _currentTime -= Time.fixedDeltaTime;
 
@@ -31,6 +31,10 @@ namespace ShootEmUp
             Fire();
         }
 
+        public void Reset() => _currentTime = _countdown;
+
+        public void SetTarget(HitPointsComponent target) => _target = target;
+
         private void Fire()
         {
             FirePerformed?.Invoke(_weaponComponent.GetBulletArgs(_target.transform.position));
@@ -38,5 +42,26 @@ namespace ShootEmUp
         }
 
         private bool CanShotAndTargetAlive() => CanFire && _target.IsHitPointsExists();
+    }
+
+    public class EnemyController : IService, IFixedUpdateListener
+    {
+        private readonly EnemyAttackAgent _attackAgent;
+        private readonly EnemyMoveAgent _moveAgent;
+
+        public EnemyController()
+        {
+            _attackAgent = new EnemyAttackAgent();
+            _moveAgent = new EnemyMoveAgent();
+        }
+
+
+        public void OnFixedUpdate()
+        {
+            _attackAgent.Update();
+            //_moveAgent.Update();
+        }
+
+        public void Attack(Transform target) => _attackAgent.SetTarget(target.GetComponent<HitPointsComponent>());
     }
 }

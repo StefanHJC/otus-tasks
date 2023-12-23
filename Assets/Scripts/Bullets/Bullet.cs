@@ -23,9 +23,4 @@ namespace ShootEmUp
 
         private void OnCollision(Collision2D collision) => CollisionHappened?.Invoke(this, collision);
     }
-
-    public class BulletView
-    {
-
-    }
 }
