@@ -7,6 +7,9 @@ namespace ShootEmUp
         IMoveComponent Movement { get; }
         IWeaponComponent Weapon { get; }
         Vector2 Position { get; }
+
+        void Enable();
+        void Disable();
     }
 
     [RequireComponent(typeof(MoveComponent))]
@@ -19,5 +22,8 @@ namespace ShootEmUp
         public IMoveComponent Movement => _movement;
         public IWeaponComponent Weapon => _weapon;
         public Vector2 Position => transform.position;
+        
+        public void Enable() => gameObject.SetActive(true);
+        public void Disable() => gameObject.SetActive(false);
     }
 }

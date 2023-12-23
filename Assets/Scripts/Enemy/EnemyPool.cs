@@ -7,18 +7,18 @@ namespace ShootEmUp
     {
         private const int MaxEnemies = 7;
 
-        private readonly Queue<GameObject> _enemyPool = new();
+        private readonly Queue<UnitView> _enemyPool = new();
         private readonly AssetProvider _assetProvider;
         private readonly Transform _container;
         private readonly Transform _worldTransform;
-        private readonly GameObject _prefab;
+        private readonly EnemyFactory _factory;
 
-        public EnemyPool(Transform container, Transform world, GameObject prefab, AssetProvider assetProvider)
+        public EnemyPool(Transform container, Transform world, EnemyFactory factory, AssetProvider assetProvider)
         {
             _container = container;
             _worldTransform = world;
-            _prefab = prefab;
             _assetProvider = assetProvider;
+            _factory = factory;
 
             Init();
         }
@@ -53,6 +53,25 @@ namespace ShootEmUp
         {
             enemy.transform.SetParent(_container);
             _enemyPool.Enqueue(enemy);
+        }
+    }
+
+    public class EnemyFactory
+    {
+        private readonly AssetProvider _assetProvider;
+        private readonly UnitView _prefab;
+
+        public EnemyFactory(UnitView prefab, AssetProvider assetProvider)
+        {
+            _prefab = prefab;
+            _assetProvider = assetProvider;
+        }
+
+        public EnemyController GetEnemy()
+        {
+            UnitView viewInstance = _assetProvider.Instantiate(_prefab);
+
+            return new EnemyController(viewInstance);
         }
     }
 }
