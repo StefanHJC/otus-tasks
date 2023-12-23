@@ -13,30 +13,30 @@ namespace ShootEmUp
 
         public void Add(IGameListener listener)
         {
-            foreach (Type nestedType in listener.
+            foreach (Type inheritedType in listener.
                          GetType().
                          GetInterfaces().
-                         Where(type => typeof(IGameListener).IsAssignableFrom(type)))
+                         Where(type => typeof(IGameListener).IsAssignableFrom(type) && type is not IGameListener))
             {
-                if (nestedType is IUpdateListener updateListener)
+                if (inheritedType == typeof(IUpdateListener))
                 {
-                    _updateListeners.Add(updateListener);
+                    _updateListeners.Add(listener as IUpdateListener);
                     
                     continue;
                 }
-                if (nestedType is IFixedUpdateListener fixedUpdateListener)
+                if (inheritedType == typeof(IFixedUpdateListener))
                 {
-                    _fixedUpdateListeners.Add(fixedUpdateListener);
+                    _fixedUpdateListeners.Add(listener as IFixedUpdateListener);
 
                     continue;
                 }
-                if (_gameListeners.ContainsKey(nestedType) == false)
+                if (_gameListeners.ContainsKey(inheritedType) == false)
                 {
-                    _gameListeners.Add(nestedType, new List<IGameListener>() {listener});
+                    _gameListeners.Add(inheritedType, new List<IGameListener>() {listener});
                 }
                 else
                 {
-                    _gameListeners[nestedType].Add(listener);
+                    _gameListeners[inheritedType].Add(listener);
                 }
             }
         }
