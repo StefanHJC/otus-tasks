@@ -2,30 +2,29 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    [RequireComponent(typeof(MoveComponent))]
-    public sealed class EnemyMoveAgent : MonoBehaviour
+    public sealed class EnemyMoveAgent
     {
         private const float DestinationReachEpsilon = 0.25f;
         
-        [SerializeField] private MoveComponent _moveComponent;
-
+        private readonly IMoveComponent _moveComponent;
+        private readonly IUnitView _view;
         private Vector2 _destination;
         private bool _isReached;
 
         public bool IsReached => _isReached;
 
-        public void SetDestination(Vector2 endPoint)
+        public EnemyMoveAgent(IUnitView view)
         {
-            _destination = endPoint;
-            _isReached = false;
+            _moveComponent = view.Movement;
+            _view = view;
         }
 
-        private void FixedUpdate()
+        public void Update()
         {
             if (_isReached)
                 return;
 
-            Vector2 vector = _destination - (Vector2)transform.position;
+            Vector2 vector = _destination - _view.Position;
             
             if (vector.magnitude <= DestinationReachEpsilon)
             {
@@ -36,6 +35,12 @@ namespace ShootEmUp
 
             Vector2 direction = vector.normalized * Time.fixedDeltaTime;
             _moveComponent.Move(direction);
+        }
+
+        public void SetDestination(Vector2 endPoint)
+        {
+            _destination = endPoint;
+            _isReached = false;
         }
     }
 }

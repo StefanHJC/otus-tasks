@@ -6,9 +6,9 @@ namespace ShootEmUp
     {
         private readonly InputManager _inputManager;
         private readonly BulletSystem _bulletSystem;
-        private readonly CharacterView _view;
+        private readonly UnitView _view;
 
-        public CharacterController(InputManager inputManager, BulletSystem bulletSystem, CharacterView view)
+        public CharacterController(InputManager inputManager, BulletSystem bulletSystem, UnitView view)
         {
             _inputManager = inputManager;
             _bulletSystem = bulletSystem;

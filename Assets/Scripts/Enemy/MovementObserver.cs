@@ -1,17 +1,15 @@
-using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class MovementObserver : MonoBehaviour
+    public sealed class MovementObserver 
     {
-        private EnemyMoveAgent _moveAgent;
+        private readonly EnemyMoveAgent _moveAgent;
 
-        public bool IsMoving => _moveAgent != null && !_moveAgent.IsReached;
+        public bool IsMoving => !_moveAgent.IsReached;
 
-        private void Start()
+        public MovementObserver(EnemyMoveAgent moveAgent)
         {
-            if (TryGetComponent<EnemyMoveAgent>(out var moveAgent))
-                _moveAgent = moveAgent;
+            _moveAgent = moveAgent;
         }
     }
 }

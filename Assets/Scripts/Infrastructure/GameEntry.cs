@@ -24,7 +24,7 @@ namespace ShootEmUp
 
         [Space]
         [Header("Player")]
-        [SerializeField] private CharacterView _characterView;
+        [SerializeField] private UnitView _unitView;
 
         [Space]
         [Header("Game listeners controller")]
@@ -38,7 +38,7 @@ namespace ShootEmUp
 
         private void StartGame()
         {
-            CharacterView view = ServiceLocator.Get<GameManager>().StartGame(_characterStartPosition, _characterView);
+            UnitView view = ServiceLocator.Get<GameManager>().StartGame(_characterStartPosition, _unitView);
             ServiceLocator.Bind<GameEndListener>(new GameEndListener(view.GetComponent<HitPointsComponent>(),
                 ServiceLocator.Get<GameManager>()));
 
@@ -60,7 +60,7 @@ namespace ShootEmUp
             ServiceLocator.Bind<BulletSystem>(new BulletSystem(_levelBounds, ServiceLocator.Get<BulletPool>()));
 
             ServiceLocator.Bind<EnemyPool>(new EnemyPool(_enemyContainer, _world, _enemyPrefab, ServiceLocator.Get<AssetProvider>()));
-            ServiceLocator.Bind<EnemyManager>(new EnemyManager(_enemyPositions, _characterView, 
+            ServiceLocator.Bind<EnemyManager>(new EnemyManager(_enemyPositions, _unitView, 
                 ServiceLocator.Get<EnemyPool>(),
                 ServiceLocator.Get<BulletSystem>()));
 

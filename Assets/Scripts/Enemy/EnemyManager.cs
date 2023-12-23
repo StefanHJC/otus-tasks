@@ -11,15 +11,15 @@ namespace ShootEmUp
 
         private readonly HashSet<GameObject> _activeEnemies = new();
         private EnemyPositions _enemyPositions;
-        private CharacterView _character;
+        private UnitView _unit;
         private EnemyPool _enemyPool;
         private BulletSystem _bulletSystem;
         private CancellationTokenSource _cts;
 
-        public EnemyManager(EnemyPositions enemyPositions, CharacterView character, EnemyPool enemyPool, BulletSystem bulletSystem)
+        public EnemyManager(EnemyPositions enemyPositions, UnitView unit, EnemyPool enemyPool, BulletSystem bulletSystem)
         {
             _enemyPositions = enemyPositions;
-            _character = character;
+            _unit = unit;
             _enemyPool = enemyPool;
             _bulletSystem = bulletSystem;
         }
@@ -46,7 +46,7 @@ namespace ShootEmUp
         {
             EnemyAttackAgent attackAgent = enemy.GetComponent<EnemyAttackAgent>();
             
-            attackAgent.SetTarget(_character.GetComponent<HitPointsComponent>());
+            attackAgent.SetTarget(_unit.GetComponent<HitPointsComponent>());
             attackAgent.FirePerformed += OnFire;
 
             enemy.transform.position = _enemyPositions.GetRandomSpawnPosition().position;

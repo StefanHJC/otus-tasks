@@ -18,11 +18,11 @@ namespace ShootEmUp
 
         public void ResumeGame() => _gameListenersController.Resume();
 
-        public CharacterView StartGame(Transform characterPosition, CharacterView characterView)
+        public UnitView StartGame(Transform characterPosition, UnitView unitView)
         {
             //TODO start pre game counting
 
-            return InstantiateCharacterView(at: characterPosition, prefab: characterView);
+            return InstantiateCharacterView(at: characterPosition, prefab: unitView);
         }
 
         public void FinishGame()
@@ -31,18 +31,18 @@ namespace ShootEmUp
             Time.timeScale = 0;
         }
 
-        private CharacterView InstantiateCharacterView(Transform at, CharacterView prefab)
+        private UnitView InstantiateCharacterView(Transform at, UnitView prefab)
         {
-            CharacterView characterViewInstance = _assets.Instantiate(prefab);
+            UnitView unitViewInstance = _assets.Instantiate(prefab);
             prefab.transform.position = at.position;
             prefab.transform.rotation = at.rotation;
 
-            return characterViewInstance;
+            return unitViewInstance;
         }
     }
 
     public struct GameSessionData
     {
-        public CharacterView CharacterView;
+        public UnitView UnitView;
     }
 }
