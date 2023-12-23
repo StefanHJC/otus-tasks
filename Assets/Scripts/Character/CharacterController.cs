@@ -19,7 +19,7 @@ namespace ShootEmUp
 
         public void OnFixedUpdate()
         {
-            _view.Movement.MoveByRigidbodyVelocity(new Vector2(_inputManager.HorizontalDirection, 0) * Time.fixedDeltaTime);
+            _view.Movement.Move(new Vector2(_inputManager.HorizontalDirection, 0) * Time.fixedDeltaTime);
         }
 
         private void OnFlyBullet() => _bulletSystem.FlyBulletByArgs(_view.Weapon.GetBulletArgs(Vector2.zero));

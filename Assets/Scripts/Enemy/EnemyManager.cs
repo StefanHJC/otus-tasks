@@ -9,16 +9,14 @@ namespace ShootEmUp
     {
         private const int SpawnDelayInMs = 1000;
 
-        [Header("Spawn")]
-        [SerializeField] private EnemyPositions _enemyPositions;
-        [SerializeField] private GameObject _character;
-        [SerializeField] private EnemyPool _enemyPool;
-        [SerializeField] private BulletSystem _bulletSystem;
-        
         private readonly HashSet<GameObject> _activeEnemies = new();
+        private EnemyPositions _enemyPositions;
+        private CharacterView _character;
+        private EnemyPool _enemyPool;
+        private BulletSystem _bulletSystem;
         private CancellationTokenSource _cts;
 
-        public EnemyManager(EnemyPositions enemyPositions, GameObject character, EnemyPool enemyPool, BulletSystem bulletSystem)
+        public EnemyManager(EnemyPositions enemyPositions, CharacterView character, EnemyPool enemyPool, BulletSystem bulletSystem)
         {
             _enemyPositions = enemyPositions;
             _character = character;

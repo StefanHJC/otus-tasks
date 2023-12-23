@@ -2,7 +2,15 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public abstract class WeaponComponent : MonoBehaviour
+    public interface IWeaponComponent
+    {
+        Vector2 Position { get; }
+        Quaternion Rotation { get; }
+        
+        BulletSystem.Args GetBulletArgs(Vector2 targetPos);
+    }
+
+    public abstract class WeaponComponent : MonoBehaviour, IWeaponComponent
     {
         [SerializeField] private Transform _firePoint;
 

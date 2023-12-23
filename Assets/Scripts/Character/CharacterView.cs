@@ -9,7 +9,7 @@ namespace ShootEmUp
         [SerializeField] private MoveComponent _movement;
         [SerializeField] private WeaponComponent _weapon;
 
-        public MoveComponent Movement => _movement;
-        public WeaponComponent Weapon => _weapon;
+        public IMoveComponent Movement => _movement;
+        public IWeaponComponent Weapon => _weapon;
     }
 }
