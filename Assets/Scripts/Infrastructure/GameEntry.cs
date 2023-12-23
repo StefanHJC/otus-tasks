@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    [DefaultExecutionOrder(-999)]
+    [DefaultExecutionOrder(-9999)]
     public class GameEntry : MonoBehaviour
     {
         [Header("Prefabs")]
@@ -34,7 +34,6 @@ namespace ShootEmUp
             ServiceLocator.Init(_listenersController);
 
             ServiceLocator.Bind<GameManager>(new GameManager(_listenersController));
-            ServiceLocator.Bind<GameListenersController>(_listenersController);
             ServiceLocator.Bind<AssetProvider>(new AssetProvider());
 
             ServiceLocator.Bind<BulletBuilder>(new BulletBuilder(_bulletPrefab, ServiceLocator.Get<AssetProvider>()));
@@ -45,6 +44,8 @@ namespace ShootEmUp
             ServiceLocator.Bind<EnemyManager>(new EnemyManager(_enemyPositions, _character, ServiceLocator.Get<EnemyPool>(), ServiceLocator.Get<BulletSystem>()));
 
             ServiceLocator.Bind<InputManager>(new InputManager(_inputSchema));
+            
+            ServiceLocator.Bind<GameListenersController>(_listenersController);
         }
     }
 }

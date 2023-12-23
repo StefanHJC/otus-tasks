@@ -8,15 +8,15 @@ namespace ShootEmUp
     public sealed class GameListenersController : MonoBehaviour, IService
     {
         private Dictionary<Type, List<IGameListener>> _gameListeners = new Dictionary<Type, List<IGameListener>>();
-        private List<IUpdateListener> _updateListeners;
-        private List<IFixedUpdateListener> _fixedUpdateListeners;
+        private List<IUpdateListener> _updateListeners = new List<IUpdateListener>();
+        private List<IFixedUpdateListener> _fixedUpdateListeners = new List<IFixedUpdateListener>();
 
         public void Add(IGameListener listener)
         {
             foreach (Type nestedType in listener.
                          GetType().
-                         GetNestedTypes().
-                         Where(type => type.IsSubclassOf(typeof(IGameListener))))
+                         GetInterfaces().
+                         Where(type => typeof(IGameListener).IsAssignableFrom(type)))
             {
                 if (nestedType is IUpdateListener updateListener)
                 {
@@ -65,7 +65,7 @@ namespace ShootEmUp
         {
             Type type = typeof(T);
 
-            if (_gameListeners.ContainsKey(type) || _gameListeners[type] == null)
+            if (!_gameListeners.ContainsKey(type) || _gameListeners[type] == null)
                 return;
 
             for (int i = 0; i < _gameListeners[type].Count; i++)
