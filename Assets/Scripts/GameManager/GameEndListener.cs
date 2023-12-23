@@ -2,15 +2,22 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class GameEndListener : MonoBehaviour
+    public sealed class GameEndListener : IService, IStartListener
     {
-        [SerializeField] private HitPointsComponent playerHealth;
-        [SerializeField] private GameManager gameManager;
+        private HitPointsComponent _playerHealth;
+        private GameManager _gameManager;
 
-        private void Start() => playerHealth.DeathHappened += OnPlayerDeath;
+        public GameEndListener(HitPointsComponent playerHealth, GameManager gameManager)
+        {
+            _playerHealth = playerHealth;
+            _gameManager = gameManager;
+        }
 
-        private void OnDisable() => playerHealth.DeathHappened -= OnPlayerDeath;
+        public void OnStart()
+        {
+            _playerHealth.DeathHappened += OnPlayerDeath;
+        }
 
-        private void OnPlayerDeath(GameObject _) => gameManager.FinishGame();
+        private void OnPlayerDeath(GameObject _) => _gameManager.FinishGame();
     }
 }
