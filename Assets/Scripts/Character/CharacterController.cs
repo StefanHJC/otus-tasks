@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class CharacterController : IFixedUpdateListener
+    public sealed class CharacterController : IService, IFixedUpdateListener
     {
         private readonly InputManager _inputManager;
         private readonly BulletSystem _bulletSystem;
@@ -19,6 +19,7 @@ namespace ShootEmUp
 
         public void OnFixedUpdate()
         {
+            Debug.Log(_inputManager.HorizontalDirection.ToString());
             _view.Movement.Move(new Vector2(_inputManager.HorizontalDirection, 0) * Time.fixedDeltaTime);
         }
 

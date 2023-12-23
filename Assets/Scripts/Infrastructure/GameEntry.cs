@@ -41,6 +41,11 @@ namespace ShootEmUp
             CharacterView view = ServiceLocator.Get<GameManager>().StartGame(_characterStartPosition, _characterView);
             ServiceLocator.Bind<GameEndListener>(new GameEndListener(view.GetComponent<HitPointsComponent>(),
                 ServiceLocator.Get<GameManager>()));
+
+            ServiceLocator.Bind<CharacterController>(new CharacterController(
+                ServiceLocator.Get<InputManager>(),
+                ServiceLocator.Get<BulletSystem>(),
+                view));
         }
 
         private void BindServices()

@@ -28,7 +28,7 @@ namespace ShootEmUp
         {
             _attackListener = new AttackInputListener(attackKey: _schema.AttackKey);
             _moveListener = new MoveInputListener(moveLeftKey: _schema.MoveLeftKey, moveRightKey: _schema.MoveRightKey);
-            _attackListener.AttackActionPerformed = AttackActionPerformed;
+            _attackListener.AttackActionPerformed += () => AttackActionPerformed?.Invoke();
         }
 
         private void ListenInput()
