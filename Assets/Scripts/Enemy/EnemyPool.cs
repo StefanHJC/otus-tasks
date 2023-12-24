@@ -7,7 +7,7 @@ namespace ShootEmUp
     {
         private const int MaxEnemies = 7;
 
-        private readonly Queue<UnitView> _enemyPool = new();
+        private readonly Queue<EnemyController> _pool = new();
         private readonly AssetProvider _assetProvider;
         private readonly Transform _container;
         private readonly Transform _worldTransform;
@@ -27,51 +27,32 @@ namespace ShootEmUp
         {
             for (var i = 0; i < MaxEnemies; i++)
             {
-                GameObject enemy = _assetProvider.Instantiate(_prefab);
-                enemy.transform.parent = _container;
-                _enemyPool.Enqueue(enemy);
+                EnemyController enemy = _factory.GetEnemy();
+                enemy.View.transform.parent = _container;
+                _pool.Enqueue(enemy);
             }
         }
 
-        public bool TrySpawnEnemy(out GameObject spawned)
+        public bool TrySpawnEnemy(out EnemyController spawned)
         {
-            if (!_enemyPool.TryDequeue(out GameObject enemy))
+            if (!_pool.TryDequeue(out EnemyController enemy))
             {
                 spawned = null;
 
                 return false;
             }
 
-            enemy.transform.SetParent(_worldTransform);
+            enemy.View.transform.SetParent(_worldTransform);
 
             spawned = enemy;
             
             return true;
         }
 
-        public void UnspawnEnemy(GameObject enemy)
+        public void UnspawnEnemy(EnemyController enemy)
         {
-            enemy.transform.SetParent(_container);
-            _enemyPool.Enqueue(enemy);
-        }
-    }
-
-    public class EnemyFactory
-    {
-        private readonly AssetProvider _assetProvider;
-        private readonly UnitView _prefab;
-
-        public EnemyFactory(UnitView prefab, AssetProvider assetProvider)
-        {
-            _prefab = prefab;
-            _assetProvider = assetProvider;
-        }
-
-        public EnemyController GetEnemy()
-        {
-            UnitView viewInstance = _assetProvider.Instantiate(_prefab);
-
-            return new EnemyController(viewInstance);
+            enemy.View.transform.SetParent(_container);
+            _pool.Enqueue(enemy);
         }
     }
 }

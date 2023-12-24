@@ -8,11 +8,14 @@ namespace ShootEmUp
         private readonly EnemyMoveAgent _moveAgent;
         private readonly MovementObserver _movementObserver;
 
+        public UnitView View { get; private set; }
+
         public EnemyController(UnitView view)
         {
             _moveAgent = new EnemyMoveAgent(view);
             _movementObserver = new MovementObserver(_moveAgent);
             _attackAgent = new EnemyAttackAgent(view, _movementObserver);
+            View = view;
         }
 
         public void OnFixedUpdate()
