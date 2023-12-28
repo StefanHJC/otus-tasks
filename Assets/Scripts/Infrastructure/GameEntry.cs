@@ -65,7 +65,7 @@ namespace ShootEmUp
             ServiceLocator.Bind<BulletSystem>(new BulletSystem(_levelBounds, ServiceLocator.Get<BulletPool>()));
 
             ServiceLocator.Bind<EnemyFactory>(new EnemyFactory(_enemyPrefab, _listenersController,ServiceLocator.Get<AssetProvider>()));
-            ServiceLocator.Bind<EnemyPool>(new EnemyPool(_enemyContainer, _world, ServiceLocator.Get<EnemyFactory>(), ServiceLocator.Get<AssetProvider>()));
+            ServiceLocator.Bind<EnemyPool>(new EnemyPool(_enemyContainer, _world, ServiceLocator.Get<EnemyFactory>()));
             ServiceLocator.Bind<EnemyManager>(new EnemyManager(_enemyPositions, _characterProvider, 
                 ServiceLocator.Get<EnemyPool>(),
                 ServiceLocator.Get<BulletSystem>()));

@@ -1,7 +1,6 @@
-
 using ShootEmUp;
 
-public class CharacterProvider
+public sealed class CharacterProvider
 {
     public CharacterController Character { get; set; }
 }

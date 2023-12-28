@@ -8,16 +8,14 @@ namespace ShootEmUp
         private const int MaxEnemies = 7;
 
         private readonly Queue<EnemyController> _pool = new();
-        private readonly AssetProvider _assetProvider;
         private readonly Transform _container;
         private readonly Transform _worldTransform;
         private readonly EnemyFactory _factory;
 
-        public EnemyPool(Transform container, Transform world, EnemyFactory factory, AssetProvider assetProvider)
+        public EnemyPool(Transform container, Transform world, EnemyFactory factory)
         {
             _container = container;
             _worldTransform = world;
-            _assetProvider = assetProvider;
             _factory = factory;
 
             Init();

@@ -1,8 +1,7 @@
-using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class GameEndListener : IService, IStartListener
+    public sealed class GameEndListener : IService
     {
         private HitPointsComponent _playerHealth;
         private GameManager _gameManager;
@@ -11,10 +10,7 @@ namespace ShootEmUp
         {
             _playerHealth = playerHealth;
             _gameManager = gameManager;
-        }
 
-        public void OnStart()
-        {
             _playerHealth.DeathHappened += OnPlayerDeath;
         }
 

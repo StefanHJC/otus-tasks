@@ -41,6 +41,11 @@ namespace ShootEmUp
             }
         }
 
+        public bool TryRemove(IGameListener listener) =>
+            _gameListeners[listener.GetType()].Remove(listener) ||
+            _updateListeners.Remove(listener as IUpdateListener) ||
+            _fixedUpdateListeners.Remove(listener as IFixedUpdateListener);
+
         public void Pause() => InvokeListeners<IGamePauseListener>();
 
         public void Resume() => InvokeListeners<IGameResumeListener>();
