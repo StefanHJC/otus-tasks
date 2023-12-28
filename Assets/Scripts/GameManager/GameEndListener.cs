@@ -18,6 +18,6 @@ namespace ShootEmUp
             _playerHealth.DeathHappened += OnPlayerDeath;
         }
 
-        private void OnPlayerDeath(GameObject _) => _gameManager.FinishGame();
+        private void OnPlayerDeath() => _gameManager.FinishGame();
     }
 }

@@ -20,7 +20,6 @@ namespace ShootEmUp
 
         public void OnFixedUpdate()
         {
-            Debug.Log(_inputManager.HorizontalDirection.ToString());
             View.Movement.Move(new Vector2(_inputManager.HorizontalDirection, 0) * Time.fixedDeltaTime);
         }
 

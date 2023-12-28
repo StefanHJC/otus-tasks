@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using UnityEngine;
 
 namespace ShootEmUp
 {
@@ -11,20 +10,22 @@ namespace ShootEmUp
 
         private readonly HashSet<EnemyController> _activeEnemies = new();
         private EnemyPositions _enemyPositions;
-        private CharacterController _character;
+        private CharacterProvider _characterProvider;
         private EnemyPool _enemyPool;
         private BulletSystem _bulletSystem;
         private CancellationTokenSource _cts;
 
-        public EnemyManager(EnemyPositions enemyPositions, CharacterController character, EnemyPool enemyPool, BulletSystem bulletSystem)
+        public EnemyManager(EnemyPositions enemyPositions, CharacterProvider characterProvider, EnemyPool enemyPool, BulletSystem bulletSystem)
         {
             _enemyPositions = enemyPositions;
-            _character = character;
+            _characterProvider = characterProvider;
             _enemyPool = enemyPool;
             _bulletSystem = bulletSystem;
+
+            SpawnEnemiesAsync();
         }
 
-        private async void Start()
+        private async void SpawnEnemiesAsync()
         {
             _cts = new CancellationTokenSource();
             
@@ -44,20 +45,21 @@ namespace ShootEmUp
 
         private void InitEnemy(EnemyController enemy)
         {
-            enemy.Attack(_character.View.transform);
+            enemy.Attack(_characterProvider.Character.View.transform);
             enemy.FirePerformed += OnFire;
 
             enemy.View.transform.position = _enemyPositions.GetRandomSpawnPosition().position;
-            enemy.View.GetComponent<HitPointsComponent>().DeathHappened += OnDestroyed;
-            enemy.View.GetComponent<EnemyMoveAgent>().SetDestination(_enemyPositions.GetRandomAttackPosition().position);
+            enemy.Move(to: _enemyPositions.GetRandomAttackPosition().position);
+            
+            enemy.Died += OnDestroyed;
         }
 
         private void OnDestroyed(EnemyController enemy)
         {
             if (_activeEnemies.Remove(enemy))
             {
-                enemy.View.GetComponent<HitPointsComponent>().DeathHappened -= OnDestroyed;
-                enemy.View.GetComponent<EnemyAttackAgent>().FirePerformed -= OnFire;
+                enemy.Died -= OnDestroyed;
+                enemy.FirePerformed -= OnFire;
 
                 _enemyPool.UnspawnEnemy(enemy);
             }

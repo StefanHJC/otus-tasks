@@ -42,6 +42,6 @@ namespace ShootEmUp
             Reset();
         }
 
-        private bool CanShotAndTargetAlive() => CanFire && _target.IsHitPointsExists();
+        private bool CanShotAndTargetAlive() => CanFire && (_target != null && _target.IsHitPointsExists());
     }
 }

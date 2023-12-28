@@ -1128,7 +1128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 201757604187811891, guid: 5fe72886874b4e445b06cf777ca4920d,
     type: 3}
-  _enemyPrefab: {fileID: 559606060570185700, guid: 87fe189881a524806800482ac8eaaa83,
+  _enemyPrefab: {fileID: 1028239467508776228, guid: 87fe189881a524806800482ac8eaaa83,
     type: 3}
   _levelBounds: {fileID: 2572952653776768186}
   _enemyPositions: {fileID: 7166351703523243261}
@@ -1137,7 +1137,7 @@ MonoBehaviour:
   _world: {fileID: 1683128698}
   _characterStartPosition: {fileID: 4414282821800802396}
   _inputSchema: {fileID: 11400000, guid: d0a349ef0c32d7747ba282eee36feab8, type: 2}
-  _characterView: {fileID: 5590796141269523078, guid: 9699e7e809fd44b2bbf3d30c951ecbd2,
+  _unitView: {fileID: 5590796141269523078, guid: 9699e7e809fd44b2bbf3d30c951ecbd2,
     type: 3}
   _listenersController: {fileID: 3951702117947426125}
 --- !u!212 &4162873433806880330

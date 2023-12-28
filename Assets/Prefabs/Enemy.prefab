@@ -15,10 +15,8 @@ GameObject:
   - component: {fileID: 5568771391735819379}
   - component: {fileID: 5568771391735819372}
   - component: {fileID: 5568771391735819373}
-  - component: {fileID: 8186052948131603766}
-  - component: {fileID: 6896809305229427933}
-  - component: {fileID: -2164460955599743961}
   - component: {fileID: 1414864532546800300}
+  - component: {fileID: 1028239467508776228}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
@@ -171,46 +169,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitPoints: 3
---- !u!114 &8186052948131603766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559606060570185700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bdb5771141e4cf18c434a69ec116e09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moveComponent: {fileID: 5568771391735819372}
---- !u!114 &6896809305229427933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559606060570185700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ba7965842e74a9f89ba3aa66d61da46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _weaponComponent: {fileID: 1414864532546800300}
-  _movementObserver: {fileID: -2164460955599743961}
-  _countdown: 1
---- !u!114 &-2164460955599743961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559606060570185700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f8ff63b18968854ba26591109a7bec5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1414864532546800300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +183,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _firePoint: {fileID: 3195880656587174614}
   Config: {fileID: 11400000, guid: ac12889ac9ddf37489aff5fd96adbb40, type: 2}
+--- !u!114 &1028239467508776228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559606060570185700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 745ea0d8a650c8a40b0d53ad1db027b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _movement: {fileID: 5568771391735819372}
+  _weapon: {fileID: 1414864532546800300}
 --- !u!1 &2239154907127902911
 GameObject:
   m_ObjectHideFlags: 0
