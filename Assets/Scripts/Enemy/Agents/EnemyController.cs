@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -10,12 +11,16 @@ namespace ShootEmUp
 
         public UnitView View { get; private set; }
 
+        public event Action<BulletSystem.Args> FirePerformed;
+
         public EnemyController(UnitView view)
         {
             _moveAgent = new EnemyMoveAgent(view);
             _movementObserver = new MovementObserver(_moveAgent);
             _attackAgent = new EnemyAttackAgent(view, _movementObserver);
             View = view;
+
+            _attackAgent.FirePerformed += (BulletSystem.Args args) => FirePerformed?.Invoke(args);
         }
 
         public void OnFixedUpdate()
