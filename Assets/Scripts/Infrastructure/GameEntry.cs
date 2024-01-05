@@ -57,6 +57,8 @@ namespace ShootEmUp
 
             _characterProvider = new CharacterProvider();
 
+            ServiceLocator.Bind<Scheduler>(new Scheduler());
+
             ServiceLocator.Bind<AssetProvider>(new AssetProvider());
             ServiceLocator.Bind<GameManager>(new GameManager(_listenersController, ServiceLocator.Get<AssetProvider>()));
 

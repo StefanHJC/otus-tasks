@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -39,10 +38,5 @@ namespace ShootEmUp
 
             return unitViewInstance;
         }
-    }
-
-    public struct GameSessionData
-    {
-        public UnitView UnitView;
     }
 }
