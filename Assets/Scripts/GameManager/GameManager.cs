@@ -10,10 +10,9 @@ namespace ShootEmUp
         private readonly GameListenersController _gameListenersController;
         private readonly AssetProvider _assets;
         private readonly Transform _characterPosition;
-        private readonly CharacterController _character;
-        private readonly HUD _hud;
         private readonly CharacterProvider _characterProvider;
         private readonly UnitView _characterView;
+        private readonly HUD _hud;
 
         public GameManager(GameListenersController gameListenersController, AssetProvider assets, 
             HUD hud, Transform characterPosition, CharacterProvider provider, UnitView characterView)
@@ -36,20 +35,22 @@ namespace ShootEmUp
 
         public async void StartGameAsync()
         {
-            await SetDelayAsync(delayInSeconds: GameStartDelay);
+            await SetGameStartDelayAsync(delayInSeconds: GameStartDelay);
 
             InstallGameSessionBindings(InstantiateCharacterView(at: _characterPosition, prefab: _characterView));
         }
 
-        private async Task SetDelayAsync(int delayInSeconds)
+        private async Task SetGameStartDelayAsync(int delayInSeconds)
         {
             int i = 0;
+            _hud.ScreenTextRenderer.Enable();
 
             while (i <= delayInSeconds)
             {
                 _hud.ScreenTextRenderer.Text = (delayInSeconds - i++).ToString();
                 await Task.Delay(millisecondsDelay: 1000);
             }
+            _hud.ScreenTextRenderer.Disable();
         }
 
         private void InstallGameSessionBindings(UnitView view)
@@ -66,8 +67,10 @@ namespace ShootEmUp
 
         public void FinishGame()
         {
-            Debug.Log("Game over!");
-            Time.timeScale = 0;
+            _hud.ScreenTextRenderer.Enable();
+            _hud.ScreenTextRenderer.Text = "Game over!";
+
+            _gameListenersController.Pause();
         }
 
         private UnitView InstantiateCharacterView(Transform at, UnitView prefab)
