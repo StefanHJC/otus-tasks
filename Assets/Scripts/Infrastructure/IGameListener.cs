@@ -19,9 +19,9 @@ namespace ShootEmUp
         void OnAwake();
     }
 
-    public interface IStartListener : IGameListener
+    public interface IGameStartListener : IGameListener
     {
-        void OnStart();
+        void OnGameStart();
     }
 
     public interface IEnableListener : IGameListener

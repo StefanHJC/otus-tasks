@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public class ScreenCounter : ISceneEntity, IUIText, ISwitchable
+    public class ScreenTextRenderer : ISceneEntity, IUIText, ISwitchable
     {
         private readonly TMP_Text _counter;
 
@@ -19,7 +19,7 @@ namespace ShootEmUp
             set => _counter.text = value;
         }
 
-        public ScreenCounter(TMP_Text text)
+        public ScreenTextRenderer(TMP_Text text)
         {
             _counter = text;
         }

@@ -6,22 +6,48 @@ namespace ShootEmUp
     {
         private readonly GameListenersController _gameListenersController;
         private readonly AssetProvider _assets;
+        private readonly Transform _characterPosition;
+        private readonly CharacterController _character;
+        private readonly HUD _hud;
+        private readonly CharacterProvider _characterProvider;
+        private readonly UnitView _characterView;
 
-        public GameManager(GameListenersController gameListenersController, AssetProvider assets)
+        public GameManager(GameListenersController gameListenersController, AssetProvider assets, 
+            HUD hud, Transform characterPosition, CharacterProvider provider, UnitView characterView)
         {
             _gameListenersController = gameListenersController;
             _assets = assets;
+            _hud = hud;
+            _characterPosition = characterPosition;
+            _characterProvider = provider;
+            _characterView = characterView;
+
+            _hud.StartButton.Clicked += StartGame;
+            _hud.PauseButton.Clicked += PauseGame;
+            _hud.ResumeButton.Clicked += ResumeGame;
         }
 
         public void PauseGame() => _gameListenersController.Pause();
 
         public void ResumeGame() => _gameListenersController.Resume();
 
-        public UnitView StartGame(Transform characterPosition, UnitView unitView)
+        public async void StartGame()
         {
             //TODO start pre game counting
 
-            return InstantiateCharacterView(at: characterPosition, prefab: unitView);
+            InstallGameSessionBindings(InstantiateCharacterView(at: _characterPosition, prefab: _characterView));
+        }
+
+        private void InstallGameSessionBindings(UnitView view)
+        {
+            ServiceLocator.Bind<GameEndListener>(new GameEndListener(view.GetComponent<HitPointsComponent>(),
+                ServiceLocator.Get<GameManager>()));
+
+            ServiceLocator.Bind<CharacterController>(new CharacterController(
+                ServiceLocator.Get<InputManager>(),
+                ServiceLocator.Get<BulletSystem>(),
+                view));
+            _characterProvider.Character = ServiceLocator.Get<CharacterController>();
         }
 
         public void FinishGame()

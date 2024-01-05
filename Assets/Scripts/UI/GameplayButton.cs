@@ -40,6 +40,8 @@ namespace ShootEmUp
             _buttonText = button.GetComponent<TMP_Text>();
             Text = text;
             Position = position;
+
+            _button.onClick.AddListener( () => Clicked?.Invoke());
         }
 
         public void Enable() => _button.gameObject.SetActive(true);

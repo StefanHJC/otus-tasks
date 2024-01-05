@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ShootEmUp
 {
@@ -30,6 +32,14 @@ namespace ShootEmUp
         [Header("Game listeners controller")]
         [SerializeField] private GameListenersController _listenersController;
 
+        [Space]
+        [Header("UI")]
+        [SerializeField] private Canvas _hud;
+        [SerializeField] private Button _start;
+        [SerializeField] private Button _pause;
+        [SerializeField] private Button _resume;
+        [SerializeField] private TMP_Text _centerText;
+
         private CharacterProvider _characterProvider;
 
         private void Awake()
@@ -37,20 +47,7 @@ namespace ShootEmUp
             BindServices();
             StartGame();
         }
-
-        private void StartGame()
-        {
-            UnitView view = ServiceLocator.Get<GameManager>().StartGame(_characterStartPosition, _unitView);
-            ServiceLocator.Bind<GameEndListener>(new GameEndListener(view.GetComponent<HitPointsComponent>(),
-                ServiceLocator.Get<GameManager>()));
-
-            ServiceLocator.Bind<CharacterController>(new CharacterController(
-                ServiceLocator.Get<InputManager>(),
-                ServiceLocator.Get<BulletSystem>(),
-                view));
-            _characterProvider.Character = ServiceLocator.Get<CharacterController>();
-        }
-
+        
         private void BindServices()
         {
             ServiceLocator.Init(_listenersController);
@@ -59,8 +56,16 @@ namespace ShootEmUp
 
             ServiceLocator.Bind<Scheduler>(new Scheduler());
 
+            ServiceLocator.Bind<HUD>(InstantiateHUD());
+
             ServiceLocator.Bind<AssetProvider>(new AssetProvider());
-            ServiceLocator.Bind<GameManager>(new GameManager(_listenersController, ServiceLocator.Get<AssetProvider>()));
+            ServiceLocator.Bind<GameManager>(
+                new GameManager(_listenersController, 
+                ServiceLocator.Get<AssetProvider>(),
+                ServiceLocator.Get<HUD>(),
+                _characterStartPosition,
+                _characterProvider,
+                _unitView));
 
             ServiceLocator.Bind<BulletBuilder>(new BulletBuilder(_bulletPrefab, ServiceLocator.Get<AssetProvider>()));
             ServiceLocator.Bind<BulletPool>(new BulletPool(_bulletContainer, ServiceLocator.Get<BulletBuilder>(), _world));
@@ -75,6 +80,15 @@ namespace ShootEmUp
             ServiceLocator.Bind<InputManager>(new InputManager(_inputSchema));
 
             ServiceLocator.Bind<GameListenersController>(_listenersController);
+        }
+
+        private HUD InstantiateHUD()
+        {
+            return new HUD(
+                startButton: new GameplayButton(_start),
+                resumeButton: new GameplayButton(_resume),
+                pauseButton: new GameplayButton(_pause),
+                screenTextRenderer: new ScreenTextRenderer(_centerText));
         }
     }
 }

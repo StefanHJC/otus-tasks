@@ -52,7 +52,7 @@ namespace ShootEmUp
 
         private void Awake() => InvokeListeners<IAwakeListener>();
 
-        private void Start() => InvokeListeners<IStartListener>();
+        private void Start() => InvokeListeners<IGameStartListener>();
 
         private void Update()
         {
@@ -85,9 +85,9 @@ namespace ShootEmUp
 
                         break;
 
-                    case IStartListener:
-                        var startListener = (IStartListener)listener;
-                        startListener.OnStart();
+                    case IGameStartListener:
+                        var startListener = (IGameStartListener)listener;
+                        startListener.OnGameStart();
 
                         break;
 

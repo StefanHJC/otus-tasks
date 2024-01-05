@@ -1,20 +1,41 @@
-using UnityEngine.UI;
 
 namespace ShootEmUp
 {
-    public class HUD
+    public class HUD : IService
     {
-        private readonly GameplayButton _startButton;
-        private readonly GameplayButton _resumeButton;
-        private readonly GameplayButton _pauseButton;
-        private readonly ScreenCounter _screenCounter;
+        public readonly GameplayButton StartButton;
+        public readonly GameplayButton ResumeButton;
+        public readonly GameplayButton PauseButton;
+        public readonly ScreenTextRenderer ScreenTextRenderer;
 
-        public HUD(GameplayButton startButton, GameplayButton resumeButton, GameplayButton pauseButton, ScreenCounter screenCounter)
+        public HUD(GameplayButton startButton, GameplayButton resumeButton, GameplayButton pauseButton, ScreenTextRenderer screenTextRenderer)
         {
-            _startButton = startButton;
-            _resumeButton = resumeButton;
-            _pauseButton = pauseButton;
-            _screenCounter = screenCounter;
+            StartButton = startButton;
+            ResumeButton = resumeButton;
+            PauseButton = pauseButton;
+            ScreenTextRenderer = screenTextRenderer;
+
+            StartButton.Clicked += OnStartFired;
+            ResumeButton.Clicked += OnResumeFired;
+            PauseButton.Clicked += OnPauseFired;
+        }
+
+        private void OnStartFired()
+        {
+            ResumeButton.Enable();
+            StartButton.Disable();
+        }
+
+        private void OnResumeFired()
+        {
+            ResumeButton.Disable();
+            PauseButton.Enable();
+        }
+
+        private void OnPauseFired()
+        {
+            PauseButton.Disable();
+            ResumeButton.Enable();
         }
     }
 }
