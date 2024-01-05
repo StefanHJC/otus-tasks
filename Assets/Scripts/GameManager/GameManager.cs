@@ -48,7 +48,7 @@ namespace ShootEmUp
             while (i <= delayInSeconds)
             {
                 _hud.ScreenTextRenderer.Text = (delayInSeconds - i++).ToString();
-                await Task.Delay(1000);
+                await Task.Delay(millisecondsDelay: 1000);
             }
         }
 
