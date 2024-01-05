@@ -1,9 +1,12 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ShootEmUp
 {
     public sealed class GameManager : IService
     {
+        private const int GameStartDelay = 3;
+
         private readonly GameListenersController _gameListenersController;
         private readonly AssetProvider _assets;
         private readonly Transform _characterPosition;
@@ -22,7 +25,7 @@ namespace ShootEmUp
             _characterProvider = provider;
             _characterView = characterView;
 
-            _hud.StartButton.Clicked += StartGame;
+            _hud.StartButton.Clicked += StartGameAsync;
             _hud.PauseButton.Clicked += PauseGame;
             _hud.ResumeButton.Clicked += ResumeGame;
         }
@@ -31,11 +34,22 @@ namespace ShootEmUp
 
         public void ResumeGame() => _gameListenersController.Resume();
 
-        public async void StartGame()
+        public async void StartGameAsync()
         {
-            //TODO start pre game counting
+            await SetDelayAsync(delayInSeconds: GameStartDelay);
 
             InstallGameSessionBindings(InstantiateCharacterView(at: _characterPosition, prefab: _characterView));
+        }
+
+        private async Task SetDelayAsync(int delayInSeconds)
+        {
+            int i = 0;
+
+            while (i <= delayInSeconds)
+            {
+                _hud.ScreenTextRenderer.Text = (delayInSeconds - i++).ToString();
+                await Task.Delay(1000);
+            }
         }
 
         private void InstallGameSessionBindings(UnitView view)

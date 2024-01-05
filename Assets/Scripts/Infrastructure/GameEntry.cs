@@ -45,7 +45,6 @@ namespace ShootEmUp
         private void Awake()
         {
             BindServices();
-            StartGame();
         }
         
         private void BindServices()
