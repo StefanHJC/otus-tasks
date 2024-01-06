@@ -6,6 +6,7 @@ namespace ShootEmUp
     public sealed class BulletSystem : IService, IFixedUpdateListener, IGamePauseListener, IGameResumeListener, IGameEndListener
     {
         private readonly List<Bullet> _cache = new();
+        private readonly Dictionary<Bullet, Vector2> _frozenBullets = new();
         private LevelBounds _levelBounds;
         private BulletPool _bulletPool;
         private bool _isEnabled;
@@ -46,28 +47,39 @@ namespace ShootEmUp
             }
         }
 
-        public void OnPause() => StopBullets();
+        public void OnPause() => FreezeBullets();
 
-        public void OnResume() => MoveBullets();
+        public void OnResume() => UnfreezeBullets();
 
-        public void OnGameEnd() => StopBullets();
+        public void OnGameEnd() => FreezeBullets();
 
-        public void FlyBulletByArgs(Args args) => _bulletPool.SpawnBullet(args).CollisionHappened += OnBulletCollision;
+        public void FlyBulletByArgs(Args args)
+        {
+            if (!_isEnabled)
+                return;
 
-        private void StopBullets()
+            _bulletPool.SpawnBullet(args).CollisionHappened += OnBulletCollision;
+        }
+
+        private void FreezeBullets()
         {
             _isEnabled = false;
 
             foreach (Bullet activeBullet in _bulletPool.ActiveBullets)
-                activeBullet.GetComponent<Rigidbody2D>()?.Sleep();
+            {
+                _frozenBullets.Add(activeBullet, activeBullet.Rigidbody.velocity);
+                activeBullet.Rigidbody.velocity = Vector2.zero;
+            }
         }
 
-        private void MoveBullets()
+        private void UnfreezeBullets()
         {
             _isEnabled = true;
 
-            foreach (Bullet activeBullet in _bulletPool.ActiveBullets)
-                activeBullet.GetComponent<Rigidbody2D>()?.WakeUp();
+            foreach (Bullet frozenBullet in _frozenBullets.Keys)
+                frozenBullet.Rigidbody.velocity = _frozenBullets[frozenBullet];
+
+            _frozenBullets.Clear();
         }
 
         private void OnBulletCollision(Bullet bullet, Collision2D collision)
