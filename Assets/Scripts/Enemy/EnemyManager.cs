@@ -31,7 +31,7 @@ namespace ShootEmUp
 
         public void OnPause() => _isEnabled = false;
 
-        public void OnResume() => _isEnabled = false;
+        public void OnResume() => _isEnabled = true;
 
         private async void SpawnEnemiesAsync()
         {

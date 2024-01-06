@@ -20,11 +20,7 @@ namespace ShootEmUp
             PauseButton.Clicked += OnPauseFired;
         }
 
-        private void OnStartFired()
-        {
-            PauseButton.Enable();
-            StartButton.Disable();
-        }
+        private void OnStartFired() => StartButton.Disable();
 
         private void OnResumeFired()
         {

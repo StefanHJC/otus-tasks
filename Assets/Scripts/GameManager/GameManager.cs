@@ -39,14 +39,18 @@ namespace ShootEmUp
 
             InstallGameSessionBindings(InstantiateCharacterView(at: _characterPosition, prefab: _characterView));
             _gameListenersController.StartGame();
+            _hud.PauseButton.Enable();
         }
 
         public void FinishGame()
         {
             _hud.ScreenTextRenderer.Enable();
-            _hud.ScreenTextRenderer.Text = "Game over!";
+            _hud.PauseButton.Disable();
+            _hud.ResumeButton.Disable();
 
+            _hud.ScreenTextRenderer.Text = "Game over!";
             _gameListenersController.Pause();
+            _characterProvider.Character.View.Disable();
         }
 
         private async Task SetGameStartDelayAsync(int delayInSeconds)

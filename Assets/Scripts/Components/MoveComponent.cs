@@ -5,6 +5,7 @@ namespace ShootEmUp
     public interface IMoveComponent
     {
         void Move(Vector2 vector);
+        void Stop();
     }
 
     public sealed class MoveComponent : MonoBehaviour, IMoveComponent
@@ -17,5 +18,7 @@ namespace ShootEmUp
             Vector2 nextPosition = _rigidbody2D.position + vector * _speed;
             _rigidbody2D.MovePosition(nextPosition);
         }
+
+        public void Stop() => _rigidbody2D.velocity = Vector2.zero;
     }
 }

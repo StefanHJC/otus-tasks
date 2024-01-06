@@ -25,9 +25,6 @@ namespace ShootEmUp
 
         public void OnFixedUpdate()
         {
-            if (!_isEnabled) 
-                return;
-
             View.Movement.Move(new Vector2(_inputManager.HorizontalDirection, 0) * Time.fixedDeltaTime);
         }
 
