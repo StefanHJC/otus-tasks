@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyManager : IService, IGameStartListener, IGameEndListener
+    public sealed class EnemyManager : IService, IGameStartListener, IGamePauseListener, IGameResumeListener, IGameEndListener
     {
         private const int SpawnDelayInMs = 1000;
 
@@ -14,6 +14,7 @@ namespace ShootEmUp
         private EnemyPool _enemyPool;
         private BulletSystem _bulletSystem;
         private CancellationTokenSource _cts;
+        private bool _isEnabled;
 
         public EnemyManager(EnemyPositions enemyPositions, CharacterProvider characterProvider, EnemyPool enemyPool, BulletSystem bulletSystem)
         {
@@ -21,11 +22,16 @@ namespace ShootEmUp
             _characterProvider = characterProvider;
             _enemyPool = enemyPool;
             _bulletSystem = bulletSystem;
+            _isEnabled = true;
         }
 
         public void OnGameStart() => SpawnEnemiesAsync();
 
         public void OnGameEnd() => _cts.Cancel();
+
+        public void OnPause() => _isEnabled = false;
+
+        public void OnResume() => _isEnabled = false;
 
         private async void SpawnEnemiesAsync()
         {
@@ -34,7 +40,10 @@ namespace ShootEmUp
             while (_cts.IsCancellationRequested != true)
             {
                 await Task.Delay(SpawnDelayInMs, _cts.Token);
-
+                
+                if (!_isEnabled)
+                    continue;
+                
                 if (_enemyPool.TrySpawnEnemy(spawned: out EnemyController enemy))
                 {
                     _activeEnemies.Add(enemy);

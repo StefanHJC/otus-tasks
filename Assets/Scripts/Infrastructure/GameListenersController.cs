@@ -85,36 +85,26 @@ namespace ShootEmUp
                 {
                     var awakeListener = (IAwakeListener)listener;
                     awakeListener.OnAwake();
-
-                    break;
                 }
                 else if (type == typeof(IGameStartListener))
                 {
                     var startListener = (IGameStartListener)listener;
                     startListener.OnGameStart();
-
-                    break;
                 }
                 else if (type == typeof(IGameEndListener))
                 {
                     var endListener = (IGameEndListener)listener;
                     endListener.OnGameEnd();
-
-                    break;
                 }
                 else if (type == typeof(IGamePauseListener))
                 {
                     var pauseListener = (IGamePauseListener)listener;
                     pauseListener.OnPause();
-
-                    break;
                 }
                 else if (type == typeof(IGameResumeListener))
                 {
                     var resumeListener = (IGameResumeListener)listener;
                     resumeListener.OnResume();
-
-                    break;
                 }
             }
         }

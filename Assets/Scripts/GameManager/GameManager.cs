@@ -41,6 +41,14 @@ namespace ShootEmUp
             _gameListenersController.StartGame();
         }
 
+        public void FinishGame()
+        {
+            _hud.ScreenTextRenderer.Enable();
+            _hud.ScreenTextRenderer.Text = "Game over!";
+
+            _gameListenersController.Pause();
+        }
+
         private async Task SetGameStartDelayAsync(int delayInSeconds)
         {
             int i = 0;
@@ -64,14 +72,6 @@ namespace ShootEmUp
                 ServiceLocator.Get<BulletSystem>(),
                 view));
             _characterProvider.Character = ServiceLocator.Get<CharacterController>();
-        }
-
-        public void FinishGame()
-        {
-            _hud.ScreenTextRenderer.Enable();
-            _hud.ScreenTextRenderer.Text = "Game over!";
-
-            _gameListenersController.Pause();
         }
 
         private UnitView InstantiateCharacterView(Transform at, UnitView prefab)

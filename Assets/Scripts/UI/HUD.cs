@@ -22,7 +22,7 @@ namespace ShootEmUp
 
         private void OnStartFired()
         {
-            ResumeButton.Enable();
+            PauseButton.Enable();
             StartButton.Disable();
         }
 
