@@ -46,13 +46,15 @@ namespace ShootEmUp
             _updateListeners.Remove(listener as IUpdateListener) ||
             _fixedUpdateListeners.Remove(listener as IFixedUpdateListener);
 
+        public void StartGame() => InvokeListeners<IGameStartListener>();
+
+        public void EndGame() => InvokeListeners<IGameEndListener>();
+
         public void Pause() => InvokeListeners<IGamePauseListener>();
 
         public void Resume() => InvokeListeners<IGameResumeListener>();
 
         private void Awake() => InvokeListeners<IAwakeListener>();
-
-        private void Start() => InvokeListeners<IGameStartListener>();
 
         private void Update()
         {
@@ -66,6 +68,8 @@ namespace ShootEmUp
                 _fixedUpdateListeners[i].OnFixedUpdate();
         }
 
+        private void OnDestroy() => EndGame();
+
         private void InvokeListeners<T>() where T : class, IGameListener
         {
             Type type = typeof(T);
@@ -77,31 +81,40 @@ namespace ShootEmUp
             {
                 var listener = _gameListeners[type][i];
 
-                switch (type)
+                if (type == typeof(IAwakeListener))
                 {
-                    case IAwakeListener:
-                        var awakeListener = (IAwakeListener)listener;
-                        awakeListener.OnAwake();
+                    var awakeListener = (IAwakeListener)listener;
+                    awakeListener.OnAwake();
 
-                        break;
+                    break;
+                }
+                else if (type == typeof(IGameStartListener))
+                {
+                    var startListener = (IGameStartListener)listener;
+                    startListener.OnGameStart();
 
-                    case IGameStartListener:
-                        var startListener = (IGameStartListener)listener;
-                        startListener.OnGameStart();
+                    break;
+                }
+                else if (type == typeof(IGameEndListener))
+                {
+                    var endListener = (IGameEndListener)listener;
+                    endListener.OnGameEnd();
 
-                        break;
+                    break;
+                }
+                else if (type == typeof(IGamePauseListener))
+                {
+                    var pauseListener = (IGamePauseListener)listener;
+                    pauseListener.OnPause();
 
-                    case IGamePauseListener:
-                        var pauseListener = (IGamePauseListener)listener;
-                        pauseListener.OnPause();
+                    break;
+                }
+                else if (type == typeof(IGameResumeListener))
+                {
+                    var resumeListener = (IGameResumeListener)listener;
+                    resumeListener.OnResume();
 
-                        break;
-
-                    case IGameResumeListener:
-                        var resumeListener = (IGameResumeListener)listener;
-                        resumeListener.OnResume();
-
-                        break;
+                    break;
                 }
             }
         }

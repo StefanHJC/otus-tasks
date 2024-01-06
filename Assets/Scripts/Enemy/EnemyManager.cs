@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyManager : IService
+    public sealed class EnemyManager : IService, IGameStartListener, IGameEndListener
     {
         private const int SpawnDelayInMs = 1000;
 
@@ -21,9 +21,11 @@ namespace ShootEmUp
             _characterProvider = characterProvider;
             _enemyPool = enemyPool;
             _bulletSystem = bulletSystem;
-
-            SpawnEnemiesAsync();
         }
+
+        public void OnGameStart() => SpawnEnemiesAsync();
+
+        public void OnGameEnd() => _cts.Cancel();
 
         private async void SpawnEnemiesAsync()
         {

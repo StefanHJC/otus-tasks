@@ -37,15 +37,15 @@ namespace ShootEmUp
         public GameplayButton(Button button, string text=default, Vector2 position=default)
         {
             _button = button;
-            _buttonText = button.GetComponent<TMP_Text>();
-            Text = text;
-            Position = position;
+            _buttonText = button.GetComponentInChildren<TMP_Text>();
+            //Text = text;
+            //Position = position;
 
             _button.onClick.AddListener( () => Clicked?.Invoke());
         }
 
         public void Enable() => _button.gameObject.SetActive(true);
 
-        public void Disable() => _button.gameObject.SetActive(true);
+        public void Disable() => _button.gameObject.SetActive(false);
     }
 }

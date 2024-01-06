@@ -24,6 +24,12 @@ namespace ShootEmUp
         void OnGameStart();
     }
 
+
+    public interface IGameEndListener : IGameListener
+    {
+        void OnGameEnd();
+    }
+
     public interface IEnableListener : IGameListener
     {
         void OnEnable();

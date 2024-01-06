@@ -38,6 +38,7 @@ namespace ShootEmUp
             await SetGameStartDelayAsync(delayInSeconds: GameStartDelay);
 
             InstallGameSessionBindings(InstantiateCharacterView(at: _characterPosition, prefab: _characterView));
+            _gameListenersController.StartGame();
         }
 
         private async Task SetGameStartDelayAsync(int delayInSeconds)
