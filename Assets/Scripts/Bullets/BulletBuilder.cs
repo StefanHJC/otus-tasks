@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class BulletBuilder : IService
+    public sealed class BulletBuilder
     {
         private readonly AssetProvider _assetProvider;
         private readonly Bullet _prefab;

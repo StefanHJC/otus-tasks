@@ -27,16 +27,22 @@ namespace ShootEmUp
             _hud.ResumeButton.Clicked += ResumeGame;
         }
 
-        public void PauseGame() => _gameListenersController.Pause();
+        public void PauseGame()
+        {
+            //_gameListenersController.Pause();
+        }
 
-        public void ResumeGame() => _gameListenersController.Resume();
+        public void ResumeGame()
+        {
+            // _gameListenersController.Resume();
+        }
 
         public async void StartGameAsync()
         {
             await SetGameStartDelayAsync(delayInSeconds: GameStartDelay);
 
             InstallGameSessionBindings(InstantiateCharacterView(at: _characterPosition, prefab: _characterView));
-            _gameListenersController.StartGame();
+            //_gameListenersController.StartGame();
             _hud.PauseButton.Enable();
         }
 
@@ -47,7 +53,7 @@ namespace ShootEmUp
             _hud.ResumeButton.Disable();
 
             _hud.ScreenTextRenderer.Text = "Game over!";
-            _gameListenersController.Pause();
+            //_gameListenersController.Pause();
             _characterProvider.Character.View.Disable();
         }
 
@@ -66,14 +72,14 @@ namespace ShootEmUp
 
         private void InstallGameSessionBindings(UnitView view)
         {
-            ServiceLocator.Bind<GameEndListener>(new GameEndListener(view.GetComponent<HitPointsComponent>(),
-                ServiceLocator.Get<GameManager>()));
-
-            ServiceLocator.Bind<CharacterController>(new CharacterController(
-                ServiceLocator.Get<InputManager>(),
-                ServiceLocator.Get<BulletSystem>(),
-                view));
-            _characterProvider.Character = ServiceLocator.Get<CharacterController>();
+            // ServiceLocator.Bind<GameEndListener>(new GameEndListener(view.GetComponent<HitPointsComponent>(),
+            //     ServiceLocator.Get<GameManager>()));
+            //
+            // ServiceLocator.Bind<CharacterController>(new CharacterController(
+            //     ServiceLocator.Get<InputManager>(),
+            //     ServiceLocator.Get<BulletSystem>(),
+            //     view));
+            // _characterProvider.Character = ServiceLocator.Get<CharacterController>();
         }
 
         private UnitView InstantiateCharacterView(Transform at, UnitView prefab)

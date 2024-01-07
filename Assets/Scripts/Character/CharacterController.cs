@@ -8,8 +8,10 @@ namespace ShootEmUp
         private readonly InputManager _inputManager;
         private readonly BulletSystem _bulletSystem;
         private bool _isEnabled;
+        
         public UnitView View { get; private set; }
 
+        [Inject]
         public CharacterController(InputManager inputManager, BulletSystem bulletSystem, UnitView view)
         {
             _inputManager = inputManager;

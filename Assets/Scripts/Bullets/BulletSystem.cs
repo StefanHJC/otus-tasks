@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class BulletSystem : IService, IFixedUpdateListener, IGamePauseListener, IGameResumeListener, IGameEndListener
+    public sealed class BulletSystem : IFixedTickable
     {
         private readonly List<Bullet> _cache = new();
         private readonly Dictionary<Bullet, Vector2> _frozenBullets = new();
@@ -28,9 +29,9 @@ namespace ShootEmUp
             _isEnabled = true;
         }
 
-        public void OnFixedUpdate()
+        public void FixedTick()
         {
-            if (!_isEnabled) 
+            if (!_isEnabled)
                 return;
 
             _cache.Clear();
