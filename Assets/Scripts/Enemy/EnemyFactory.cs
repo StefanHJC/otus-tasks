@@ -1,27 +1,28 @@
 
+using Zenject;
+
 namespace ShootEmUp
 {
-    public class EnemyFactory : IService
+    public class EnemyFactory 
     {
         private readonly AssetProvider _assetProvider;
         private readonly UnitView _prefab;
-        private readonly GameListenersController _gameListenersController;
+        private readonly DiContainer _diContainer;
 
-        public EnemyFactory(UnitView prefab, GameListenersController gameListenersController, AssetProvider assetProvider)
+        [Inject]
+        public EnemyFactory(UnitView prefab, AssetProvider assetProvider, DiContainer diContainer)
         {
             _prefab = prefab;
             _assetProvider = assetProvider;
-            _gameListenersController = gameListenersController;
+            _diContainer = diContainer;
         }
 
         public EnemyController GetEnemy()
         {
             UnitView viewInstance = _assetProvider.Instantiate(_prefab);
 
-            var enemy = new EnemyController(viewInstance, viewInstance.GetComponent<HitPointsComponent>());
-            _gameListenersController.Add(enemy);
-
-            return enemy;
+            return _diContainer.Instantiate<EnemyController>(new object[]
+                { viewInstance, viewInstance.GetComponent<HitPointsComponent>() });
         }
     }
 }
