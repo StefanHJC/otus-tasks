@@ -1,8 +1,9 @@
 using System;
+using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class InputManager : IService, IUpdateListener, IGamePauseListener, IGameResumeListener, IGameEndListener
+    public sealed class InputManager : ITickable
     {
         private InputSchema _schema;
         private AttackInputListener _attackListener;
@@ -20,7 +21,7 @@ namespace ShootEmUp
             Init();
         }
 
-        public void OnUpdate()
+        public void Tick()
         {
             if (_isEnabled)
                 ListenInput();

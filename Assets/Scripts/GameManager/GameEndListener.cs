@@ -1,7 +1,7 @@
 
 namespace ShootEmUp
 {
-    public sealed class GameEndListener : IService
+    public sealed class GameEndListener
     {
         private HitPointsComponent _playerHealth;
         private GameManager _gameManager;

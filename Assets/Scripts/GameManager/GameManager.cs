@@ -3,21 +3,19 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class GameManager : IService
+    public sealed class GameManager
     {
         private const int GameStartDelay = 3;
 
-        private readonly GameListenersController _gameListenersController;
         private readonly AssetProvider _assets;
         private readonly Transform _characterPosition;
         private readonly CharacterProvider _characterProvider;
         private readonly UnitView _characterView;
         private readonly HUD _hud;
 
-        public GameManager(GameListenersController gameListenersController, AssetProvider assets, 
-            HUD hud, Transform characterPosition, CharacterProvider provider, UnitView characterView)
+        public GameManager(AssetProvider assets, HUD hud, Transform characterPosition, 
+            CharacterProvider provider, UnitView characterView)
         {
-            _gameListenersController = gameListenersController;
             _assets = assets;
             _hud = hud;
             _characterPosition = characterPosition;

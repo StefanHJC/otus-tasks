@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyManager : IService, IGameStartListener, IGamePauseListener, IGameResumeListener, IGameEndListener
+    public sealed class EnemyManager : IInitializable    
     {
         private const int SpawnDelayInMs = 1000;
 
@@ -25,7 +26,10 @@ namespace ShootEmUp
             _isEnabled = true;
         }
 
-        public void OnGameStart() => SpawnEnemiesAsync();
+        public void Initialize()
+        {
+            SpawnEnemiesAsync();
+        }
 
         public void OnGameEnd() => _cts.Cancel();
 

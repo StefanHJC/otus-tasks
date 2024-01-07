@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace ShootEmUp
 {
-    public class EnemyController : IService, IFixedUpdateListener, IGamePauseListener, IGameResumeListener
+    public class EnemyController : IFixedTickable
     {
         private readonly EnemyAttackAgent _attackAgent;
         private readonly EnemyMoveAgent _moveAgent;
@@ -27,11 +28,7 @@ namespace ShootEmUp
             _attackAgent.FirePerformed += (BulletSystem.Args args) => FirePerformed?.Invoke(args);
         }
 
-        public void OnPause() => _isEnabled = false;
-
-        public void OnResume() => _isEnabled = true;
-
-        public void OnFixedUpdate()
+        public void FixedTick()
         {
             if (!_isEnabled)
                 return;
@@ -39,6 +36,10 @@ namespace ShootEmUp
             _attackAgent.Update();
             _moveAgent.Update();
         }
+
+        public void OnPause() => _isEnabled = false;
+
+        public void OnResume() => _isEnabled = true;
 
         public void Attack(Transform target) => _attackAgent.SetTarget(target.GetComponent<HitPointsComponent>());
 

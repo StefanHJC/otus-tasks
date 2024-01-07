@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyPool : IService
+    public sealed class EnemyPool
     {
         private const int MaxEnemies = 7;
 

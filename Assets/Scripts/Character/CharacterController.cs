@@ -1,8 +1,9 @@
 using UnityEngine;
+using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class CharacterController : IService, IFixedUpdateListener, IGamePauseListener, IGameResumeListener
+    public sealed class CharacterController : IFixedTickable
     {
         private readonly InputManager _inputManager;
         private readonly BulletSystem _bulletSystem;
@@ -19,14 +20,14 @@ namespace ShootEmUp
             _inputManager.AttackActionPerformed += OnFlyBullet;
         }
 
-        public void OnPause() => _isEnabled = false;
-
-        public void OnResume() => _isEnabled = true;
-
-        public void OnFixedUpdate()
+        public void FixedTick()
         {
             View.Movement.Move(new Vector2(_inputManager.HorizontalDirection, 0) * Time.fixedDeltaTime);
         }
+
+        public void OnPause() => _isEnabled = false;
+
+        public void OnResume() => _isEnabled = true;
 
         private void OnFlyBullet()
         {

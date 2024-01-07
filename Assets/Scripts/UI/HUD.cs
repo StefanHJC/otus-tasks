@@ -1,7 +1,7 @@
 
 namespace ShootEmUp
 {
-    public class HUD : IService
+    public class HUD
     {
         public readonly GameplayButton StartButton;
         public readonly GameplayButton ResumeButton;
