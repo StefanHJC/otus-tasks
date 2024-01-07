@@ -53,8 +53,6 @@ namespace ShootEmUp
 
             _characterProvider = new CharacterProvider();
 
-            ServiceLocator.Bind<Scheduler>(new Scheduler());
-
             ServiceLocator.Bind<HUD>(InstantiateHUD());
 
             ServiceLocator.Bind<AssetProvider>(new AssetProvider());
