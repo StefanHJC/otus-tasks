@@ -1,7 +1,9 @@
 
+using System;
+
 namespace ShootEmUp
 {
-    public class HUD : IService
+    public class HUD : IService, IDisposable
     {
         public readonly GameplayButton StartButton;
         public readonly GameplayButton ResumeButton;
@@ -18,6 +20,13 @@ namespace ShootEmUp
             StartButton.Clicked += OnStartFired;
             ResumeButton.Clicked += OnResumeFired;
             PauseButton.Clicked += OnPauseFired;
+        }
+
+        public void Dispose()
+        {
+            StartButton.Clicked -= OnStartFired;
+            ResumeButton.Clicked -= OnResumeFired;
+            PauseButton.Clicked -= OnPauseFired;
         }
 
         private void OnStartFired() => StartButton.Disable();

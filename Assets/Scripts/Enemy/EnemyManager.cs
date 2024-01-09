@@ -4,7 +4,11 @@ using System.Threading.Tasks;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyManager : IService, IGameStartListener, IGamePauseListener, IGameResumeListener, IGameEndListener
+    public sealed class EnemyManager : IService,
+        IGameStartListener, 
+        IGamePauseListener, 
+        IGameResumeListener, 
+        IGameEndListener
     {
         private const int SpawnDelayInMs = 1000;
 

@@ -1,8 +1,13 @@
+using System;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class CharacterController : IService, IFixedUpdateListener, IGamePauseListener, IGameResumeListener
+    public sealed class CharacterController : IService, 
+        IFixedUpdateListener, 
+        IGamePauseListener, 
+        IGameResumeListener,
+        IDisposable
     {
         private readonly InputManager _inputManager;
         private readonly BulletSystem _bulletSystem;
@@ -27,6 +32,8 @@ namespace ShootEmUp
         {
             View.Movement.Move(new Vector2(_inputManager.HorizontalDirection, 0) * Time.fixedDeltaTime);
         }
+
+        public void Dispose() => _inputManager.AttackActionPerformed -= OnFlyBullet;
 
         private void OnFlyBullet()
         {

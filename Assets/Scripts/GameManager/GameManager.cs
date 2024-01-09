@@ -68,7 +68,7 @@ namespace ShootEmUp
 
         private void InstallGameSessionBindings(UnitView view)
         {
-            ServiceLocator.Bind<GameEndListener>(new GameEndListener(view.GetComponent<HitPointsComponent>(),
+            ServiceLocator.Bind<PlayerDeathListener>(new PlayerDeathListener(view.GetComponent<HitPointsComponent>(),
                 ServiceLocator.Get<GameManager>()));
 
             ServiceLocator.Bind<CharacterController>(new CharacterController(

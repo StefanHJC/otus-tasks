@@ -15,7 +15,11 @@ namespace ShootEmUp
         event Action Clicked;
     }
 
-    public class GameplayButton : ISceneEntity, IUIText, IClickable, ISwitchable
+    public class GameplayButton : ISceneEntity, 
+        IUIText, 
+        IClickable, 
+        ISwitchable,
+        IDisposable
     {
         private readonly Button _button;
         private readonly TMP_Text _buttonText;
@@ -41,11 +45,16 @@ namespace ShootEmUp
             //Text = text;
             //Position = position;
 
-            _button.onClick.AddListener( () => Clicked?.Invoke());
+            _button.onClick.AddListener(InvokeClickEvent);
         }
+
 
         public void Enable() => _button.gameObject.SetActive(true);
 
         public void Disable() => _button.gameObject.SetActive(false);
+
+        private void InvokeClickEvent() => Clicked?.Invoke();
+        
+        public void Dispose() => _button.onClick.RemoveListener(InvokeClickEvent);
     }
 }
