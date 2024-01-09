@@ -87,4 +87,30 @@ namespace ShootEmUp
             return unitViewInstance;
         }
     }
+
+    public class GameStateObserver
+    {
+        private readonly Game _game;
+
+        public GameState State => _game.State;
+
+        public GameStateObserver(Game game)
+        {
+            _game = game;
+        }
+    }
+
+    public class Game
+    {
+        public GameState State { get; set; }
+
+    }
+
+    public enum GameState
+    {
+        None,
+        Playing,
+        Ended,
+        Paused,
+    }
 }
