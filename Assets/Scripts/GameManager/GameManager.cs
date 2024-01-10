@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -64,6 +65,39 @@ namespace ShootEmUp
                 await Task.Delay(millisecondsDelay: 1000);
             }
             _hud.ScreenTextRenderer.Disable();
+        }
+
+        private void InstallGameSessionBindings(UnitView view)
+        {
+            ServiceLocator.Bind<PlayerDeathListener>(new PlayerDeathListener(view.GetComponent<HitPointsComponent>(),
+                ServiceLocator.Get<GameManager>()));
+
+            ServiceLocator.Bind<CharacterController>(new CharacterController(
+                ServiceLocator.Get<InputManager>(),
+                ServiceLocator.Get<BulletSystem>(),
+                view));
+            _characterProvider.Character = ServiceLocator.Get<CharacterController>();
+        }
+
+        private UnitView InstantiateCharacterView(Transform at, UnitView prefab)
+        {
+            UnitView unitViewInstance = _assets.Instantiate(prefab);
+            prefab.transform.position = at.position;
+            prefab.transform.rotation = at.rotation;
+
+            return unitViewInstance;
+        }
+    }
+
+    public class PlayerInstaller
+    {
+        private readonly CharacterProvider _characterProvider;
+        private readonly AssetProvider _assets;
+
+        public PlayerInstaller(CharacterProvider characterProvider, AssetProvider assets)
+        {
+            _characterProvider = characterProvider;
+            _assets = assets;
         }
 
         private void InstallGameSessionBindings(UnitView view)
