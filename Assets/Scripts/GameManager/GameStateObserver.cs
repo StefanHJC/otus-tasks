@@ -1,6 +1,6 @@
 namespace ShootEmUp
 {
-    public class GameStateObserver
+    public class GameStateObserver : IService
     {
         private readonly Game _game;
 

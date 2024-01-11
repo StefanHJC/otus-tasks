@@ -68,8 +68,7 @@ namespace ShootEmUp
 
         private void InstallGameSessionBindings(UnitView view)
         {
-            ServiceLocator.Bind<PlayerDeathListener>(new PlayerDeathListener(view.GetComponent<HitPointsComponent>(),
-                ServiceLocator.Get<GameManager>()));
+            ServiceLocator.Bind<PlayerDeathListener>(new PlayerDeathListener(view.GetComponent<HitPointsComponent>()));
 
             ServiceLocator.Bind<CharacterController>(new CharacterController(
                 ServiceLocator.Get<InputManager>(),
@@ -88,7 +87,7 @@ namespace ShootEmUp
         }
     }
 
-    public class GameLauncher
+    public class GameLauncher : IService
     {
         private const int GameStartDelay = 3;
 
@@ -107,13 +106,13 @@ namespace ShootEmUp
         {
             await SetGameStartDelayAsync(delayInSeconds: GameStartDelay);
 
-            _playerInstaller.InstallGameSessionBindings(_playerInstaller.InstantiateCharacterView(at: _characterPosition, prefab: _characterView));
+            _playerInstaller.InstallGameSessionBindings(_playerInstaller.InstantiateCharacterView());
             _gameListenersController.StartGame();
             _hud.PauseButton.Enable();
         }
 
-        private async Task SetGameStartDelayAsync(int delayInSeconds)
-        { // Implementation by KISS principle
+        private async Task SetGameStartDelayAsync(int delayInSeconds) // Implementation by KISS principle
+        {
             int i = 0;
             _hud.ScreenTextRenderer.Enable();
 
@@ -126,7 +125,7 @@ namespace ShootEmUp
         }
     }
 
-    public class PlayerInstaller
+    public class PlayerInstaller : IService
     {
         private readonly CharacterProvider _characterProvider;
         private readonly AssetProvider _assets;
@@ -143,8 +142,7 @@ namespace ShootEmUp
 
         public void InstallGameSessionBindings(UnitView view)
         {
-            ServiceLocator.Bind<PlayerDeathListener>(new PlayerDeathListener(view.GetComponent<HitPointsComponent>(),
-                ServiceLocator.Get<GameManager>()));
+            ServiceLocator.Bind<PlayerDeathListener>(new PlayerDeathListener(view.GetComponent<HitPointsComponent>()));
 
             ServiceLocator.Bind<CharacterController>(new CharacterController(
                 ServiceLocator.Get<InputManager>(),

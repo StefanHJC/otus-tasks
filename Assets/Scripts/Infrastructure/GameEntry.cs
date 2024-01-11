@@ -41,9 +41,12 @@ namespace ShootEmUp
         [SerializeField] private TMP_Text _centerText;
 
         private CharacterProvider _characterProvider;
+        private Game _game;
 
         private void Awake()
         {
+            _game = new Game();
+
             BindServices();
         }
         
@@ -56,14 +59,8 @@ namespace ShootEmUp
             ServiceLocator.Bind<HUD>(InstantiateHUD());
 
             ServiceLocator.Bind<AssetProvider>(new AssetProvider());
-            ServiceLocator.Bind<GameManager>(
-                new GameManager(_listenersController, 
-                ServiceLocator.Get<AssetProvider>(),
-                ServiceLocator.Get<HUD>(),
-                _characterStartPosition,
-                _characterProvider,
-                _unitView));
-
+            ServiceLocator.Bind<GameStateObserver>(new GameStateObserver(_game));
+            
             ServiceLocator.Bind<BulletBuilder>(new BulletBuilder(_bulletPrefab, ServiceLocator.Get<AssetProvider>()));
             ServiceLocator.Bind<BulletPool>(new BulletPool(_bulletContainer, ServiceLocator.Get<BulletBuilder>(), _world));
             ServiceLocator.Bind<BulletSystem>(new BulletSystem(_levelBounds, ServiceLocator.Get<BulletPool>()));
