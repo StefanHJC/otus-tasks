@@ -127,7 +127,7 @@ namespace ShootEmUp
         {
             EndGame();
 
-            _hud.StartButton.Clicked -= StartGame;
+            _hud.StartButton.Clicked -= StartGameAsync;
             _hud.PauseButton.Clicked -= Pause;
             _hud.ResumeButton.Clicked -= Resume;
             _playerDeathListener.PlayerDied -= EndGame;
