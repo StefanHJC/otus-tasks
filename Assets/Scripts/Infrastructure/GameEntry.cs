@@ -60,7 +60,14 @@ namespace ShootEmUp
 
             ServiceLocator.Bind<AssetProvider>(new AssetProvider());
             ServiceLocator.Bind<GameStateObserver>(new GameStateObserver(_game));
-            
+            ServiceLocator.Bind<PlayerInstaller>(new PlayerInstaller(_characterProvider, 
+                ServiceLocator.Get<AssetProvider>(), 
+                _unitView, 
+                _characterStartPosition));
+            ServiceLocator.Bind<GameLauncher>(new GameLauncher(ServiceLocator.Get<PlayerInstaller>(), 
+                _listenersController, 
+                ServiceLocator.Get<HUD>()));
+
             ServiceLocator.Bind<BulletBuilder>(new BulletBuilder(_bulletPrefab, ServiceLocator.Get<AssetProvider>()));
             ServiceLocator.Bind<BulletPool>(new BulletPool(_bulletContainer, ServiceLocator.Get<BulletBuilder>(), _world));
             ServiceLocator.Bind<BulletSystem>(new BulletSystem(_levelBounds, ServiceLocator.Get<BulletPool>()));
