@@ -38,12 +38,10 @@ namespace ShootEmUp
 
         public event Action Clicked;
 
-        public GameplayButton(Button button, string text=default, Vector2 position=default)
+        public GameplayButton(Button button)
         {
             _button = button;
             _buttonText = button.GetComponentInChildren<TMP_Text>();
-            //Text = text;
-            //Position = position;
 
             _button.onClick.AddListener(InvokeClickEvent);
         }

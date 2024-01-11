@@ -60,6 +60,7 @@ namespace ShootEmUp
 
             ServiceLocator.Bind<AssetProvider>(new AssetProvider());
             ServiceLocator.Bind<GameStateObserver>(new GameStateObserver(_game));
+            ServiceLocator.Bind<PlayerDeathListener>(new PlayerDeathListener(_characterProvider));
             ServiceLocator.Bind<PlayerInstaller>(new PlayerInstaller(_characterProvider, 
                 ServiceLocator.Get<AssetProvider>(), 
                 _unitView, 
@@ -67,6 +68,11 @@ namespace ShootEmUp
             ServiceLocator.Bind<GameLauncher>(new GameLauncher(ServiceLocator.Get<PlayerInstaller>(), 
                 _listenersController, 
                 ServiceLocator.Get<HUD>()));
+
+            _listenersController.Construct(_game, 
+                ServiceLocator.Get<HUD>(), 
+                ServiceLocator.Get<GameLauncher>(),
+                ServiceLocator.Get<PlayerDeathListener>());
 
             ServiceLocator.Bind<BulletBuilder>(new BulletBuilder(_bulletPrefab, ServiceLocator.Get<AssetProvider>()));
             ServiceLocator.Bind<BulletPool>(new BulletPool(_bulletContainer, ServiceLocator.Get<BulletBuilder>(), _world));

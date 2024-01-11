@@ -1,22 +1,21 @@
-
 using System;
 
 namespace ShootEmUp
 {
     public sealed class PlayerDeathListener : IService, IDisposable
     {
-        private HitPointsComponent _playerHealth;
+        private CharacterProvider  _characterProvider;
 
         public event Action PlayerDied;
 
-        public PlayerDeathListener(HitPointsComponent playerHealth)
+        public PlayerDeathListener(CharacterProvider characterProvider)
         {
-            _playerHealth = playerHealth;
+            _characterProvider = characterProvider;
 
-            _playerHealth.DeathHappened += OnPlayerDeath;
+            _characterProvider.CharacterDied += OnPlayerDeath;
         }
 
-        public void Dispose() => _playerHealth.DeathHappened -= OnPlayerDeath;
+        public void Dispose() => _characterProvider.CharacterDied -= OnPlayerDeath;
 
         private void OnPlayerDeath() => PlayerDied?.Invoke();
     }

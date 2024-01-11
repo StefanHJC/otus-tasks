@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace ShootEmUp
 {
-    public class GameLauncher : IService
+    public sealed class GameLauncher : IService
     {
         private const int GameStartDelay = 3;
 
@@ -17,12 +17,11 @@ namespace ShootEmUp
             _hud = hud;
         }
 
-        public async void StartGameAsync()
+        public async Task StartGameAsync()
         {
             await SetGameStartDelayAsync(delayInSeconds: GameStartDelay);
 
             _playerInstaller.InstallGameSessionBindings(_playerInstaller.InstantiateCharacterView());
-            _gameListenersController.StartGame();
             _hud.PauseButton.Enable();
         }
 

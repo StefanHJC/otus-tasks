@@ -10,6 +10,23 @@ namespace ShootEmUp
         private Dictionary<Type, List<IGameListener>> _gameListeners = new Dictionary<Type, List<IGameListener>>();
         private List<IUpdateListener> _updateListeners = new List<IUpdateListener>();
         private List<IFixedUpdateListener> _fixedUpdateListeners = new List<IFixedUpdateListener>();
+        private Game _game;
+        private HUD _hud;
+        private PlayerDeathListener _playerDeathListener;
+        private GameLauncher _gameLauncher;
+
+        public void Construct(Game game, HUD hud, GameLauncher gameLauncher, PlayerDeathListener playerDeathListener)
+        {
+            _game = game;
+            _hud = hud;
+            _playerDeathListener = playerDeathListener;
+            _gameLauncher = gameLauncher;
+
+            _hud.StartButton.Clicked += StartGameAsync;
+            _hud.PauseButton.Clicked += Pause;
+            _hud.ResumeButton.Clicked += Resume;
+            _playerDeathListener.PlayerDied += EndGame;
+        }
 
         public void Add(IGameListener listener)
         {
@@ -46,29 +63,75 @@ namespace ShootEmUp
             _updateListeners.Remove(listener as IUpdateListener) ||
             _fixedUpdateListeners.Remove(listener as IFixedUpdateListener);
 
-        public void StartGame() => InvokeListeners<IGameStartListener>();
+        public async void StartGameAsync()
+        {
+            if (_game.State != GameState.None)
+                return;
 
-        public void EndGame() => InvokeListeners<IGameEndListener>();
+            await _gameLauncher.StartGameAsync();
+            
+            InvokeListeners<IGameStartListener>();
+            _game.State = GameState.Playing;
+        }
 
-        public void Pause() => InvokeListeners<IGamePauseListener>();
+        public void EndGame()
+        {
+            if (_game.State != GameState.Playing || _game.State != GameState.Paused)
+                return;
 
-        public void Resume() => InvokeListeners<IGameResumeListener>();
+            _hud.ScreenTextRenderer.Enable();
+            _hud.ScreenTextRenderer.Text = "Game over!!!";
+            InvokeListeners<IGameEndListener>();
+            _game.State = GameState.None;
+        }
+
+        public void Pause()
+        {
+            if (_game.State != GameState.Playing)
+                return;
+
+            InvokeListeners<IGamePauseListener>();
+            _game.State = GameState.Paused;
+        }
+
+        public void Resume()
+        {
+            if (_game.State != GameState.Paused)
+                return;
+
+            InvokeListeners<IGameResumeListener>();
+            _game.State = GameState.Playing;
+        }
 
         private void Awake() => InvokeListeners<IAwakeListener>();
 
         private void Update()
         {
+            if (_game.State != GameState.Playing)
+                return;
+
             for (int i = 0; i < _updateListeners.Count; i++) 
                 _updateListeners[i].OnUpdate();
         }
 
         private void FixedUpdate()
         {
+            if (_game.State != GameState.Playing)
+                return;
+
             for (int i = 0; i < _fixedUpdateListeners.Count; i++)
                 _fixedUpdateListeners[i].OnFixedUpdate();
         }
 
-        private void OnDestroy() => EndGame();
+        private void OnDestroy()
+        {
+            EndGame();
+
+            _hud.StartButton.Clicked -= StartGame;
+            _hud.PauseButton.Clicked -= Pause;
+            _hud.ResumeButton.Clicked -= Resume;
+            _playerDeathListener.PlayerDied -= EndGame;
+        }
 
         private void InvokeListeners<T>() where T : class, IGameListener
         {
