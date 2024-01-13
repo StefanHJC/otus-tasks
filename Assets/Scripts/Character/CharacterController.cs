@@ -5,13 +5,11 @@ namespace ShootEmUp
 {
     public sealed class CharacterController : IService, 
         IFixedUpdateListener, 
-        IGamePauseListener, 
-        IGameResumeListener,
         IDisposable
     {
         private readonly InputManager _inputManager;
         private readonly BulletSystem _bulletSystem;
-        private bool _isEnabled;
+        
         public UnitView View { get; private set; }
 
         public CharacterController(InputManager inputManager, BulletSystem bulletSystem, UnitView view)
@@ -19,14 +17,9 @@ namespace ShootEmUp
             _inputManager = inputManager;
             _bulletSystem = bulletSystem;
             View = view;
-            _isEnabled = true;
 
             _inputManager.AttackActionPerformed += OnFlyBullet;
         }
-
-        public void OnPause() => _isEnabled = false;
-
-        public void OnResume() => _isEnabled = true;
 
         public void OnFixedUpdate()
         {
@@ -35,12 +28,6 @@ namespace ShootEmUp
 
         public void Dispose() => _inputManager.AttackActionPerformed -= OnFlyBullet;
 
-        private void OnFlyBullet()
-        {
-            if (!_isEnabled)
-                return;
-
-            _bulletSystem.FlyBulletByArgs(View.Weapon.GetBulletArgs(Vector2.zero));
-        }
+        private void OnFlyBullet() => _bulletSystem.FlyBulletByArgs(View.Weapon.GetBulletArgs(Vector2.zero));
     }
 }

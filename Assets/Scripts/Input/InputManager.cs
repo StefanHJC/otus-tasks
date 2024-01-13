@@ -48,9 +48,9 @@ namespace ShootEmUp
         }
 
         private void ListenInput()
-        {
+        {/*
             _attackListener.Update();
-            _moveListener.Update();
+            _moveListener.Update();*/
         }
 
         private void InvokeAttackEvent() => AttackActionPerformed?.Invoke();

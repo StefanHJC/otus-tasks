@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class AttackInputListener
+    public sealed class AttackInputListener : IService, IUpdateListener
     {
         private readonly KeyCode _attackKey;
         
@@ -14,9 +14,9 @@ namespace ShootEmUp
             _attackKey = attackKey;
         }
 
-        public void Update()
+        public void OnUpdate()
         {
-            if (Input.GetKeyDown(_attackKey)) 
+            if (Input.GetKeyDown(_attackKey))
                 AttackActionPerformed?.Invoke();
         }
     }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class MoveInputListener
+    public sealed class MoveInputListener : IService, IUpdateListener
     {
         private readonly KeyCode _moveLeftKey;
         private readonly KeyCode _moveRightKey;
@@ -15,7 +15,7 @@ namespace ShootEmUp
             _moveRightKey = moveRightKey;
         }
 
-        public void Update()
+        public void OnUpdate()
         {
             if (Input.GetKey(_moveLeftKey))
             {

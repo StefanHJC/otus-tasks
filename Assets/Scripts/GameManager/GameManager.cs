@@ -38,7 +38,7 @@ namespace ShootEmUp
             await SetGameStartDelayAsync(delayInSeconds: GameStartDelay);
 
             InstallGameSessionBindings(InstantiateCharacterView(at: _characterPosition, prefab: _characterView));
-            _gameListenersController.StartGame();
+            //_gameListenersController.StartGame();
             _hud.PauseButton.Enable();
         }
 
@@ -68,7 +68,7 @@ namespace ShootEmUp
 
         private void InstallGameSessionBindings(UnitView view)
         {
-            ServiceLocator.Bind<PlayerDeathListener>(new PlayerDeathListener(view.GetComponent<HitPointsComponent>()));
+            //ServiceLocator.Bind<PlayerDeathListener>(new PlayerDeathListener(view.GetComponent<HitPointsComponent>()));
 
             ServiceLocator.Bind<CharacterController>(new CharacterController(
                 ServiceLocator.Get<InputManager>(),
