@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyMoveAgent
+    public sealed class EnemyMoveAgent : IService, IFixedUpdateListener
     {
         private const float DestinationReachEpsilon = 0.25f;
         
@@ -19,17 +19,17 @@ namespace ShootEmUp
             _view = view;
         }
 
-        public void Update()
+        public void OnFixedUpdate()
         {
             if (_isReached)
                 return;
 
             Vector2 vector = _destination - _view.Position;
-            
+
             if (vector.magnitude <= DestinationReachEpsilon)
             {
                 _isReached = true;
-                
+
                 return;
             }
 

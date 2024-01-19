@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyAttackAgent
+    public sealed class EnemyAttackAgent : IService, IFixedUpdateListener
     {
         private readonly IWeaponComponent _weaponComponent;
         private readonly MovementObserver _movementObserver;
@@ -22,7 +22,7 @@ namespace ShootEmUp
              _movementObserver = movementObserver;
         }
 
-        public void Update()
+        public void OnFixedUpdate()
         {
             _currentTime -= Time.fixedDeltaTime;
 

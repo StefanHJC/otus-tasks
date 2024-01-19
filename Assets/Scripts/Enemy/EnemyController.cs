@@ -3,18 +3,15 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public class EnemyController : IService, 
-        IFixedUpdateListener, 
-        IGamePauseListener, 
-        IGameResumeListener,
-        IDisposable
+    public class EnemyController : IService, IDisposable
     {
         private readonly EnemyAttackAgent _attackAgent;
         private readonly EnemyMoveAgent _moveAgent;
         private readonly MovementObserver _movementObserver;
         private readonly HitPointsComponent _hitPointsComponent;
-        private bool _isEnabled;
 
+        public EnemyAttackAgent AttackAgent => _attackAgent;
+        public EnemyMoveAgent MoveAgent => _moveAgent;
         public UnitView View { get; private set; }
 
         public event Action<BulletSystem.Args> FirePerformed;
@@ -27,26 +24,10 @@ namespace ShootEmUp
             _attackAgent = new EnemyAttackAgent(view, _movementObserver);
             _hitPointsComponent = hitPoints;
             View = view;
-            _isEnabled = true;
 
             _hitPointsComponent.DeathHappened += InvokeDeathEvent;
             _attackAgent.FirePerformed += InvokeFireEvent;
         }
-
-
-        public void OnPause() => _isEnabled = false;
-
-        public void OnResume() => _isEnabled = true;
-
-        public void OnFixedUpdate()
-        {
-            if (!_isEnabled)
-                return;
-
-            _attackAgent.Update();
-            _moveAgent.Update();
-        }
-
 
         public void Dispose()
         {
