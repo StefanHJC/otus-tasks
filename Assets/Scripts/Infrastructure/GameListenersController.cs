@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +7,9 @@ namespace ShootEmUp
 {
     public sealed class GameListenersController : MonoBehaviour, IService
     {
-        private Dictionary<Type, List<IGameListener>> _gameListeners = new Dictionary<Type, List<IGameListener>>();
-        private List<IUpdateListener> _updateListeners = new List<IUpdateListener>();
-        private List<IFixedUpdateListener> _fixedUpdateListeners = new List<IFixedUpdateListener>();
+        private Dictionary<Type, List<IGameListener>> _gameListeners = new();
+        private List<IUpdateListener> _updateListeners = new();
+        private List<IFixedUpdateListener> _fixedUpdateListeners = new();
         private Game _game;
         private HUD _hud;
         private PlayerDeathListener _playerDeathListener;

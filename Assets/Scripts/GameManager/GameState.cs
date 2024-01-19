@@ -4,7 +4,6 @@ namespace ShootEmUp
     {
         None,
         Playing,
-        Ended,
         Paused,
     }
 }

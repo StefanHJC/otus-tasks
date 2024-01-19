@@ -3,10 +3,8 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class LevelBackground : MonoBehaviour
+    public sealed class LevelBackground : IService, IFixedUpdateListener
     {
-        [SerializeField] private Params _params;
-
         private Transform _myTransform;
         private float _startPositionY;
         private float _endPositionY;
@@ -22,28 +20,28 @@ namespace ShootEmUp
             [SerializeField] public float MovingSpeedY;
         }
 
-        private void Awake()
+        public LevelBackground(Params pParams, Transform backgroundParent)
         {
-            _startPositionY = _params.StartPositionY;
-            _endPositionY = _params.EndPositionY;
-            _movingSpeedY = _params.MovingSpeedY;
-            _myTransform = transform;
+            _startPositionY = pParams.StartPositionY;
+            _endPositionY = pParams.EndPositionY;
+            _movingSpeedY = pParams.MovingSpeedY;
+            _myTransform = backgroundParent;
             _positionX = _myTransform.position.x;
             _positionZ = _myTransform.position.z;
         }
 
-        private void FixedUpdate()
+        public void OnFixedUpdate()
         {
             if (_myTransform.position.y <= _endPositionY)
             {
-                    _myTransform.position = new Vector3(
+                _myTransform.position = new Vector3(
                     _positionX,
                     _startPositionY,
                     _positionZ);
             }
 
             _myTransform.position -= new Vector3(
-                _positionX, 
+                _positionX,
                 _movingSpeedY * Time.fixedDeltaTime,
                 _positionZ);
         }
