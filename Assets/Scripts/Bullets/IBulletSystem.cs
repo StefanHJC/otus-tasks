@@ -5,6 +5,6 @@ namespace ShootEmUp
         void OnPause();
         void OnResume();
         void OnGameEnd();
-        void FlyBulletByArgs(BulletSystem.Args args);
+        void FlyBulletByArgs(BulletSystemArgs args);
     }
 }

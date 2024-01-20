@@ -14,7 +14,7 @@ namespace ShootEmUp
 
         public float Countdown { get; set; } = 1;
 
-        public event Action<BulletSystem.Args> FirePerformed;
+        public event Action<BulletSystemArgs> FirePerformed;
 
         public EnemyAttackAgent(IUnitView view, MovementObserver movementObserver)
         {

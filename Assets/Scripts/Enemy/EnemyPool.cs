@@ -10,9 +10,9 @@ namespace ShootEmUp
         private readonly Queue<EnemyController> _pool = new();
         private readonly Transform _container;
         private readonly Transform _worldTransform;
-        private readonly EnemyFactory _factory;
+        private readonly IEnemyFactory _factory;
 
-        public EnemyPool(Transform container, Transform world, EnemyFactory factory)
+        public EnemyPool(Transform container, Transform world, IEnemyFactory factory)
         {
             _container = container;
             _worldTransform = world;

@@ -4,9 +4,9 @@ namespace ShootEmUp
 {
     public sealed class EnemyWeaponComponent : WeaponComponent
     {
-        public override BulletSystem.Args GetBulletArgs(Vector2 targetPos)
+        public override BulletSystemArgs GetBulletArgs(Vector2 targetPos)
         {
-            BulletSystem.Args bulletArgs = base.GetBulletArgs(targetPos);
+            BulletSystemArgs bulletArgs = base.GetBulletArgs(targetPos);
 
             bulletArgs.Velocity = GetDirectionToTarget(targetPos) * Config.Speed;
             bulletArgs.IsPlayer = false;

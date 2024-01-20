@@ -5,12 +5,12 @@ namespace ShootEmUp
 {
     public class EnemyFactory : IEnemyFactory
     {
-        private readonly AssetProvider _assetProvider;
+        private readonly IAssetProvider _assetProvider;
         private readonly UnitView _prefab;
         private readonly DiContainer _diContainer;
 
         [Inject]
-        public EnemyFactory(UnitView prefab, AssetProvider assetProvider, DiContainer diContainer)
+        public EnemyFactory(UnitView prefab, IAssetProvider assetProvider, DiContainer diContainer)
         {
             _prefab = prefab;
             _assetProvider = assetProvider;

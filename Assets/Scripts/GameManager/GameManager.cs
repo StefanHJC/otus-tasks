@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
 namespace ShootEmUp
 {
@@ -7,13 +8,14 @@ namespace ShootEmUp
     {
         private const int GameStartDelay = 3;
 
-        private readonly AssetProvider _assets;
+        private readonly IAssetProvider _assets;
         private readonly Transform _characterPosition;
         private readonly CharacterProvider _characterProvider;
         private readonly UnitView _characterView;
-        private readonly HUD _hud;
+        private readonly IHUD _hud;
 
-        public GameManager(AssetProvider assets, HUD hud, Transform characterPosition, 
+        [Inject]
+        public GameManager(IAssetProvider assets, IHUD hud, Transform characterPosition, 
             CharacterProvider provider, UnitView characterView)
         {
             _assets = assets;

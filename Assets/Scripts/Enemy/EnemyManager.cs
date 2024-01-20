@@ -12,12 +12,12 @@ namespace ShootEmUp
         private readonly HashSet<EnemyController> _activeEnemies = new();
         private EnemyPositions _enemyPositions;
         private CharacterProvider _characterProvider;
-        private EnemyPool _enemyPool;
-        private BulletSystem _bulletSystem;
+        private IEnemyPool _enemyPool;
+        private IBulletSystem _bulletSystem;
         private CancellationTokenSource _cts;
         private bool _isEnabled;
 
-        public EnemyManager(EnemyPositions enemyPositions, CharacterProvider characterProvider, EnemyPool enemyPool, BulletSystem bulletSystem)
+        public EnemyManager(EnemyPositions enemyPositions, CharacterProvider characterProvider, IEnemyPool enemyPool, IBulletSystem bulletSystem)
         {
             _enemyPositions = enemyPositions;
             _characterProvider = characterProvider;
@@ -80,6 +80,6 @@ namespace ShootEmUp
             }
         }
 
-        private void OnFire(BulletSystem.Args bulletArgs) => _bulletSystem.FlyBulletByArgs(bulletArgs);
+        private void OnFire(BulletSystemArgs bulletArgs) => _bulletSystem.FlyBulletByArgs(bulletArgs);
     }
 }

@@ -6,13 +6,13 @@ namespace ShootEmUp
     public sealed class CharacterController : IFixedTickable
     {
         private readonly InputManager _inputManager;
-        private readonly BulletSystem _bulletSystem;
+        private readonly IBulletSystem _bulletSystem;
         private bool _isEnabled;
         
         public UnitView View { get; private set; }
 
         [Inject]
-        public CharacterController(InputManager inputManager, BulletSystem bulletSystem, UnitView view)
+        public CharacterController(InputManager inputManager, IBulletSystem bulletSystem, UnitView view)
         {
             _inputManager = inputManager;
             _bulletSystem = bulletSystem;

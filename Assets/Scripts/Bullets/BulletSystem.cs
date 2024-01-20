@@ -4,25 +4,26 @@ using Zenject;
 
 namespace ShootEmUp
 {
+    public struct BulletSystemArgs
+    {
+        public Vector2 Position;
+        public Vector2 Velocity;
+        public Color Color;
+        public int PhysicsLayer;
+        public int Damage;
+        public bool IsPlayer;
+    }
+
     public sealed class BulletSystem : IFixedTickable, IBulletSystem
     {
         private readonly List<Bullet> _cache = new();
         private readonly Dictionary<Bullet, Vector2> _frozenBullets = new();
         private LevelBounds _levelBounds;
-        private BulletPool _bulletPool;
+        private IBulletPool _bulletPool;
         private bool _isEnabled;
 
-        public struct Args
-        {
-            public Vector2 Position;
-            public Vector2 Velocity;
-            public Color Color;
-            public int PhysicsLayer;
-            public int Damage;
-            public bool IsPlayer;
-        }
-
-        public BulletSystem(LevelBounds levelBounds, BulletPool bulletPool)
+        [Inject]
+        public BulletSystem(LevelBounds levelBounds, IBulletPool bulletPool)
         {
             _levelBounds = levelBounds;
             _bulletPool = bulletPool;
@@ -54,12 +55,12 @@ namespace ShootEmUp
 
         public void OnGameEnd() => FreezeBullets();
 
-        public void FlyBulletByArgs(Args args)
+        public void FlyBulletByArgs(BulletSystemArgs bulletSystemArgs)
         {
             if (!_isEnabled)
                 return;
 
-            _bulletPool.SpawnBullet(args).CollisionHappened += OnBulletCollision;
+            _bulletPool.SpawnBullet(bulletSystemArgs).CollisionHappened += OnBulletCollision;
         }
 
         private void FreezeBullets()

@@ -7,7 +7,7 @@ namespace ShootEmUp
         Vector2 Position { get; }
         Quaternion Rotation { get; }
         
-        BulletSystem.Args GetBulletArgs(Vector2 targetPos);
+        BulletSystemArgs GetBulletArgs(Vector2 targetPos);
     }
 
     public abstract class WeaponComponent : MonoBehaviour, IWeaponComponent
@@ -20,8 +20,8 @@ namespace ShootEmUp
 
         public Quaternion Rotation => _firePoint.rotation;
 
-        public virtual BulletSystem.Args GetBulletArgs(Vector2 targetPos) =>
-            new BulletSystem.Args()
+        public virtual BulletSystemArgs GetBulletArgs(Vector2 targetPos) =>
+            new BulletSystemArgs()
             {
                 Position = Position,
                 Color = Config.Color,

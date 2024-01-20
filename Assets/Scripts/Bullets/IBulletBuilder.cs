@@ -5,11 +5,11 @@ namespace ShootEmUp
     public interface IBulletBuilder
     {
         Bullet BulletInstance { get; }
-        BulletBuilder BuildBullet();
-        BulletBuilder SetVelocity(Vector2 velocity);
-        BulletBuilder SetPhysicsLayer(int physicsLayer);
-        BulletBuilder SetPosition(Vector3 position);
-        BulletBuilder SetParent(Transform parent);
-        BulletBuilder SetColor(Color color);
+        IBulletBuilder BuildBullet();
+        IBulletBuilder SetVelocity(Vector2 velocity);
+        IBulletBuilder SetPhysicsLayer(int physicsLayer);
+        IBulletBuilder SetPosition(Vector3 position);
+        IBulletBuilder SetParent(Transform parent);
+        IBulletBuilder SetColor(Color color);
     }
 }

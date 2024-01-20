@@ -13,7 +13,7 @@ namespace ShootEmUp
 
         public UnitView View { get; private set; }
 
-        public event Action<BulletSystem.Args> FirePerformed;
+        public event Action<BulletSystemArgs> FirePerformed;
         public event Action<EnemyController> Died;
 
         public EnemyController(UnitView view, HitPointsComponent hitPoints)
@@ -25,7 +25,7 @@ namespace ShootEmUp
             _isEnabled = true;
 
             hitPoints.DeathHappened += () => Died?.Invoke(this);
-            _attackAgent.FirePerformed += (BulletSystem.Args args) => FirePerformed?.Invoke(args);
+            _attackAgent.FirePerformed += (BulletSystemArgs args) => FirePerformed?.Invoke(args);
         }
 
         public void FixedTick()

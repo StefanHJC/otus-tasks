@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ShootEmUp
 {
@@ -10,12 +11,13 @@ namespace ShootEmUp
         private readonly Queue<Bullet> _bulletPool = new();
         private readonly HashSet<Bullet> _activeBullets = new();
         private Transform _container;
-        private BulletBuilder _builder;
         private Transform _worldTransform;
+        private IBulletBuilder _builder;
 
         public IReadOnlyCollection<Bullet> ActiveBullets => _activeBullets;
 
-        public BulletPool(Transform container, BulletBuilder builder, Transform world)
+        [Inject]
+        public BulletPool(Transform container, IBulletBuilder builder, Transform world)
         {
             _container = container;
             _builder = builder;
@@ -34,7 +36,7 @@ namespace ShootEmUp
             }
         }
 
-        public Bullet SpawnBullet(BulletSystem.Args args)
+        public Bullet SpawnBullet(BulletSystemArgs args)
         {
             Bullet bullet = _bulletPool.Count > 0 ? GetFromPool(args) : BuildNew(args);
 
@@ -55,7 +57,7 @@ namespace ShootEmUp
             return false;
         }
 
-        private Bullet BuildNew(BulletSystem.Args args)
+        private Bullet BuildNew(BulletSystemArgs args)
         {
             Bullet bullet = _builder.
                 BuildBullet().
@@ -73,7 +75,7 @@ namespace ShootEmUp
             return bullet;
         }
 
-        private Bullet GetFromPool(BulletSystem.Args args)
+        private Bullet GetFromPool(BulletSystemArgs args)
         {
             Bullet bullet = _bulletPool.Dequeue();
 
