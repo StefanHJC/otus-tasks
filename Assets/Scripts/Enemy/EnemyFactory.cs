@@ -3,7 +3,7 @@ using Zenject;
 
 namespace ShootEmUp
 {
-    public class EnemyFactory 
+    public class EnemyFactory : IEnemyFactory
     {
         private readonly AssetProvider _assetProvider;
         private readonly UnitView _prefab;

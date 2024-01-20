@@ -4,7 +4,7 @@ using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class BulletSystem : IFixedTickable
+    public sealed class BulletSystem : IFixedTickable, IBulletSystem
     {
         private readonly List<Bullet> _cache = new();
         private readonly Dictionary<Bullet, Vector2> _frozenBullets = new();

@@ -11,7 +11,11 @@ namespace ShootEmUp
 
         private void BindAssetProvider()
         {
-            Container.Bind<AssetProvider>().FromNew().AsSingle().Lazy();
+            Container.Bind<IAssetProvider>().
+                To<AssetProvider>().
+                FromNew().
+                AsSingle().
+                Lazy();
         }
     }
 }

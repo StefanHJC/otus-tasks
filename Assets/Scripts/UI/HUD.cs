@@ -1,19 +1,24 @@
 
 namespace ShootEmUp
 {
-    public class HUD
+    public class HUD : IHUD
     {
-        public readonly GameplayButton StartButton;
-        public readonly GameplayButton ResumeButton;
-        public readonly GameplayButton PauseButton;
-        public readonly ScreenTextRenderer ScreenTextRenderer;
+        private readonly GameplayButton _startButton;
+        private readonly GameplayButton _resumeButton;
+        private readonly GameplayButton _pauseButton;
+        private readonly ScreenTextRenderer _screenTextRenderer;
+
+        public GameplayButton StartButton => _startButton;
+        public GameplayButton ResumeButton => _resumeButton;
+        public GameplayButton PauseButton => _pauseButton;
+        public ScreenTextRenderer ScreenTextRenderer => _screenTextRenderer;
 
         public HUD(GameplayButton startButton, GameplayButton resumeButton, GameplayButton pauseButton, ScreenTextRenderer screenTextRenderer)
         {
-            StartButton = startButton;
-            ResumeButton = resumeButton;
-            PauseButton = pauseButton;
-            ScreenTextRenderer = screenTextRenderer;
+            _startButton = startButton;
+            _resumeButton = resumeButton;
+            _pauseButton = pauseButton;
+            _screenTextRenderer = screenTextRenderer;
 
             StartButton.Clicked += OnStartFired;
             ResumeButton.Clicked += OnResumeFired;

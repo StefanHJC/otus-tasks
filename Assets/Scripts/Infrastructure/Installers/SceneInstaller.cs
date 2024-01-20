@@ -7,7 +7,7 @@ namespace ShootEmUp
         public override void InstallBindings()
         {
             BindInput();
-            BindGameEndListener();
+            BindPlayerDeathListener();
             BindGameManager();
 
             BindEnemyFactory();
@@ -48,49 +48,55 @@ namespace ShootEmUp
         private void BindBulletPool()
         {
             Container.
-                Bind<BulletPool>().
+                Bind<IBulletPool>().
+                To<BulletPool>().
                 AsSingle();
         }
 
         private void BindBulletBuilder()
         {
             Container.
-                Bind<BulletBuilder>().
+                Bind<IBulletBuilder>().
+                To<BulletBuilder>().
                 AsSingle();
         }
 
         private void BindHUD()
         {
             Container.
-                Bind<HUD>().
+                Bind<IHUD>().
+                To<HUD>().
                 AsSingle();
         }
 
         private void BindEnemyManager()
         {
             Container.
-                Bind<EnemyManager>().
+                Bind<IEnemyManager>().
+                To<EnemyManager>().
                 AsSingle();
         }
 
         private void BindEnemyPool()
         {
             Container.
-                Bind<EnemyPool>().
+                Bind<IEnemyPool>().
+                To<EnemyPool>().
                 AsSingle();
         }
 
         private void BindEnemyFactory()
         {
             Container.
-                Bind<EnemyFactory>().
+                Bind<IEnemyFactory>().
+                To<EnemyFactory>().
                 AsSingle();
         }
 
-        private void BindGameEndListener()
+        private void BindPlayerDeathListener()
         {
             Container.
-                Bind<GameEndListener>().
+                Bind<PlayerDeathListener>().
                 AsSingle();
         }
     }

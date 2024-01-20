@@ -5,7 +5,7 @@ using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyManager : IInitializable    
+    public sealed class EnemyManager : IInitializable, IEnemyManager
     {
         private const int SpawnDelayInMs = 1000;
 

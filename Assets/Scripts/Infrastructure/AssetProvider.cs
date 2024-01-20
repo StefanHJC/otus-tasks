@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class AssetProvider
+    public sealed class AssetProvider : IAssetProvider
     {
         public T Instantiate<T>(T prefab)  where T : Component => Object.Instantiate(prefab);
 

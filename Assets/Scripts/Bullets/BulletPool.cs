@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class BulletPool
+    public sealed class BulletPool : IBulletPool
     {
         private const int InitialCount = 50;
 
