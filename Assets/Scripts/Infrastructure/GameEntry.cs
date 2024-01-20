@@ -19,6 +19,8 @@ namespace ShootEmUp
         [SerializeField] private Transform _enemyContainer;
         [SerializeField] private Transform _world;
         [SerializeField] private Transform _characterStartPosition;
+        [SerializeField] private Transform _levelBackgroundParent;
+        [SerializeField] private LevelBackground.Params _levelBackgroundParams;
 
         [Space]
         [Header("Input settings")]
@@ -84,9 +86,12 @@ namespace ShootEmUp
                 ServiceLocator.Get<EnemyPool>(),
                 ServiceLocator.Get<BulletSystem>()));
 
-            ServiceLocator.Bind<InputManager>(new InputManager(_inputSchema));
+            ServiceLocator.Bind<AttackInputListener>(new AttackInputListener(_inputSchema.AttackKey));
+            ServiceLocator.Bind<MoveInputListener>(new MoveInputListener(_inputSchema.MoveLeftKey, _inputSchema.MoveRightKey));
 
             ServiceLocator.Bind<GameListenersController>(_listenersController);
+
+            ServiceLocator.Bind<LevelBackground>(new LevelBackground(_levelBackgroundParams, _levelBackgroundParent));
         }
 
         private HUD InstantiateHUD()

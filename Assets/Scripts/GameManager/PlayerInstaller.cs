@@ -19,10 +19,15 @@ namespace ShootEmUp
 
         public void InstallGameSessionBindings(UnitView view)
         {
-            ServiceLocator.Bind<CharacterController>(new CharacterController(
-                ServiceLocator.Get<InputManager>(),
-                ServiceLocator.Get<BulletSystem>(),
+            ServiceLocator.Bind<CharacterAttackController>(new CharacterAttackController(
+                ServiceLocator.Get<AttackInputListener>(),
+                view,
+                ServiceLocator.Get<BulletSystem>()));
+
+            ServiceLocator.Bind<CharacterMoveController>(new CharacterMoveController(
+                ServiceLocator.Get<MoveInputListener>(),
                 view));
+
             _characterProvider.Character = ServiceLocator.Get<CharacterController>();
         }
 

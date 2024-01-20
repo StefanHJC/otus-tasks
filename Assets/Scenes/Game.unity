@@ -2215,6 +2215,11 @@ MonoBehaviour:
   _enemyContainer: {fileID: 178513672}
   _world: {fileID: 1683128698}
   _characterStartPosition: {fileID: 4414282821800802396}
+  _levelBackgroundParent: {fileID: 0}
+  _levelBackgroundParams:
+    StartPositionY: 0
+    EndPositionY: 0
+    MovingSpeedY: 0
   _inputSchema: {fileID: 11400000, guid: d0a349ef0c32d7747ba282eee36feab8, type: 2}
   _unitView: {fileID: 5590796141269523078, guid: 9699e7e809fd44b2bbf3d30c951ecbd2,
     type: 3}
@@ -2314,6 +2319,12 @@ MonoBehaviour:
     StartPositionY: 0
     EndPositionY: 0
     MovingSpeedY: 1
+  _myTransform: {fileID: 0}
+  _startPositionY: 0
+  _endPositionY: 0
+  _movingSpeedY: 0
+  _positionX: 0
+  _positionZ: 0
 --- !u!1 &4914023371208914563
 GameObject:
   m_ObjectHideFlags: 0
