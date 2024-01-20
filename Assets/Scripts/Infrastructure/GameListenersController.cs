@@ -76,7 +76,7 @@ namespace ShootEmUp
 
         public void EndGame()
         {
-            if (_game.State != GameState.Playing || _game.State != GameState.Paused)
+            if (_game.State != GameState.Playing)
                 return;
 
             _hud.ScreenTextRenderer.Enable();

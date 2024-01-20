@@ -1,19 +1,25 @@
 using System;
-using ShootEmUp;
 
-public sealed class CharacterProvider
+namespace ShootEmUp
 {
-    private CharacterController _character;
-
-    public CharacterController Character
+    public sealed class CharacterProvider : IDisposable
     {
-        get => _character;
-        set
-        {
-            _character = value;
-            _character.View.GetComponent<HitPointsComponent>().DeathHappened += CharacterDied;
-        }
-    }
+        private CharacterController _character;
 
-    public event Action CharacterDied;
+        public event Action CharacterDied;
+
+        public CharacterController Character
+        {
+            get => _character;
+            set
+            {
+                _character = value;
+                _character.View.GetComponent<HitPointsComponent>().DeathHappened += InvokeDeathEvent;
+            }
+        }
+
+        public void Dispose() => _character.View.GetComponent<HitPointsComponent>().DeathHappened -= InvokeDeathEvent;
+
+        private void InvokeDeathEvent() => CharacterDied?.Invoke();
+    }
 }

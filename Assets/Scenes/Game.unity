@@ -1700,7 +1700,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8010320557783749713}
-  - component: {fileID: 4852396043583267082}
   m_Layer: 0
   m_Name: '[BACKGROUND]'
   m_TagString: Untagged
@@ -2215,11 +2214,11 @@ MonoBehaviour:
   _enemyContainer: {fileID: 178513672}
   _world: {fileID: 1683128698}
   _characterStartPosition: {fileID: 4414282821800802396}
-  _levelBackgroundParent: {fileID: 0}
+  _levelBackgroundParent: {fileID: 8010320557783749713}
   _levelBackgroundParams:
     StartPositionY: 0
     EndPositionY: 0
-    MovingSpeedY: 0
+    MovingSpeedY: 1
   _inputSchema: {fileID: 11400000, guid: d0a349ef0c32d7747ba282eee36feab8, type: 2}
   _unitView: {fileID: 5590796141269523078, guid: 9699e7e809fd44b2bbf3d30c951ecbd2,
     type: 3}
@@ -2303,28 +2302,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &4852396043583267082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 61006797492197339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5377a5d4caa94482972174d0a74ac4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _params:
-    StartPositionY: 0
-    EndPositionY: 0
-    MovingSpeedY: 1
-  _myTransform: {fileID: 0}
-  _startPositionY: 0
-  _endPositionY: 0
-  _movingSpeedY: 0
-  _positionX: 0
-  _positionZ: 0
 --- !u!1 &4914023371208914563
 GameObject:
   m_ObjectHideFlags: 0

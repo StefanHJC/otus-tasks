@@ -71,8 +71,8 @@ namespace ShootEmUp
             //ServiceLocator.Bind<PlayerDeathListener>(new PlayerDeathListener(view.GetComponent<HitPointsComponent>()));
 
             ServiceLocator.Bind<CharacterController>(new CharacterController(
-                ServiceLocator.Get<InputManager>(),
-                ServiceLocator.Get<BulletSystem>(),
+                ServiceLocator.Get<CharacterAttackController>(),
+                ServiceLocator.Get<CharacterMoveController>(),
                 view));
             _characterProvider.Character = ServiceLocator.Get<CharacterController>();
         }
