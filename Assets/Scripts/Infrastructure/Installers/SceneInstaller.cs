@@ -34,14 +34,18 @@ namespace ShootEmUp
         private void BindBulletSystem()
         {
             Container.
-                BindInterfacesAndSelfTo<BulletSystem>().
+                BindInterfacesTo<BulletSystem>().
                 AsSingle();
         }
 
         private void BindInput()
         {
             Container.
-                BindInterfacesAndSelfTo<InputManager>().
+                BindInterfacesTo<AttackInputListener>().
+                AsSingle();
+            
+            Container.
+                BindInterfacesTo<MoveInputListener>().
                 AsSingle();
         }
 

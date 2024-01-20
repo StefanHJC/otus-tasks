@@ -1,22 +1,23 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class AttackInputListener
+    public sealed class AttackInputListener : ITickable, IAttackInput
     {
         private readonly KeyCode _attackKey;
         
-        public Action AttackActionPerformed;
+        public event Action AttackActionPerformed;
 
         public AttackInputListener(KeyCode attackKey)
         {
             _attackKey = attackKey;
         }
 
-        public void Update()
+        public void Tick()
         {
-            if (Input.GetKeyDown(_attackKey)) 
+            if (Input.GetKeyDown(_attackKey))
                 AttackActionPerformed?.Invoke();
         }
     }

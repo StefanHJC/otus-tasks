@@ -1,8 +1,9 @@
 using UnityEngine;
+using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class MoveInputListener
+    public sealed class MoveInputListener : ITickable, IMoveInput
     {
         private readonly KeyCode _moveLeftKey;
         private readonly KeyCode _moveRightKey;
@@ -15,7 +16,7 @@ namespace ShootEmUp
             _moveRightKey = moveRightKey;
         }
 
-        public void Update()
+        public void Tick()
         {
             if (Input.GetKey(_moveLeftKey))
             {

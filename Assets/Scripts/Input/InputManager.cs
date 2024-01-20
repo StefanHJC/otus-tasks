@@ -6,7 +6,7 @@ namespace ShootEmUp
     public sealed class InputManager : ITickable
     {
         private InputSchema _schema;
-        private AttackInputListener _attackListener;
+        private AttackInput _attack;
         private MoveInputListener _moveListener;
         private bool _isEnabled;
 
@@ -35,15 +35,15 @@ namespace ShootEmUp
 
         private void Init()
         {
-            _attackListener = new AttackInputListener(attackKey: _schema.AttackKey);
+            _attack = new AttackInput(attackKey: _schema.AttackKey);
             _moveListener = new MoveInputListener(moveLeftKey: _schema.MoveLeftKey, moveRightKey: _schema.MoveRightKey);
-            _attackListener.AttackActionPerformed += () => AttackActionPerformed?.Invoke();
+            _attack.AttackActionPerformed += () => AttackActionPerformed?.Invoke();
             _isEnabled = true;
         }
 
         private void ListenInput()
         {
-            _attackListener.Update();
+            _attack.Update();
             _moveListener.Update();
         }
     }
