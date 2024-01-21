@@ -113,10 +113,4 @@ namespace ShootEmUp
             return unitViewInstance;
         }
     }
-
-    public enum UnitTypeId
-    {
-        Player,
-        Enemy
-    }
 }

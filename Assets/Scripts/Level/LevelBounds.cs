@@ -8,7 +8,12 @@ namespace ShootEmUp
         [SerializeField] private Transform _rightBorder;
         [SerializeField] private Transform _downBorder;
         [SerializeField] private Transform _topBorder;
-        
+
+        public LevelBounds(IDatabaseService data)
+        {
+
+        }
+
         public bool IsInBounds(Vector3 position)
         {
             var positionX = position.x;

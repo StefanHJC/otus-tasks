@@ -11,10 +11,10 @@ namespace ShootEmUp
 
         private readonly HashSet<EnemyController> _activeEnemies = new();
         private readonly CharacterMoveController _character;
-        private EnemyPositions _enemyPositions;
+        private readonly EnemyPositions _enemyPositions;
+        private readonly IEnemyPool _enemyPool;
+        private readonly IBulletSystem _bulletSystem;
         private CancellationTokenSource _cts;
-        private IEnemyPool _enemyPool;
-        private IBulletSystem _bulletSystem;
         private bool _isEnabled;
 
         [Inject]
