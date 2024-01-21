@@ -13,7 +13,6 @@ namespace ShootEmUp
     public abstract class WeaponComponent : MonoBehaviour, IWeaponComponent
     {
         [SerializeField] private Transform _firePoint;
-
         [SerializeField] protected BulletConfig Config;
 
         public Vector2 Position => _firePoint.position;

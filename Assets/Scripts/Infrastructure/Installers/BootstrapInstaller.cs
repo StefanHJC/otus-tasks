@@ -7,6 +7,7 @@ namespace ShootEmUp
         public override void InstallBindings()
         {
             BindAssetProvider();
+            BindGameInterruption();
         }
 
         private void BindAssetProvider()
@@ -16,6 +17,14 @@ namespace ShootEmUp
                 FromNew().
                 AsSingle().
                 Lazy();
+        }
+
+        private void BindGameInterruption()
+        {
+            Container.
+                Bind<IGameInterruptionController>().
+                To<ZenjectTickableInterruptionController>().
+                AsSingle();
         }
     }
 }

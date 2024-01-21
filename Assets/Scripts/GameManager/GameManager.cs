@@ -1,6 +1,8 @@
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
+using static UnityEngine.UI.CanvasScaler;
 
 namespace ShootEmUp
 {
@@ -36,14 +38,6 @@ namespace ShootEmUp
             // _gameListenersController.Resume();
         }
 
-        public async void StartGameAsync()
-        {
-            await SetGameStartDelayAsync(delayInSeconds: GameStartDelay);
-
-            InstallGameSessionBindings(InstantiateCharacterView(at: _characterPosition, prefab: _characterView));
-            //_gameListenersController.StartGame();
-            _hud.PauseButton.Enable();
-        }
 
         public void FinishGame()
         {
@@ -53,7 +47,30 @@ namespace ShootEmUp
 
             _hud.ScreenTextRenderer.Text = "Game over!";
             //_gameListenersController.Pause();
-            _characterProvider.Character.View.Disable();
+            _character.View.Disable();
+        }
+
+
+        private void InstallGameSessionBindings(UnitView view)
+        {
+            // ServiceLocator.Bind<GameEndListener>(new GameEndListener(view.GetComponent<HitPointsComponent>(),
+            //     ServiceLocator.Get<GameManager>()));
+            //
+            // ServiceLocator.Bind<CharacterController>(new CharacterController(
+            //     ServiceLocator.Get<InputManager>(),
+            //     ServiceLocator.Get<BulletSystem>(),
+            //     view));
+            // _characterProvider.Character = ServiceLocator.Get<CharacterController>();
+        }
+    }
+
+    public class GameLauncher
+    {
+
+        [Inject]
+        public GameLauncher()
+        {
+
         }
 
         private async Task SetGameStartDelayAsync(int delayInSeconds)
@@ -69,19 +86,25 @@ namespace ShootEmUp
             _hud.ScreenTextRenderer.Disable();
         }
 
-        private void InstallGameSessionBindings(UnitView view)
+        public async void StartGameAsync()
         {
-            // ServiceLocator.Bind<GameEndListener>(new GameEndListener(view.GetComponent<HitPointsComponent>(),
-            //     ServiceLocator.Get<GameManager>()));
-            //
-            // ServiceLocator.Bind<CharacterController>(new CharacterController(
-            //     ServiceLocator.Get<InputManager>(),
-            //     ServiceLocator.Get<BulletSystem>(),
-            //     view));
-            // _characterProvider.Character = ServiceLocator.Get<CharacterController>();
+            await SetGameStartDelayAsync(delayInSeconds: GameStartDelay);
+
+            InstallGameSessionBindings(InstantiateCharacterView(at: _characterPosition, prefab: _characterView));
+            //_gameListenersController.StartGame();
+            _hud.PauseButton.Enable();
+        }
+    }
+
+    public class CharacterProvider
+    {
+
+        public CharacterProvider()
+        {
+
         }
 
-        private UnitView InstantiateCharacterView(Transform at, UnitView prefab)
+        private UnitView InstantiateCharacter(Transform at, UnitView prefab)
         {
             UnitView unitViewInstance = _assets.Instantiate(prefab);
             prefab.transform.position = at.position;
@@ -89,5 +112,11 @@ namespace ShootEmUp
 
             return unitViewInstance;
         }
+    }
+
+    public enum UnitTypeId
+    {
+        Player,
+        Enemy
     }
 }

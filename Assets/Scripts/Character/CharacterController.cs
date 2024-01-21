@@ -8,10 +8,10 @@ namespace ShootEmUp
         private readonly IAttackInput _attackInput;
         private readonly IBulletSystem _bulletSystem;
 
-        public UnitView View { get; private set; }
+        public IUnitView View { get; private set; }
 
         [Inject]
-        public CharacterAttackController(IAttackInput attackInput, IBulletSystem bulletSystem, UnitView view)
+        public CharacterAttackController(IAttackInput attackInput, IBulletSystem bulletSystem, IUnitView view)
         {
             _attackInput = attackInput;
             _bulletSystem = bulletSystem;
@@ -27,10 +27,10 @@ namespace ShootEmUp
     {
         private readonly IMoveInput _moveInput;
 
-        public UnitView View { get; private set; }
+        public IUnitView View { get; private set; }
 
         [Inject]
-        public CharacterMoveController(IMoveInput moveInput, UnitView view)
+        public CharacterMoveController(IMoveInput moveInput, IUnitView view)
         {
             _moveInput = moveInput;
             View = view;
