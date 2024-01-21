@@ -19,7 +19,20 @@ namespace ShootEmUp
             BindBulletPool();
             BindBulletSystem();
 
+            BindCharacter();
+
             BindHUD();
+        }
+
+        private void BindCharacter()
+        {
+            Container.
+                Bind<CharacterAttackController>().
+                AsCached();
+
+            Container.
+                BindInterfacesAndSelfTo<CharacterAttackController>().
+                AsCached();
         }
 
         private void BindGameManager()

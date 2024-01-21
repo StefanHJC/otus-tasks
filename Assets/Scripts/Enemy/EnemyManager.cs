@@ -10,17 +10,18 @@ namespace ShootEmUp
         private const int SpawnDelayInMs = 1000;
 
         private readonly HashSet<EnemyController> _activeEnemies = new();
+        private readonly CharacterMoveController _character;
         private EnemyPositions _enemyPositions;
-        private CharacterProvider _characterProvider;
+        private CancellationTokenSource _cts;
         private IEnemyPool _enemyPool;
         private IBulletSystem _bulletSystem;
-        private CancellationTokenSource _cts;
         private bool _isEnabled;
 
-        public EnemyManager(EnemyPositions enemyPositions, CharacterProvider characterProvider, IEnemyPool enemyPool, IBulletSystem bulletSystem)
+        [Inject]
+        public EnemyManager(EnemyPositions enemyPositions, CharacterMoveController character, IEnemyPool enemyPool, IBulletSystem bulletSystem)
         {
             _enemyPositions = enemyPositions;
-            _characterProvider = characterProvider;
+            _character = character;
             _enemyPool = enemyPool;
             _bulletSystem = bulletSystem;
             _isEnabled = true;
@@ -60,7 +61,7 @@ namespace ShootEmUp
 
         private void InitEnemy(EnemyController enemy)
         {
-            enemy.Attack(_characterProvider.Character.View.transform);
+            enemy.Attack(_character.View.transform);
             enemy.FirePerformed += OnFire;
 
             enemy.View.transform.position = _enemyPositions.GetRandomSpawnPosition().position;

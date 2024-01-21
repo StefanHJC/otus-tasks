@@ -10,18 +10,15 @@ namespace ShootEmUp
 
         private readonly IAssetProvider _assets;
         private readonly Transform _characterPosition;
-        private readonly CharacterProvider _characterProvider;
         private readonly UnitView _characterView;
         private readonly IHUD _hud;
 
         [Inject]
-        public GameManager(IAssetProvider assets, IHUD hud, Transform characterPosition, 
-            CharacterProvider provider, UnitView characterView)
+        public GameManager(IAssetProvider assets, IHUD hud, Transform characterPosition, UnitView characterView)
         {
             _assets = assets;
             _hud = hud;
             _characterPosition = characterPosition;
-            _characterProvider = provider;
             _characterView = characterView;
 
             _hud.StartButton.Clicked += StartGameAsync;
