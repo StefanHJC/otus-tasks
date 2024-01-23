@@ -1,8 +1,7 @@
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
-using static UnityEngine.UI.CanvasScaler;
 
 namespace ShootEmUp
 {
@@ -10,9 +9,9 @@ namespace ShootEmUp
     {
         private const int GameStartDelay = 3;
 
-        private readonly IAssetProvider _assets;
         private readonly Transform _characterPosition;
         private readonly UnitView _characterView;
+        private readonly IAssetProvider _assets;
         private readonly IHUD _hud;
 
         [Inject]
@@ -23,7 +22,7 @@ namespace ShootEmUp
             _characterPosition = characterPosition;
             _characterView = characterView;
 
-            _hud.StartButton.Clicked += StartGameAsync;
+            //_hud.StartButton.Clicked += StartGameAsync;
             _hud.PauseButton.Clicked += PauseGame;
             _hud.ResumeButton.Clicked += ResumeGame;
         }
@@ -47,7 +46,7 @@ namespace ShootEmUp
 
             _hud.ScreenTextRenderer.Text = "Game over!";
             //_gameListenersController.Pause();
-            _character.View.Disable();
+            //_character.View.Disable();
         }
 
 
@@ -66,7 +65,6 @@ namespace ShootEmUp
 
     public class GameLauncher
     {
-
         [Inject]
         public GameLauncher()
         {
@@ -98,10 +96,11 @@ namespace ShootEmUp
 
     public class CharacterProvider
     {
+        private readonly IAssetProvider _assets;
 
-        public CharacterProvider()
+        public CharacterProvider(IAssetProvider assets)
         {
-
+            _assets = assets;
         }
 
         private UnitView InstantiateCharacter(Transform at, UnitView prefab)
@@ -111,6 +110,73 @@ namespace ShootEmUp
             prefab.transform.rotation = at.rotation;
 
             return unitViewInstance;
+        }
+    }
+
+    public class UIMediator
+    {
+        private readonly IHUD _hud;
+
+        [Inject]
+        public UIMediator(IHUD hud)
+        {
+            _hud = hud;
+        }
+
+        public void ShowScreenText(string text)
+        {
+            _hud.ScreenTextRenderer.Text = text;
+            _hud.ScreenTextRenderer.Enable();
+        }
+
+        public void HideScreenText() => _hud.ScreenTextRenderer.Disable();
+
+        public void ShowStartButton() => _hud.StartButton.Enable();
+
+        public void HideStartButton() => _hud.StartButton.Disable();
+
+        public void ShowResumeButton() => _hud.ResumeButton.Enable();
+
+        public void HideResumeButton() => _hud.ResumeButton.Disable();
+
+        public void ShowPauseButton() => _hud.PauseButton.Enable();
+
+        public void HidePauseButton() => _hud.PauseButton.Disable();
+    }
+
+    public class ButtonClickObserver : IDisposable
+    {
+        private readonly GameplayButton _startButton;
+        private readonly GameplayButton _resumeButton;
+        private readonly GameplayButton _pauseButton;
+
+        public event Action OnStartFired;
+        public event Action OnResumeFired;
+        public event Action OnPauseFired;
+
+        public ButtonClickObserver(IHUD hud)
+        {
+            _startButton = hud.StartButton;
+            _resumeButton = hud.StartButton;
+            _pauseButton = hud.StartButton;
+
+            _startButton.Clicked += InvokeStartButtonEvent;
+            _resumeButton.Clicked += InvokePauseButtonEvent;
+            _pauseButton.Clicked += InvokeResumeButtonEvent;
+        }
+
+        private void InvokeStartButtonEvent() => OnStartFired?.Invoke();
+
+        private void InvokeResumeButtonEvent() => OnResumeFired?.Invoke();
+
+        private void InvokePauseButtonEvent() => OnPauseFired?.Invoke();
+
+
+        public void Dispose()
+        {
+            _startButton.Clicked -= InvokeStartButtonEvent;
+            _resumeButton.Clicked -= InvokePauseButtonEvent;
+            _pauseButton.Clicked -= InvokeResumeButtonEvent;
         }
     }
 }
