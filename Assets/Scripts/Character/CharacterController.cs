@@ -22,23 +22,4 @@ namespace ShootEmUp
 
         private void OnFlyBullet() => _bulletSystem.FlyBulletByArgs(View.Weapon.GetBulletArgs(Vector2.zero));
     }
-
-    public sealed class CharacterMoveController : IFixedTickable
-    {
-        private readonly IMoveInput _moveInput;
-
-        public IUnitView View { get; private set; }
-
-        [Inject]
-        public CharacterMoveController(IMoveInput moveInput, IUnitView view)
-        {
-            _moveInput = moveInput;
-            View = view;
-        }
-
-        public void FixedTick()
-        {
-            View.Movement.Move(new Vector2(_moveInput.HorizontalDirection, 0) * Time.fixedDeltaTime);
-        }
-    }
 }

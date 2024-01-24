@@ -2,7 +2,7 @@ using System;
 
 namespace ShootEmUp
 {
-    public class ButtonClickObserver : IDisposable
+    public class ButtonClickListener : IDisposable
     {
         private readonly GameplayButton _startButton;
         private readonly GameplayButton _resumeButton;
@@ -12,7 +12,7 @@ namespace ShootEmUp
         public event Action OnResumeFired;
         public event Action OnPauseFired;
 
-        public ButtonClickObserver(IHUD hud)
+        public ButtonClickListener(IHUD hud)
         {
             _startButton = hud.StartButton;
             _resumeButton = hud.StartButton;

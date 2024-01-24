@@ -21,7 +21,30 @@ namespace ShootEmUp
 
             BindCharacter();
 
-            BindHUD();
+            BindUIFactory();
+            BindUIMediator();
+            BindButtonListener();
+        }
+
+        private void BindButtonListener()
+        {
+            Container.
+                Bind<ButtonClickListener>().
+                AsSingle();
+        }
+
+        private void BindUIFactory()
+        {
+            Container.
+                Bind<UIFactory>().
+                AsSingle();
+        }
+
+        private void BindUIMediator()
+        {
+            Container.
+                Bind<UIMediator>().
+                AsSingle();
         }
 
         private void BindCharacter()
@@ -31,7 +54,7 @@ namespace ShootEmUp
                 AsCached();
 
             Container.
-                BindInterfacesAndSelfTo<CharacterAttackController>().
+                Bind<CharacterAttackController>().
                 AsCached();
         }
 
@@ -75,14 +98,6 @@ namespace ShootEmUp
             Container.
                 Bind<IBulletBuilder>().
                 To<BulletBuilder>().
-                AsSingle();
-        }
-
-        private void BindHUD()
-        {
-            Container.
-                Bind<IHUD>().
-                To<HUD>().
                 AsSingle();
         }
 

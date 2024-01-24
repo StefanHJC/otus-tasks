@@ -14,7 +14,6 @@ namespace ShootEmUp
         public GameplayButton PauseButton => _pauseButton;
         public ScreenTextRenderer ScreenTextRenderer => _screenTextRenderer;
 
-        [Inject]
         public HUD(GameplayButton startButton, GameplayButton resumeButton, GameplayButton pauseButton, ScreenTextRenderer screenTextRenderer)
         {
             _startButton = startButton;
