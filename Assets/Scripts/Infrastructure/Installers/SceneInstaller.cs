@@ -20,10 +20,20 @@ namespace ShootEmUp
             BindBulletSystem();
 
             BindCharacter();
+            BindCharacterProvider();
 
             BindUIFactory();
             BindUIMediator();
             BindButtonListener();
+
+            Container.QueueForInject(Container.Resolve<UIMediator>());
+        }
+
+        private void BindCharacterProvider()
+        {
+            Container.
+                Bind<CharacterProvider>().
+                AsSingle();
         }
 
         private void BindButtonListener()
@@ -44,18 +54,19 @@ namespace ShootEmUp
         {
             Container.
                 Bind<UIMediator>().
-                AsSingle();
+                AsSingle().
+                WithArguments(Container.Resolve<UIFactory>().InstantiateHUD());
         }
 
         private void BindCharacter()
         {
             Container.
-                Bind<CharacterAttackController>().
-                AsCached();
+                Bind<CharacterMoveController>().
+                AsSingle();
 
             Container.
                 Bind<CharacterAttackController>().
-                AsCached();
+                AsSingle();
         }
 
         private void BindGameManager()
@@ -77,11 +88,11 @@ namespace ShootEmUp
         private void BindInput()
         {
             Container.
-                BindInterfacesTo<AttackInputListener>().
+                BindInterfacesAndSelfTo<AttackInputListener>().
                 AsSingle();
             
             Container.
-                BindInterfacesTo<MoveInputListener>().
+                BindInterfacesAndSelfTo<MoveInputListener>().
                 AsSingle();
         }
 
