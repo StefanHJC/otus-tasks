@@ -61,7 +61,7 @@ namespace ShootEmUp
 
         private void InitEnemy(EnemyController enemy)
         {
-            enemy.Attack(_character.View.transform);
+            //enemy.Attack(_character.View.transform);
             enemy.FirePerformed += OnFire;
 
             enemy.View.transform.position = _enemyPositions.GetRandomSpawnPosition().position;

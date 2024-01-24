@@ -9,7 +9,6 @@ namespace ShootEmUp
         private readonly EnemyAttackAgent _attackAgent;
         private readonly EnemyMoveAgent _moveAgent;
         private readonly MovementObserver _movementObserver;
-        private bool _isEnabled;
 
         public UnitView View { get; private set; }
 
@@ -22,7 +21,6 @@ namespace ShootEmUp
             _movementObserver = new MovementObserver(_moveAgent);
             _attackAgent = new EnemyAttackAgent(view, _movementObserver);
             View = view;
-            _isEnabled = true;
 
             hitPoints.DeathHappened += () => Died?.Invoke(this);
             _attackAgent.FirePerformed += (BulletSystemArgs args) => FirePerformed?.Invoke(args);
@@ -30,16 +28,9 @@ namespace ShootEmUp
 
         public void FixedTick()
         {
-            if (!_isEnabled)
-                return;
-
             _attackAgent.Update();
             _moveAgent.Update();
         }
-
-        public void OnPause() => _isEnabled = false;
-
-        public void OnResume() => _isEnabled = true;
 
         public void Attack(Transform target) => _attackAgent.SetTarget(target.GetComponent<HitPointsComponent>());
 
