@@ -2,8 +2,9 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
+    [CreateAssetMenu(fileName = "UIData", menuName = "Static data/New UI static data")]
     public class UIStaticData : ScriptableObject
     {
-        public GameObject Hud;
+        public HUD Hud;
     }
 }

@@ -1,5 +1,3 @@
-using TMPro;
-using UnityEngine;
 using Zenject;
 
 namespace ShootEmUp
@@ -16,13 +14,6 @@ namespace ShootEmUp
             _assets = assets;
         }
 
-        public IHUD InstantiateHUD()
-        {
-            GameObject hudInstance = _assets.Instantiate(_data.Hud);
-
-            GameplayButton[] buttons = hudInstance.GetComponentsInChildren<GameplayButton>(); // TEMP
-
-            return new HUD(buttons[0], buttons[1], buttons[2], new ScreenTextRenderer(hudInstance.GetComponentInChildren<TMP_Text>()));
-        }
+        public IHUD InstantiateHUD() => _assets.Instantiate(_data.Hud);
     }
 }

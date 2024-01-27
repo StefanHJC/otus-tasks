@@ -12,7 +12,6 @@ namespace ShootEmUp
 
             BindEnemyFactory();
             BindEnemyPool();
-            BindEnemyFactory();
             BindEnemyManager();
 
             BindBulletBuilder();

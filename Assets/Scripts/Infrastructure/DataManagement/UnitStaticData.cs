@@ -3,14 +3,17 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
+    [CreateAssetMenu(fileName = "UnitData", menuName = "Static data/New unit static data")]
     public class UnitStaticData : ScriptableObject
     {
-        public UnitPrefabData PrefabData;
+        public List<UnitPrefabData> PrefabData;
 
         [System.Serializable]
         public struct UnitPrefabData
         {
-            public Dictionary<UnitTypeId, GameObject> Value;
+            public UnitTypeId TypeId;
+            public GameObject Prefab;
+            public BulletConfig BulletConfig;
         }
     }
 }

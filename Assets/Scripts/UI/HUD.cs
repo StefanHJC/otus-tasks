@@ -1,25 +1,27 @@
-using Zenject;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace ShootEmUp
 {
-    public class HUD : IHUD
+    public class HUD : MonoBehaviour, IHUD
     {
-        private readonly GameplayButton _startButton;
-        private readonly GameplayButton _resumeButton;
-        private readonly GameplayButton _pauseButton;
-        private readonly ScreenTextRenderer _screenTextRenderer;
+        [SerializeField] private Button _startButton;
+        [SerializeField] private Button _resumeButton;
+        [SerializeField] private Button _pauseButton;
+        [SerializeField] private TMP_Text _screenTextRenderer;
 
-        public GameplayButton StartButton => _startButton;
-        public GameplayButton ResumeButton => _resumeButton;
-        public GameplayButton PauseButton => _pauseButton;
-        public ScreenTextRenderer ScreenTextRenderer => _screenTextRenderer;
+        public GameplayButton StartButton {get; private set; }
+        public GameplayButton ResumeButton{ get; private set; }
+        public GameplayButton PauseButton { get; private set; }
+        public ScreenTextRenderer ScreenTextRenderer { get; private set; }
 
-        public HUD(GameplayButton startButton, GameplayButton resumeButton, GameplayButton pauseButton, ScreenTextRenderer screenTextRenderer)
+        private void Awake()
         {
-            _startButton = startButton;
-            _resumeButton = resumeButton;
-            _pauseButton = pauseButton;
-            _screenTextRenderer = screenTextRenderer;
+            StartButton = new GameplayButton(_startButton);
+            ResumeButton = new GameplayButton(_resumeButton);
+            PauseButton = new GameplayButton(_pauseButton);
+            ScreenTextRenderer = new ScreenTextRenderer(_screenTextRenderer);
 
             StartButton.Clicked += OnStartFired;
             ResumeButton.Clicked += OnResumeFired;

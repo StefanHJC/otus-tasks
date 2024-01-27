@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Zenject;
 using Object = UnityEngine.Object;
 
 namespace ShootEmUp
@@ -37,33 +35,6 @@ namespace ShootEmUp
                     _loadedData[loaded.GetType()].Add(loaded);
                 }
             }
-        }
-    }
-
-    public class GameEntry : MonoBehaviour
-    {
-        private IDatabaseService _data;
-
-        [Inject]
-        public void Construct(IDatabaseService data)
-        {
-            _data = data;
-        }
-
-        private void Awake()
-        {
-            LoadStaticData();
-            SceneManager.LoadSceneAsync(1);
-            
-            DontDestroyOnLoad(this);
-        }
-
-        private void LoadStaticData()
-        {
-            _data.Load<BulletStaticData>(AssetPath.StaticData);
-            _data.Load<GameStaticData>(AssetPath.StaticData);
-            _data.Load<UIStaticData>(AssetPath.StaticData);
-            _data.Load<UnitStaticData>(AssetPath.StaticData);
         }
     }
 }
