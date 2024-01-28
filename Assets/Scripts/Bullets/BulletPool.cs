@@ -1,20 +1,20 @@
 using System.Collections.Generic;
-using UnityEditor.VersionControl;
+using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class BulletPool : IBulletPool, IInitializable
+    public sealed class BulletPool : IBulletPool
     {
         private const int InitialCount = 50;
 
         private readonly Queue<Bullet> _bulletPool = new();
         private readonly HashSet<Bullet> _activeBullets = new();
+        private readonly LevelProvider _provider;
+        private readonly IBulletBuilder _builder;
         private Transform _container;
         private Transform _worldTransform;
-        private IBulletBuilder _builder;
-        private readonly LevelProvider _provider;
 
         public IReadOnlyCollection<Bullet> ActiveBullets => _activeBullets;
 
@@ -23,19 +23,8 @@ namespace ShootEmUp
         {
             _builder = builder;
             _provider = provider;
-        }
 
-        public void Initialize()
-        {
-            _container = _provider.Level.BulletParent;
-            _worldTransform = _provider.Level.Root;
-
-            for (var i = 0; i < InitialCount; i++)
-            {
-                Bullet bullet = _builder.BuildBullet().SetPosition(_container.position).SetParent(_container).BulletInstance;
-
-                _bulletPool.Enqueue(bullet);
-            }
+            LazyInitAsync(provider); // наверное, все же костыль, нужен тк к на момент создания инстанса класса LevelFactory еще не инстанциировала Level(как пофиксить хз)
         }
 
         public Bullet SpawnBullet(BulletSystemArgs args)
@@ -57,6 +46,25 @@ namespace ShootEmUp
                 return true;
             }
             return false;
+        }
+
+        private async void LazyInitAsync(LevelProvider provider)
+        {
+            while (provider.Level == null)
+                await Task.Yield();
+
+            _container = _provider.Level.BulletParent;
+            _worldTransform = _provider.Level.Root;
+
+            for (var i = 0; i < InitialCount; i++)
+            {
+                Bullet bullet = _builder.
+                                    BuildBullet().
+                                    SetPosition(_container.position).
+                                    SetParent(_container).BulletInstance;
+
+                _bulletPool.Enqueue(bullet);
+            }
         }
 
         private Bullet BuildNew(BulletSystemArgs args)

@@ -24,7 +24,6 @@ namespace ShootEmUp
             BindUIMediator();
             BindButtonListener();
 
-
             BindLevelBounds();
             //BindLevelBackground(level);
         }
@@ -53,7 +52,7 @@ namespace ShootEmUp
         private void BindButtonListener()
         {
             Container.
-                Bind<ButtonClickListener>().
+                BindInterfacesAndSelfTo<ButtonClickListener>().
                 AsSingle();
         }
 
@@ -105,8 +104,7 @@ namespace ShootEmUp
         private void BindBulletPool()
         {
             Container.
-                Bind<IBulletPool>().
-                To<BulletPool>().
+                BindInterfacesAndSelfTo<BulletPool>().
                 AsSingle();
         }
 
