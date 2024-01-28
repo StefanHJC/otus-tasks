@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -12,9 +13,9 @@ namespace ShootEmUp
         public Bullet BulletInstance => _bulletInstance ??= GetBullet();
 
         [Inject]
-        public BulletBuilder(Bullet prefab, IAssetProvider assetProvider)
+        public BulletBuilder(IDatabaseService data, IAssetProvider assetProvider)
         {
-            _prefab = prefab;
+            //_prefab = data.Get<BulletStaticData>().FirstOrDefault().PrefabData.First(bullet => bullet.TypeId == BulletTypeId.Default).Prefab;
             _assetProvider = assetProvider;
         }
 

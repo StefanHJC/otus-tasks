@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class BulletPool : IBulletPool
+    public sealed class BulletPool : IBulletPool, IInitializable
     {
         private const int InitialCount = 50;
 
@@ -13,21 +14,22 @@ namespace ShootEmUp
         private Transform _container;
         private Transform _worldTransform;
         private IBulletBuilder _builder;
+        private readonly LevelProvider _provider;
 
         public IReadOnlyCollection<Bullet> ActiveBullets => _activeBullets;
 
         [Inject]
-        public BulletPool(Transform container, IBulletBuilder builder, Transform world)
+        public BulletPool(IBulletBuilder builder, LevelProvider provider)
         {
-            _container = container;
             _builder = builder;
-            _worldTransform = world;
-
-            Init();
+            _provider = provider;
         }
 
-        private void Init()
+        public void Initialize()
         {
+            _container = _provider.Level.BulletParent;
+            _worldTransform = _provider.Level.Root;
+
             for (var i = 0; i < InitialCount; i++)
             {
                 Bullet bullet = _builder.BuildBullet().SetPosition(_container.position).SetParent(_container).BulletInstance;

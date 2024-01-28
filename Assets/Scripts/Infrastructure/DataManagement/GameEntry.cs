@@ -1,27 +1,28 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace ShootEmUp
 {
     public class GameEntry : MonoBehaviour
     {
-        private IDatabaseService _data;
         private UIFactory _uiFactory;
         private LevelFactory _levelfactory;
+        private IDatabaseService _data;
+        private ISceneLoader _sceneLoader;
 
         [Inject]
-        public void Construct(IDatabaseService data, UIFactory uiFactory, LevelFactory levelFactory)
+        public void Construct(IDatabaseService data, UIFactory uiFactory, LevelFactory levelFactory, ISceneLoader sceneLoader)
         {
             _data = data;
             _uiFactory = uiFactory;
             _levelfactory = levelFactory;
+            _sceneLoader = sceneLoader;
         }
 
         private void Awake()
         {
             LoadStaticData();
-            SceneManager.LoadSceneAsync(1);
+            _sceneLoader.LoadAsync(sceneIndex: 1, onLoaded: OnSceneLoaded);
         }
 
         private void LoadStaticData()
@@ -30,9 +31,10 @@ namespace ShootEmUp
             _data.Load<GameStaticData>(AssetPath.StaticData);
             _data.Load<UIStaticData>(AssetPath.StaticData);
             _data.Load<UnitStaticData>(AssetPath.StaticData);
+            _data.Load<LevelStaticData>(AssetPath.StaticData);
         }
 
-        private void OnLevelLoaded()
+        private void OnSceneLoaded()
         {
             _levelfactory.InstantiateLevel(0);
             _uiFactory.InstantiateHUD();

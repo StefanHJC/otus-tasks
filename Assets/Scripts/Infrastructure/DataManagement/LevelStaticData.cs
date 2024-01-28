@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
+    [CreateAssetMenu(fileName = "LevelData", menuName = "Static data/New level static data")]
     public class LevelStaticData : ScriptableObject
     {
         public List<LevelPrefabData> PrefabData;
@@ -11,7 +12,7 @@ namespace ShootEmUp
         public struct LevelPrefabData
         {
             public int Index;
-            public Level LevelData;
+            public Level Prefab;
         }
     }
 }

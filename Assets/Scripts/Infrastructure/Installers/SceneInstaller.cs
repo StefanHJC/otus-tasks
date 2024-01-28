@@ -21,16 +21,25 @@ namespace ShootEmUp
             BindCharacter();
             BindCharacterProvider();
 
-            BindUIProvider();
-            BindUIFactory();
             BindUIMediator();
             BindButtonListener();
+
+
+            BindLevelBounds();
+            //BindLevelBackground(level);
         }
 
-        private void BindUIProvider()
+        private void BindLevelBackground()
         {
             Container.
-                Bind<UIProvider>().
+                Bind<LevelBackground>().
+                AsSingle();
+        }
+
+        private void BindLevelBounds()
+        {
+            Container.
+                Bind<LevelBounds>().
                 AsSingle();
         }
 
@@ -45,13 +54,6 @@ namespace ShootEmUp
         {
             Container.
                 Bind<ButtonClickListener>().
-                AsSingle();
-        }
-
-        private void BindUIFactory()
-        {
-            Container.
-                Bind<UIFactory>().
                 AsSingle();
         }
 

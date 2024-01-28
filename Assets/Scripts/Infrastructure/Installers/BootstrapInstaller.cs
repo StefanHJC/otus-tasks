@@ -13,6 +13,47 @@ namespace ShootEmUp
             BindGameInterruption();
             BindDatabaseService();
             BindGameEntry();
+            BindUIProvider();
+            BindUIFactory();
+            BindLevelFactory();
+            BindLevelProvider();
+            BindSceneLoader();
+        }
+
+        private void BindLevelProvider()
+        {
+            Container.
+                Bind<LevelProvider>().
+                AsSingle();
+        }
+
+        private void BindSceneLoader()
+        {
+            Container.
+                Bind<ISceneLoader>().
+                To<SceneLoader>().
+                AsSingle();
+        }
+
+        private void BindLevelFactory()
+        {
+            Container.
+                Bind<LevelFactory>().
+                AsSingle();
+        }
+
+        private void BindUIFactory()
+        {
+            Container.
+                Bind<UIFactory>().
+                AsSingle().Lazy();
+        }
+
+        private void BindUIProvider()
+        {
+            Container.
+                Bind<UIProvider>().
+                AsSingle().Lazy();
         }
 
         private void BindGameEntry()

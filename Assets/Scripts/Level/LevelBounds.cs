@@ -1,23 +1,27 @@
 using UnityEngine;
+using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class LevelBounds : MonoBehaviour
+    public sealed class LevelBounds 
     {
-        [SerializeField] private Transform _leftBorder;
-        [SerializeField] private Transform _rightBorder;
-        [SerializeField] private Transform _downBorder;
-        [SerializeField] private Transform _topBorder;
-        
+        private readonly Level _level;
+    
+        [Inject]
+        public LevelBounds(LevelProvider provider)
+        {
+            _level = provider.Level;
+        }
+
         public bool IsInBounds(Vector3 position)
         {
             var positionX = position.x;
             var positionY = position.y;
             
-            return positionX > _leftBorder.position.x && 
-                   positionX < _rightBorder.position.x && 
-                   positionY > _downBorder.position.y && 
-                   positionY < _topBorder.position.y;
+            return positionX > _level.LeftBorder.x && 
+                   positionX < _level.RightBorder.x && 
+                   positionY > _level.DownBorder.y && 
+                   positionY < _level.TopBorder.y;
         }
     }
 }
