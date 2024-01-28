@@ -9,6 +9,8 @@ namespace ShootEmUp
             BindInput();
             BindPlayerDeathListener();
             BindGameManager();
+            BindGameLauncher();
+            BindGameloopController();
 
             BindEnemyFactory();
             BindEnemyPool();
@@ -26,6 +28,20 @@ namespace ShootEmUp
 
             BindLevelBounds();
             //BindLevelBackground(level);
+        }
+
+        private void BindGameloopController()
+        {
+            Container.
+                BindInterfacesAndSelfTo<GameloopController>().
+                AsSingle();
+        }
+
+        private void BindGameLauncher()
+        {
+            Container.
+                BindInterfacesAndSelfTo<GameLauncher>().
+                AsSingle();
         }
 
         private void BindLevelBackground()
@@ -66,12 +82,16 @@ namespace ShootEmUp
         private void BindCharacter()
         {
             Container.
-                Bind<CharacterMoveController>().
+                Bind<CharacterAttackController>().
                 AsSingle();
 
             Container.
-                Bind<CharacterAttackController>().
-                AsSingle();
+                BindInterfacesAndSelfTo<CharacterMoveController>().
+                AsTransient();
+
+            Container.
+                BindInterfacesAndSelfTo<CharacterAttackController>().
+                AsTransient();
         }
 
         private void BindGameManager()

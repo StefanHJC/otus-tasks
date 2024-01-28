@@ -54,7 +54,7 @@ namespace ShootEmUp
                 await Task.Yield();
 
             _container = _provider.Level.BulletParent;
-            _worldTransform = _provider.Level.Root;
+            _worldTransform = _provider.Level.World;
 
             for (var i = 0; i < InitialCount; i++)
             {

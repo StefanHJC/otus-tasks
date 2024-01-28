@@ -15,7 +15,7 @@ namespace ShootEmUp
         [Inject]
         public BulletBuilder(IDatabaseService data, IAssetProvider assetProvider)
         {
-            //_prefab = data.Get<BulletStaticData>().FirstOrDefault().PrefabData.First(bullet => bullet.TypeId == BulletTypeId.Default).Prefab;
+            _prefab = data.Get<BulletStaticData>().FirstOrDefault().PrefabData.First(bullet => bullet.TypeId == BulletTypeId.Default).Prefab.GetComponent<Bullet>();
             _assetProvider = assetProvider;
         }
 

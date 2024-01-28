@@ -1166,14 +1166,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ab0178068b03042ad11adbb97fbba1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPositions: []
-  _enemyParent: {fileID: 0}
-  _bulletParent: {fileID: 0}
-  _levelBackground: {fileID: 0}
+  _enemySpawnPositions:
+  - {fileID: 8327060097478194253}
+  - {fileID: 18657427141742648}
+  - {fileID: 7858282874529030379}
+  - {fileID: 3082550289788396962}
+  - {fileID: 8915884310460890603}
+  - {fileID: 3762371273580655028}
+  _enemyAttackPositions:
+  - {fileID: 4874180281508835034}
+  - {fileID: 5435790347593954442}
+  - {fileID: 4371347248599002505}
+  - {fileID: 5079221931540160105}
+  - {fileID: 6757124520931970297}
+  - {fileID: 3841513576961444328}
+  - {fileID: 3841513577765609634}
+  - {fileID: 3841513577584046319}
+  - {fileID: 3841513577008382936}
+  - {fileID: 3841513577681951400}
+  - {fileID: 3841513577413398943}
+  _enemyParent: {fileID: 3841513577782871303}
+  _bulletParent: {fileID: 3841513576180958646}
+  _levelBackground: {fileID: 6513801714036962910}
   _leftBorder: {fileID: 7951617745195888608}
   _rightBorder: {fileID: 2479709309433545721}
   _downBorder: {fileID: 1973613523419524857}
   _topBorder: {fileID: 3250981277307920462}
+  _world: {fileID: 3841513576068539253}
 --- !u!1 &7262942882041195857
 GameObject:
   m_ObjectHideFlags: 0

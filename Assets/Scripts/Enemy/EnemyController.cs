@@ -22,7 +22,7 @@ namespace ShootEmUp
             _attackAgent = new EnemyAttackAgent(view, _movementObserver);
             View = view;
 
-            hitPoints.DeathHappened += () => Died?.Invoke(this);
+            hitPoints.OnDeath += () => Died?.Invoke(this);
             _attackAgent.FirePerformed += (BulletSystemArgs args) => FirePerformed?.Invoke(args);
         }
 

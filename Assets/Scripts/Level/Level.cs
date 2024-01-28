@@ -1,12 +1,12 @@
 using UnityEngine;
-using Zenject;
 
 namespace ShootEmUp
 {
     public class Level : MonoBehaviour
     {
         [Header("Enemy positions")]
-        [SerializeField] private Transform[] _enemyPositions;
+        [SerializeField] private Transform[] _enemySpawnPositions;
+        [SerializeField] private Transform[] _enemyAttackPositions;
         [SerializeField] private Transform _enemyParent;
         
         [Space]
@@ -23,8 +23,13 @@ namespace ShootEmUp
         [SerializeField] private Transform _rightBorder;
         [SerializeField] private Transform _downBorder;
         [SerializeField] private Transform _topBorder;
-        
-        public Transform Root => transform;
+
+        [Space]
+        [Header("World")]
+        [SerializeField] private Transform _world;
+
+
+        public Transform World => _world;
         public Transform BulletParent => _bulletParent;
 
         public Vector3 LeftBorder => _rightBorder.position;

@@ -1,19 +1,33 @@
 
+using System;
+using System.Threading.Tasks;
+using Zenject;
+
 namespace ShootEmUp
 {
-    public sealed class PlayerDeathListener
+    public sealed class PlayerDeathListener : IDisposable, IGameEndInvoker
     {
         private HitPointsComponent _playerHealth;
-        private GameManager _gameManager;
 
-        public PlayerDeathListener(HitPointsComponent playerHealth, GameManager gameManager)
+        public event Action OnGameEnded;
+
+        [Inject]
+        public PlayerDeathListener(CharacterProvider provider)
         {
-            _playerHealth = playerHealth;
-            _gameManager = gameManager;
-
-            _playerHealth.DeathHappened += OnPlayerDeath;
+            LazyInitAsync(provider);
         }
 
-        private void OnPlayerDeath() => _gameManager.FinishGame();
+        public void Dispose() => _playerHealth.OnDeath -= OnPlayerOnDeath;
+
+        private async void LazyInitAsync(CharacterProvider provider)
+        {
+            while (provider.Character == null)
+                await Task.Yield();
+
+            _playerHealth = provider.CharacterHealth;
+            _playerHealth.OnDeath += OnPlayerOnDeath;
+        }
+
+        private void OnPlayerOnDeath() => OnGameEnded?.Invoke();
     }
 }

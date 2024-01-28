@@ -7,7 +7,7 @@ namespace ShootEmUp
     {
         [SerializeField] private int _hitPoints;
 
-        public event Action DeathHappened;
+        public event Action OnDeath;
 
         public bool IsHitPointsExists() => _hitPoints > 0;
 
@@ -16,7 +16,7 @@ namespace ShootEmUp
             _hitPoints -= damage;
 
             if (_hitPoints <= 0) 
-                DeathHappened?.Invoke();
+                OnDeath?.Invoke();
         }
     }
 }

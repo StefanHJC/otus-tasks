@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -60,39 +58,6 @@ namespace ShootEmUp
             //     ServiceLocator.Get<BulletSystem>(),
             //     view));
             // _characterProvider.Character = ServiceLocator.Get<CharacterController>();
-        }
-    }
-
-    public class GameLauncher
-    {
-        private readonly UIMediator _uiMeddiator;
-
-        [Inject]
-        public GameLauncher(UIMediator uiMediator)
-        {
-            _uiMeddiator = uiMediator;
-        }
-
-        public async void StartGameAsync()
-        {
-            await AwaitGameStartAsync(delayInSeconds: 3);
-
-            //InstallGameSessionBindings(InstantiateCharacterView(at: _characterPosition, prefab: _characterView));
-            //_gameListenersController.StartGame();
-            //_hud.PauseButton.Enable();
-        }
-
-        private async Task AwaitGameStartAsync(int delayInSeconds)
-        {
-            int i = 0;
-
-            while (i <= delayInSeconds)
-            {
-                _uiMeddiator.ShowScreenText((delayInSeconds - i++).ToString());
-               
-                await Task.Delay(millisecondsDelay: 1000);
-            }
-            _uiMeddiator.HideScreenText();
         }
     }
 }

@@ -1,15 +1,16 @@
+using System.Threading.Tasks;
 using Zenject;
 
 namespace ShootEmUp
 {
     public class UIMediator
     {
-        private readonly IHUD _hud;
+        private IHUD _hud;
 
         [Inject]
         public UIMediator(UIProvider provider)
         {
-            _hud = provider.Hud;
+            LazyInitAsync(provider);
         }
 
         public void ShowScreenText(string text)
@@ -31,5 +32,13 @@ namespace ShootEmUp
         public void ShowPauseButton() => _hud.PauseButton.Enable();
 
         public void HidePauseButton() => _hud.PauseButton.Disable();
+
+        private async void LazyInitAsync(UIProvider provider)
+        {
+            while (provider.Hud == null)
+                await Task.Yield();
+
+            _hud = provider.Hud;
+        }
     }
 }
