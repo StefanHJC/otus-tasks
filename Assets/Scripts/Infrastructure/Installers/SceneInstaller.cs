@@ -8,7 +8,8 @@ namespace ShootEmUp
         {
             BindInput();
             BindPlayerDeathListener();
-            BindGameManager();
+            BindGameInterruption();
+
             BindGameLauncher();
             BindGameloopController();
 
@@ -20,6 +21,7 @@ namespace ShootEmUp
             BindBulletPool();
             BindBulletSystem();
 
+            BindCharacterFactory();
             BindCharacter();
             BindCharacterProvider();
 
@@ -27,7 +29,29 @@ namespace ShootEmUp
             BindButtonListener();
 
             BindLevelBounds();
+            BindEnemyPositions();
             //BindLevelBackground(level);
+        }
+        private void BindGameInterruption()
+        {
+            Container.
+                Bind<IGameInterruptionController>().
+                To<ZenjectTickableInterruptionController>().
+                AsSingle();
+        }
+
+        private void BindEnemyPositions()
+        {
+            Container.
+                Bind<EnemyPositions>().
+                AsSingle();
+        }
+
+        private void BindCharacterFactory()
+        {
+            Container.
+                Bind<CharacterFactory>().
+                AsSingle();
         }
 
         private void BindGameloopController()
@@ -82,27 +106,14 @@ namespace ShootEmUp
         private void BindCharacter()
         {
             Container.
-                Bind<CharacterAttackController>().
-                AsSingle();
-
-            Container.
-                BindInterfacesAndSelfTo<CharacterMoveController>().
+                Bind<CharacterMoveController>().
                 AsTransient();
 
             Container.
                 BindInterfacesAndSelfTo<CharacterAttackController>().
                 AsTransient();
         }
-
-        private void BindGameManager()
-        {
-            Container.
-                Bind<GameManager>().
-                FromNew().
-                AsSingle().
-                Lazy();
-        }
-
+        
         private void BindBulletSystem()
         {
             Container.
@@ -163,7 +174,7 @@ namespace ShootEmUp
         private void BindPlayerDeathListener()
         {
             Container.
-                Bind<PlayerDeathListener>().
+                BindInterfacesAndSelfTo<PlayerDeathListener>().
                 AsSingle();
         }
     }

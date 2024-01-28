@@ -25,6 +25,9 @@ namespace ShootEmUp
             _attackController = attackController;
             _moveController = moveController;
             _view = view;
+
+            _moveController.View = _view;
+            _attackController.View = _view;
         }
     }
 
@@ -51,7 +54,7 @@ namespace ShootEmUp
         public CharacterController InstantiateCharacter(Vector3 at)
         {
             UnitView viewInstance = _assetProvider.Instantiate(_data.Prefab).GetComponent<UnitView>();
-            CharacterController characterInstance = _di.Instantiate<CharacterController>(new[] { _assetProvider.Instantiate(_data.Prefab) });
+            CharacterController characterInstance = _di.Instantiate<CharacterController>(new[] { viewInstance });
 
             _provider.Character ??= characterInstance;
             _provider.CharacterHealth ??= viewInstance.GetComponent<HitPointsComponent>();

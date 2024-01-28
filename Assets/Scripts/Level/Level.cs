@@ -29,12 +29,14 @@ namespace ShootEmUp
         [SerializeField] private Transform _world;
 
 
+        public Transform[] EnemySpawnPositions => _enemySpawnPositions;
+        public Transform[] EnemyAttackPositions => _enemyAttackPositions;
         public Transform World => _world;
         public Transform BulletParent => _bulletParent;
-
-        public Vector3 LeftBorder => _rightBorder.position;
-        public Vector3 RightBorder => _leftBorder.position;
-        public Vector3 DownBorder => _downBorder.position;
-        public Vector3 TopBorder => _topBorder.position;
+        public Transform EnemyParent => _enemyParent;
+        public Transform LeftBorder => _rightBorder;
+        public Transform RightBorder => _leftBorder;
+        public Transform DownBorder => _downBorder;
+        public Transform TopBorder => _topBorder;
     }
 }

@@ -8,14 +8,13 @@ namespace ShootEmUp
         private readonly IAttackInput _attackInput;
         private readonly IBulletSystem _bulletSystem;
 
-        public IUnitView View { get; private set; }
+        public IUnitView View { get; set; }
 
         [Inject]
-        public CharacterAttackController(IAttackInput attackInput, IBulletSystem bulletSystem, IUnitView view)
+        public CharacterAttackController(IAttackInput attackInput, IBulletSystem bulletSystem)
         {
             _attackInput = attackInput;
             _bulletSystem = bulletSystem;
-            View = view;
 
             _attackInput.AttackActionPerformed += OnFlyBullet;
         }

@@ -1,4 +1,5 @@
 
+using System.Linq;
 using Zenject;
 
 namespace ShootEmUp
@@ -6,20 +7,25 @@ namespace ShootEmUp
     public class EnemyFactory : IEnemyFactory
     {
         private readonly IAssetProvider _assetProvider;
-        private readonly UnitView _prefab;
         private readonly DiContainer _diContainer;
+        private readonly UnitStaticData.UnitPrefabData _data;
 
         [Inject]
-        public EnemyFactory(UnitView prefab, IAssetProvider assetProvider, DiContainer diContainer)
+        public EnemyFactory(IAssetProvider assetProvider, IDatabaseService data, DiContainer diContainer)
         {
-            _prefab = prefab;
             _assetProvider = assetProvider;
             _diContainer = diContainer;
+
+            _data = data.
+                        Get<UnitStaticData>().
+                        FirstOrDefault().
+                        PrefabData.
+                        First(prefab => prefab.TypeId == UnitTypeId.Enemy);
         }
 
         public EnemyController GetEnemy()
         {
-            UnitView viewInstance = _assetProvider.Instantiate(_prefab);
+            UnitView viewInstance = _assetProvider.Instantiate(_data.Prefab.GetComponent<UnitView>());
 
             return _diContainer.Instantiate<EnemyController>(new object[]
                 { viewInstance, viewInstance.GetComponent<HitPointsComponent>() });

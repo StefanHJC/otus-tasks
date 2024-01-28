@@ -18,10 +18,10 @@ namespace ShootEmUp
         private bool _isEnabled;
 
         [Inject]
-        public EnemyManager(EnemyPositions enemyPositions, CharacterMoveController character, IEnemyPool enemyPool, IBulletSystem bulletSystem)
+        public EnemyManager(EnemyPositions enemyPositions, IEnemyPool enemyPool, IBulletSystem bulletSystem)
         {
             _enemyPositions = enemyPositions;
-            _character = character;
+            //_character = character;
             _enemyPool = enemyPool;
             _bulletSystem = bulletSystem;
             _isEnabled = true;

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -8,21 +10,26 @@ namespace ShootEmUp
         private const int MaxEnemies = 7;
 
         private readonly Queue<EnemyController> _pool = new();
-        private readonly Transform _container;
-        private readonly Transform _worldTransform;
+        private Transform _container;
+        private Transform _worldTransform;
         private readonly IEnemyFactory _factory;
 
-        public EnemyPool(Transform container, Transform world, IEnemyFactory factory)
+        public EnemyPool(LevelProvider provider, IEnemyFactory factory)
         {
-            _container = container;
-            _worldTransform = world;
             _factory = factory;
 
-            Init();
+            LazyInitAsync(provider);
         }
 
-        private void Init()
+        private async void LazyInitAsync(LevelProvider provider)
         {
+            while (provider.Level == null)
+                await Task.Yield();
+            
+            _container = provider.Level.EnemyParent;
+            _worldTransform = provider.Level.World;
+
+
             for (var i = 0; i < MaxEnemies; i++)
             {
                 EnemyController enemy = _factory.GetEnemy();

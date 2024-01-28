@@ -44,6 +44,7 @@ namespace ShootEmUp
 
                 if (!_levelBounds.IsInBounds(bullet.transform.position))
                 {
+                    Debug.Break();
                     MoveBulletToPool(bullet);
                 }
             }
@@ -89,7 +90,6 @@ namespace ShootEmUp
             BulletUtils.DealDamage(bullet, collision.gameObject);
             MoveBulletToPool(bullet);
         }
-
 
         private void MoveBulletToPool(Bullet bullet)
         {

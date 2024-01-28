@@ -199,7 +199,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6213897494144866035}
-  - component: {fileID: 6213897494144866034}
   m_Layer: 0
   m_Name: '[ENEMY_POSITIONS]'
   m_TagString: Untagged
@@ -224,37 +223,6 @@ Transform:
   m_Father: {fileID: 6079030863772674932}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6213897494144866034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1477571286311858191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a94380673bed40d7aff42c7cee30b556, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spawnPositions:
-  - {fileID: 8327060097478194253}
-  - {fileID: 18657427141742648}
-  - {fileID: 7858282874529030379}
-  - {fileID: 3082550289788396962}
-  - {fileID: 8915884310460890603}
-  - {fileID: 3762371273580655028}
-  _attackPositions:
-  - {fileID: 4874180281508835034}
-  - {fileID: 5435790347593954442}
-  - {fileID: 4371347248599002505}
-  - {fileID: 5079221931540160105}
-  - {fileID: 6757124520931970297}
-  - {fileID: 3841513576961444328}
-  - {fileID: 3841513577765609634}
-  - {fileID: 3841513577584046319}
-  - {fileID: 3841513577008382936}
-  - {fileID: 3841513577681951400}
-  - {fileID: 3841513577413398943}
 --- !u!1 &1655982093030010550
 GameObject:
   m_ObjectHideFlags: 0
