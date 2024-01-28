@@ -34,8 +34,8 @@ namespace ShootEmUp
         public Transform World => _world;
         public Transform BulletParent => _bulletParent;
         public Transform EnemyParent => _enemyParent;
-        public Transform LeftBorder => _rightBorder;
-        public Transform RightBorder => _leftBorder;
+        public Transform LeftBorder => _leftBorder;
+        public Transform RightBorder => _rightBorder;
         public Transform DownBorder => _downBorder;
         public Transform TopBorder => _topBorder;
     }

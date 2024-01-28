@@ -44,7 +44,6 @@ namespace ShootEmUp
 
                 if (!_levelBounds.IsInBounds(bullet.transform.position))
                 {
-                    Debug.Break();
                     MoveBulletToPool(bullet);
                 }
             }
