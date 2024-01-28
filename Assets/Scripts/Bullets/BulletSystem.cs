@@ -18,8 +18,8 @@ namespace ShootEmUp
     {
         private readonly List<Bullet> _cache = new();
         private readonly Dictionary<Bullet, Vector2> _frozenBullets = new();
-        private LevelBounds _levelBounds;
-        private IBulletPool _bulletPool;
+        private readonly LevelBounds _levelBounds;
+        private readonly IBulletPool _bulletPool;
         private bool _isEnabled;
 
         [Inject]
