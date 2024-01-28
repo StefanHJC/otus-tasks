@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -10,9 +11,10 @@ namespace ShootEmUp
         
         public event Action AttackActionPerformed;
 
-        public AttackInputListener(KeyCode attackKey)
+        [Inject]
+        public AttackInputListener(IDatabaseService data)
         {
-            _attackKey = attackKey;
+            _attackKey = data.Get<GameStaticData>().FirstOrDefault().InputSchema.AttackKey;
         }
 
         public void Tick()

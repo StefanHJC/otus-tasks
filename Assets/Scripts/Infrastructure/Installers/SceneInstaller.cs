@@ -21,11 +21,17 @@ namespace ShootEmUp
             BindCharacter();
             BindCharacterProvider();
 
+            BindUIProvider();
             BindUIFactory();
             BindUIMediator();
             BindButtonListener();
+        }
 
-            Container.QueueForInject(Container.Resolve<UIMediator>());
+        private void BindUIProvider()
+        {
+            Container.
+                Bind<UIProvider>().
+                AsSingle();
         }
 
         private void BindCharacterProvider()
@@ -53,8 +59,7 @@ namespace ShootEmUp
         {
             Container.
                 Bind<UIMediator>().
-                AsSingle().
-                WithArguments(Container.Resolve<UIFactory>().InstantiateHUD());
+                AsSingle();
         }
 
         private void BindCharacter()

@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Zenject;
 using Object = UnityEngine.Object;
 
 namespace ShootEmUp
@@ -14,12 +17,12 @@ namespace ShootEmUp
             _loadedData = new Dictionary<Type, List<Object>>();
         }
 
-        public T Get<T>() where T : Object
+        public IEnumerable<T> Get<T>() where T : Object
         {
             if (_loadedData == null || !_loadedData.ContainsKey(typeof(T)))
                 throw new ArgumentException($"Data of type {typeof(T)} is not loaded");
 
-            return _loadedData[typeof(T)] as T;
+            return _loadedData[typeof(T)].Select(data => data as T);
         }
 
         public void Load<T>(string path) where T : Object

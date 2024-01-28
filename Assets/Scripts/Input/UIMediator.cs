@@ -7,9 +7,9 @@ namespace ShootEmUp
         private readonly IHUD _hud;
 
         [Inject]
-        public UIMediator(IHUD hud)
+        public UIMediator(UIProvider provider)
         {
-            _hud = hud;
+            _hud = provider.Hud;
         }
 
         public void ShowScreenText(string text)

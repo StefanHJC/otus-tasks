@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -10,10 +11,11 @@ namespace ShootEmUp
 
         public float HorizontalDirection { get; private set; }
 
-        public MoveInputListener(KeyCode moveLeftKey, KeyCode moveRightKey)
+        [Inject]
+        public MoveInputListener(IDatabaseService data)
         {
-            _moveLeftKey = moveLeftKey;
-            _moveRightKey = moveRightKey;
+            _moveLeftKey = data.Get<GameStaticData>().FirstOrDefault().InputSchema.MoveLeftKey; 
+            _moveRightKey = data.Get<GameStaticData>().FirstOrDefault().InputSchema.MoveRightKey;
         }
 
         public void Tick()

@@ -7,11 +7,15 @@ namespace ShootEmUp
     public class GameEntry : MonoBehaviour
     {
         private IDatabaseService _data;
+        private UIFactory _uiFactory;
+        private LevelFactory _levelfactory;
 
         [Inject]
-        public void Construct(IDatabaseService data)
+        public void Construct(IDatabaseService data, UIFactory uiFactory, LevelFactory levelFactory)
         {
             _data = data;
+            _uiFactory = uiFactory;
+            _levelfactory = levelFactory;
         }
 
         private void Awake()
@@ -26,6 +30,12 @@ namespace ShootEmUp
             _data.Load<GameStaticData>(AssetPath.StaticData);
             _data.Load<UIStaticData>(AssetPath.StaticData);
             _data.Load<UnitStaticData>(AssetPath.StaticData);
+        }
+
+        private void OnLevelLoaded()
+        {
+            _levelfactory.InstantiateLevel(0);
+            _uiFactory.InstantiateHUD();
         }
     }
 }
