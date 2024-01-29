@@ -7,7 +7,7 @@ namespace ShootEmUp
     {
         private readonly IWeaponComponent _weaponComponent;
         private readonly MovementObserver _movementObserver;
-        private HitPointsComponent _target;
+        private IUnitView _target;
         private float _currentTime;
 
         private bool CanFire => _currentTime <= 0 && _movementObserver.IsMoving == false;
@@ -34,14 +34,14 @@ namespace ShootEmUp
 
         public void Reset() => _currentTime = Countdown;
 
-        public void SetTarget(HitPointsComponent target) => _target = target;
+        public void SetTarget(IUnitView target) => _target = target;
 
         private void Fire()
         {
-            FirePerformed?.Invoke(_weaponComponent.GetBulletArgs(_target.transform.position));
+            FirePerformed?.Invoke(_weaponComponent.GetBulletArgs(_target.Position));
             Reset();
         }
 
-        private bool CanShotAndTargetAlive() => CanFire && (_target != null && _target.IsHitPointsExists());
+        private bool CanShotAndTargetAlive() => CanFire && (_target != null && _target.Health.IsHitPointsExists());
     }
 }

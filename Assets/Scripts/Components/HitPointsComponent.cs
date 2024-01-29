@@ -3,7 +3,15 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class HitPointsComponent : MonoBehaviour
+    public interface IHitPointsComponent
+    {
+        event Action OnDeath;
+
+        bool IsHitPointsExists();
+        void TakeDamage(int damage);
+    }
+
+    public sealed class HitPointsComponent : MonoBehaviour, IHitPointsComponent
     {
         [SerializeField] private int _hitPoints;
 

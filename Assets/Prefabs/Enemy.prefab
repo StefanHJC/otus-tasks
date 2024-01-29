@@ -197,6 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movement: {fileID: 5568771391735819372}
   _weapon: {fileID: 1414864532546800300}
+  _hitPoints: {fileID: 5568771391735819373}
 --- !u!1 &2239154907127902911
 GameObject:
   m_ObjectHideFlags: 0
