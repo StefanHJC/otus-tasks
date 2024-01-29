@@ -82,11 +82,7 @@ namespace ShootEmUp
             _frozenBullets.Clear();
         }
 
-        private void OnBulletCollision(Bullet bullet, Collision2D collision)
-        {
-            BulletUtils.DealDamage(bullet, collision.gameObject);
-            MoveBulletToPool(bullet);
-        }
+        private void OnBulletCollision(Bullet bullet, Collision2D collision) => MoveBulletToPool(bullet);
 
 
         private void MoveBulletToPool(Bullet bullet)

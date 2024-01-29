@@ -17,23 +17,18 @@ namespace ShootEmUp
         public event Action<BulletSystem.Args> FirePerformed;
         public event Action<EnemyController> Died;
 
-        public EnemyController(UnitView view, HitPointsComponent hitPoints)
+        public EnemyController(UnitView view, HitPointsComponent hitPoints, BulletSystem bulletSystem)
         {
             _moveAgent = new EnemyMoveAgent(view);
             _movementObserver = new MovementObserver(_moveAgent);
-            _attackAgent = new EnemyAttackAgent(view, _movementObserver);
+            _attackAgent = new EnemyAttackAgent(view, _movementObserver, bulletSystem);
             _hitPointsComponent = hitPoints;
             View = view;
 
             _hitPointsComponent.DeathHappened += InvokeDeathEvent;
-            _attackAgent.FirePerformed += InvokeFireEvent;
         }
 
-        public void Dispose()
-        {
-            _hitPointsComponent.DeathHappened -= InvokeDeathEvent;
-            _attackAgent.FirePerformed -= InvokeFireEvent;
-        }
+        public void Dispose() => _hitPointsComponent.DeathHappened -= InvokeDeathEvent;
 
         public void Attack(Transform target) => _attackAgent.SetTarget(target.GetComponent<HitPointsComponent>());
 

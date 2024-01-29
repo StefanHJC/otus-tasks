@@ -28,10 +28,7 @@ namespace ShootEmUp
                 ServiceLocator.Get<MoveInputListener>(),
                 view));
 
-            ServiceLocator.Bind<CharacterController>(new CharacterController(
-                ServiceLocator.Get<CharacterAttackController>(),
-                ServiceLocator.Get<CharacterMoveController>(),
-                view));
+            ServiceLocator.Bind<CharacterController>(new CharacterController(view));
 
             _characterProvider.Character = ServiceLocator.Get<CharacterController>();
         }

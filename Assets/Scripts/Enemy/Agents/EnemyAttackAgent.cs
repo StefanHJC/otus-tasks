@@ -5,8 +5,9 @@ namespace ShootEmUp
 {
     public sealed class EnemyAttackAgent : IService, IFixedUpdateListener
     {
-        private readonly IWeaponComponent _weaponComponent;
         private readonly MovementObserver _movementObserver;
+        private readonly BulletSystem _bulletSystem;
+        private readonly IWeaponComponent _weaponComponent;
         private HitPointsComponent _target;
         private float _currentTime;
 
@@ -14,12 +15,11 @@ namespace ShootEmUp
 
         public float Countdown { get; set; } = 1;
 
-        public event Action<BulletSystem.Args> FirePerformed;
-
-        public EnemyAttackAgent(IUnitView view, MovementObserver movementObserver)
+        public EnemyAttackAgent(IUnitView view, MovementObserver movementObserver, BulletSystem bulletSystem)
         {
              _weaponComponent = view.Weapon;
              _movementObserver = movementObserver;
+             _bulletSystem = bulletSystem;
         }
 
         public void OnFixedUpdate()
@@ -38,7 +38,7 @@ namespace ShootEmUp
 
         private void Fire()
         {
-            FirePerformed?.Invoke(_weaponComponent.GetBulletArgs(_target.transform.position));
+            _bulletSystem.FlyBulletByArgs(_weaponComponent.GetBulletArgs(_target.transform.position));
             Reset();
         }
 

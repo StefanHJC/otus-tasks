@@ -18,7 +18,7 @@ namespace ShootEmUp
         {
             UnitView viewInstance = _assetProvider.Instantiate(_prefab);
 
-            var enemy = new EnemyController(viewInstance, viewInstance.GetComponent<HitPointsComponent>());
+            var enemy = new EnemyController(viewInstance, viewInstance.GetComponent<HitPointsComponent>(), ServiceLocator.Get<BulletSystem>());
             _gameListenersController.Add(enemy.AttackAgent);
             _gameListenersController.Add(enemy.MoveAgent);
 

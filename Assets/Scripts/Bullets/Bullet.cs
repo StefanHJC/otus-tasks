@@ -21,6 +21,23 @@ namespace ShootEmUp
 
         private void OnDestroy() => _collisionObserver.CollisionExited -= OnCollision;
 
-        private void OnCollision(Collision2D collision) => CollisionHappened?.Invoke(this, collision);
+        private void OnCollision(Collision2D collision)
+        {
+            DealDamage(collision.gameObject);
+            CollisionHappened?.Invoke(this, collision);
+        }
+
+
+        private void DealDamage(GameObject other)
+        {
+            if (!other.TryGetComponent(out TeamComponent team))
+                return;
+
+            if (IsPlayer == team.IsPlayer)
+                return;
+
+            if (other.TryGetComponent(out HitPointsComponent hitPoints))
+                hitPoints.TakeDamage(Damage);
+        }
     }
 }

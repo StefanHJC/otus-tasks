@@ -1,67 +1,33 @@
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyManager : IService,
-        IGameStartListener, 
-        IGamePauseListener, 
-        IGameResumeListener, 
-        IGameEndListener
+    public sealed class EnemyManager : IService
     {
-        private const int SpawnDelayInMs = 1000;
-
         private readonly HashSet<EnemyController> _activeEnemies = new();
         private EnemyPositions _enemyPositions;
         private CharacterProvider _characterProvider;
         private EnemyPool _enemyPool;
-        private BulletSystem _bulletSystem;
-        private CancellationTokenSource _cts;
-        private bool _isEnabled;
 
-        public EnemyManager(EnemyPositions enemyPositions, CharacterProvider characterProvider, EnemyPool enemyPool, BulletSystem bulletSystem)
+        public EnemyManager(EnemyPositions enemyPositions, CharacterProvider characterProvider, EnemyPool enemyPool)
         {
             _enemyPositions = enemyPositions;
             _characterProvider = characterProvider;
             _enemyPool = enemyPool;
-            _bulletSystem = bulletSystem;
-            _isEnabled = true;
         }
 
-        public void OnGameStart() => SpawnEnemiesAsync();
-
-        public void OnGameEnd() => _cts.Cancel();
-
-        public void OnPause() => _isEnabled = false;
-
-        public void OnResume() => _isEnabled = true;
-
-        private async void SpawnEnemiesAsync()
+        public void SpawnEnemy()
         {
-            _cts = new CancellationTokenSource();
-            
-            while (_cts.IsCancellationRequested != true)
+            if (_enemyPool.TrySpawnEnemy(spawned: out EnemyController enemy))
             {
-                await Task.Delay(SpawnDelayInMs, _cts.Token);
-                
-                if (!_isEnabled)
-                    continue;
-                
-                if (_enemyPool.TrySpawnEnemy(spawned: out EnemyController enemy))
-                {
-                    _activeEnemies.Add(enemy);
-                    InitEnemy(enemy);
-                }
+                _activeEnemies.Add(enemy);
+                InitEnemy(enemy);
             }
         }
-
-        private void OnDisable() => _cts.Cancel();
 
         private void InitEnemy(EnemyController enemy)
         {
             enemy.Attack(_characterProvider.Character.View.transform);
-            enemy.FirePerformed += OnFire;
 
             enemy.View.transform.position = _enemyPositions.GetRandomSpawnPosition().position;
             enemy.Move(to: _enemyPositions.GetRandomAttackPosition().position);
@@ -74,12 +40,9 @@ namespace ShootEmUp
             if (_activeEnemies.Remove(enemy))
             {
                 enemy.Died -= OnDestroyed;
-                enemy.FirePerformed -= OnFire;
 
                 _enemyPool.UnspawnEnemy(enemy);
             }
         }
-
-        private void OnFire(BulletSystem.Args bulletArgs) => _bulletSystem.FlyBulletByArgs(bulletArgs);
     }
 }

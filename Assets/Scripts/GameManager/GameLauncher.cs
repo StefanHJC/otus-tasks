@@ -22,6 +22,7 @@ namespace ShootEmUp
             await SetGameStartDelayAsync(delayInSeconds: GameStartDelay);
 
             _playerInstaller.InstallGameSessionBindings(_playerInstaller.InstantiateCharacterView());
+            _gameListenersController.StartGame();
             _hud.PauseButton.Enable();
         }
 

@@ -61,8 +61,7 @@ namespace ShootEmUp
             ServiceLocator.Bind<HUD>(InstantiateHUD());
 
             ServiceLocator.Bind<AssetProvider>(new AssetProvider());
-            ServiceLocator.Bind<GameStateObserver>(new GameStateObserver(_game));
-            ServiceLocator.Bind<PlayerDeathListener>(new PlayerDeathListener(_characterProvider));
+            ServiceLocator.Bind<PlayerDeathListener>(new PlayerDeathListener(_characterProvider, _listenersController));
             ServiceLocator.Bind<PlayerInstaller>(new PlayerInstaller(_characterProvider, 
                 ServiceLocator.Get<AssetProvider>(), 
                 _unitView, 
@@ -71,26 +70,23 @@ namespace ShootEmUp
                 _listenersController, 
                 ServiceLocator.Get<HUD>()));
 
-            _listenersController.Construct(_game, 
-                ServiceLocator.Get<HUD>(), 
-                ServiceLocator.Get<GameLauncher>(),
-                ServiceLocator.Get<PlayerDeathListener>());
+            _listenersController.Construct(_game);
 
-            ServiceLocator.Bind<BulletBuilder>(new BulletBuilder(_bulletPrefab, ServiceLocator.Get<AssetProvider>()));
+                ServiceLocator.Bind<BulletBuilder>(new BulletBuilder(_bulletPrefab, ServiceLocator.Get<AssetProvider>()));
             ServiceLocator.Bind<BulletPool>(new BulletPool(_bulletContainer, ServiceLocator.Get<BulletBuilder>(), _world));
             ServiceLocator.Bind<BulletSystem>(new BulletSystem(_levelBounds, ServiceLocator.Get<BulletPool>()));
 
             ServiceLocator.Bind<EnemyFactory>(new EnemyFactory(_enemyPrefab, _listenersController,ServiceLocator.Get<AssetProvider>()));
             ServiceLocator.Bind<EnemyPool>(new EnemyPool(_enemyContainer, _world, ServiceLocator.Get<EnemyFactory>()));
-            ServiceLocator.Bind<EnemyManager>(new EnemyManager(_enemyPositions, _characterProvider, 
-                ServiceLocator.Get<EnemyPool>(),
-                ServiceLocator.Get<BulletSystem>()));
+            ServiceLocator.Bind<EnemyManager>(new EnemyManager(_enemyPositions, _characterProvider, ServiceLocator.Get<EnemyPool>()));
+            ServiceLocator.Bind<EnemyAsyncSpawner>(new EnemyAsyncSpawner(ServiceLocator.Get<EnemyManager>()));
 
             ServiceLocator.Bind<AttackInputListener>(new AttackInputListener(_inputSchema.AttackKey));
             ServiceLocator.Bind<MoveInputListener>(new MoveInputListener(_inputSchema.MoveLeftKey, _inputSchema.MoveRightKey));
 
             ServiceLocator.Bind<GameListenersController>(_listenersController);
-
+            ServiceLocator.Bind<ButtonClickObserver>(new ButtonClickObserver(ServiceLocator.Get<HUD>(), _listenersController, ServiceLocator.Get<GameLauncher>()));
+            ServiceLocator.Bind<GameEndListener>(new GameEndListener(ServiceLocator.Get<HUD>(), ServiceLocator.Get<PlayerDeathListener>()));
             ServiceLocator.Bind<LevelBackground>(new LevelBackground(_levelBackgroundParams, _levelBackgroundParent));
         }
 

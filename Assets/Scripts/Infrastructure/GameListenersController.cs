@@ -11,21 +11,10 @@ namespace ShootEmUp
         private List<IUpdateListener> _updateListeners = new();
         private List<IFixedUpdateListener> _fixedUpdateListeners = new();
         private Game _game;
-        private HUD _hud;
-        private PlayerDeathListener _playerDeathListener;
-        private GameLauncher _gameLauncher;
 
-        public void Construct(Game game, HUD hud, GameLauncher gameLauncher, PlayerDeathListener playerDeathListener)
+        public void Construct(Game game)
         {
             _game = game;
-            _hud = hud;
-            _playerDeathListener = playerDeathListener;
-            _gameLauncher = gameLauncher;
-
-            _hud.StartButton.Clicked += StartGameAsync;
-            _hud.PauseButton.Clicked += Pause;
-            _hud.ResumeButton.Clicked += Resume;
-            _playerDeathListener.PlayerDied += EndGame;
         }
 
         public void Add(IGameListener listener)
@@ -63,13 +52,11 @@ namespace ShootEmUp
             _updateListeners.Remove(listener as IUpdateListener) ||
             _fixedUpdateListeners.Remove(listener as IFixedUpdateListener);
 
-        public async void StartGameAsync()
+        public void StartGame()
         {
             if (_game.State != GameState.None)
                 return;
 
-            await _gameLauncher.StartGameAsync();
-            
             InvokeListeners<IGameStartListener>();
             _game.State = GameState.Playing;
         }
@@ -79,8 +66,6 @@ namespace ShootEmUp
             if (_game.State != GameState.Playing)
                 return;
 
-            _hud.ScreenTextRenderer.Enable();
-            _hud.ScreenTextRenderer.Text = "Game over!!!";
             InvokeListeners<IGameEndListener>();
             _game.State = GameState.None;
         }
@@ -123,15 +108,7 @@ namespace ShootEmUp
                 _fixedUpdateListeners[i].OnFixedUpdate();
         }
 
-        private void OnDestroy()
-        {
-            EndGame();
-
-            _hud.StartButton.Clicked -= StartGameAsync;
-            _hud.PauseButton.Clicked -= Pause;
-            _hud.ResumeButton.Clicked -= Resume;
-            _playerDeathListener.PlayerDied -= EndGame;
-        }
+        private void OnDestroy() => EndGame();
 
         private void InvokeListeners<T>() where T : class, IGameListener
         {
