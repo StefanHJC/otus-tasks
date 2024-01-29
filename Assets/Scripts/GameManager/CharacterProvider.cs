@@ -96,6 +96,7 @@ namespace ShootEmUp
         {
             _characterFactory.InstantiateCharacter(at: default);
             _enemyManager.Initialize();
+            _uiMediator.ShowPauseButton();
 
             _gameStartInvoker.OnGameStarted -= OnGameStart;
         }

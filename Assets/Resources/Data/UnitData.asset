@@ -16,6 +16,6 @@ MonoBehaviour:
   - TypeId: 0
     Prefab: {fileID: 809540891661548873, guid: 9699e7e809fd44b2bbf3d30c951ecbd2, type: 3}
     BulletConfig: {fileID: 11400000, guid: 7138ae5d32d814e0ca50c616c65ea105, type: 2}
-  - TypeId: 0
+  - TypeId: 1
     Prefab: {fileID: 559606060570185700, guid: 87fe189881a524806800482ac8eaaa83, type: 3}
     BulletConfig: {fileID: 11400000, guid: ac12889ac9ddf37489aff5fd96adbb40, type: 2}
