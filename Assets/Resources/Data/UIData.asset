@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cc380cfdddc67a45a293fb73fb1ec01, type: 3}
+  m_Script: {fileID: 11500000, guid: 8818f139d2169d94783916fa0ba61362, type: 3}
   m_Name: UIData
   m_EditorClassIdentifier: 
   Hud: {fileID: 3825130037162560935, guid: 6bf21887a73fd4a4caa6ae6efc1c7d8c, type: 3}

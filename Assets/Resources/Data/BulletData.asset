@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c250bd6ef70d9e48b8a2edea0f7e20f, type: 3}
+  m_Script: {fileID: 11500000, guid: 2bc8dd9cf8f671f4e84f43059fcdd5ed, type: 3}
   m_Name: BulletData
   m_EditorClassIdentifier: 
   PrefabData:

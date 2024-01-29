@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b0fad0444583e9489f78ed6754951fc, type: 3}
+  m_Script: {fileID: 11500000, guid: 5819cde1046a5924298f786a37f42593, type: 3}
   m_Name: LevelData
   m_EditorClassIdentifier: 
   PrefabData:
