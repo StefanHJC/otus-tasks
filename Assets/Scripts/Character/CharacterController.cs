@@ -1,24 +1,24 @@
-using UnityEngine;
 using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class CharacterAttackController
+    public sealed class CharacterController
     {
-        private readonly IAttackInput _attackInput;
-        private readonly IBulletSystem _bulletSystem;
+        private readonly CharacterAttackController _attackController;
+        private readonly CharacterMoveController _moveController;
+        private readonly IUnitView _view;
 
-        public IUnitView View { get; set; }
+        public IUnitView View => _view;
 
         [Inject]
-        public CharacterAttackController(IAttackInput attackInput, IBulletSystem bulletSystem)
+        public CharacterController(CharacterAttackController attackController, CharacterMoveController moveController, IUnitView view)
         {
-            _attackInput = attackInput;
-            _bulletSystem = bulletSystem;
+            _attackController = attackController;
+            _moveController = moveController;
+            _view = view;
 
-            _attackInput.AttackActionPerformed += OnFlyBullet;
+            _moveController.View = _view;
+            _attackController.View = _view;
         }
-
-        private void OnFlyBullet() => _bulletSystem.FlyBulletByArgs(View.Weapon.GetBulletArgs(Vector2.zero));
     }
 }

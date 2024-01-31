@@ -4,7 +4,7 @@ using Zenject;
 
 namespace ShootEmUp
 {
-    public class EnemyController : IFixedTickable, IDisposable
+    public sealed class EnemyController : IFixedTickable, IDisposable
     {
         private readonly TickableManager _tickableManager;
         private readonly EnemyAttackAgent _attackAgent;

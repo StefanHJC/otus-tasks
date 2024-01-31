@@ -1,26 +1,29 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Zenject;
 
 namespace ShootEmUp
 {
-    public class GameLauncher : IDisposable, IGameStartInvoker
+    public sealed class GameLauncher : IDisposable, IGameStartListener
     {
         private readonly UIMediator _uiMeddiator;
         private readonly ButtonClickListener _buttonListener;
+        private readonly int _gameStartDelay;
 
         public event Action OnGameStarted;
 
         [Inject]
-        public GameLauncher(UIMediator uiMediator, ButtonClickListener buttonListener)
+        public GameLauncher(UIMediator uiMediator, ButtonClickListener buttonListener, IDatabaseService data)
         {
             _uiMeddiator = uiMediator;
             _buttonListener = buttonListener;
+            _gameStartDelay = data.Get<GameStaticData>().FirstOrDefault().GameStartDelayInSeconds;
 
             _buttonListener.OnStartFired += StartGameAsync;
         }
 
-        public async void StartGameAsync() => await AwaitGameStartAsync(delayInSeconds: 3);
+        public async void StartGameAsync() => await AwaitGameStartAsync(delayInSeconds: _gameStartDelay);
 
         public void Dispose() => _buttonListener.OnStartFired -= StartGameAsync;
 
@@ -37,10 +40,5 @@ namespace ShootEmUp
             _uiMeddiator.HideScreenText();
             OnGameStarted?.Invoke();
         }
-    }
-
-    public interface IGameStartInvoker
-    {
-        event Action OnGameStarted;
     }
 }

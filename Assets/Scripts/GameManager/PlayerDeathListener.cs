@@ -5,7 +5,7 @@ using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class PlayerDeathListener : IDisposable, IGameEndInvoker
+    public sealed class PlayerDeathListener : IDisposable, IGameEndListener
     {
         private HitPointsComponent _playerHealth;
 

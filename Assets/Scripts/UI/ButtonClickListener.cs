@@ -4,7 +4,7 @@ using Zenject;
 
 namespace ShootEmUp
 {
-    public class ButtonClickListener : IDisposable
+    public sealed class ButtonClickListener : IDisposable
     {
         private GameplayButton _startButton;
         private GameplayButton _resumeButton;
@@ -23,8 +23,8 @@ namespace ShootEmUp
         public void Dispose()
         {
             _startButton.Clicked -= InvokeStartButtonEvent;
-            _resumeButton.Clicked -= InvokePauseButtonEvent;
-            _pauseButton.Clicked -= InvokeResumeButtonEvent;
+            _resumeButton.Clicked -= InvokeResumeButtonEvent;
+            _pauseButton.Clicked -= InvokePauseButtonEvent;
         }
 
         private async void LazyInitAsync(UIProvider provider)
@@ -33,12 +33,12 @@ namespace ShootEmUp
                 await Task.Yield();
 
             _startButton = provider.Hud.StartButton;
-            _resumeButton = provider.Hud.StartButton;
-            _pauseButton = provider.Hud.StartButton;
+            _resumeButton = provider.Hud.ResumeButton;
+            _pauseButton = provider.Hud.PauseButton;
 
             _startButton.Clicked += InvokeStartButtonEvent;
-            _resumeButton.Clicked += InvokePauseButtonEvent;
-            _pauseButton.Clicked += InvokeResumeButtonEvent;
+            _resumeButton.Clicked += InvokeResumeButtonEvent;
+            _pauseButton.Clicked += InvokePauseButtonEvent;
         }
 
         private void InvokeStartButtonEvent() => OnStartFired?.Invoke();

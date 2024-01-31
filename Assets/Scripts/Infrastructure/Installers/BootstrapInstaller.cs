@@ -17,6 +17,14 @@ namespace ShootEmUp
             BindLevelFactory();
             BindLevelProvider();
             BindSceneLoader();
+            BindGame();
+        }
+
+        private void BindGame()
+        {
+            Container.
+                Bind<Game>().
+                AsSingle();
         }
 
         private void BindLevelProvider()
